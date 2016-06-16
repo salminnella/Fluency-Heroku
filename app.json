@@ -1,0 +1,29 @@
+{
+  "name": "Twilio Mobile Quickstart",
+  "description": "A simple Python server to distribute capability tokens and route calls for your mobile app",
+  "repository": "https://github.com/vassjozsef/mobile-quickstart",
+  "logo": "https://static1.twilio.com/packages/company/img/logos_icon_round.png",
+  "keywords": [
+    "twilio",
+    "client",
+    "mobile"
+  ],
+  "env": {
+    "ACCOUNT_SID": {
+      "description": "Your Twilio Account Sid",
+      "required": true
+    },
+    "AUTH_TOKEN": {
+      "description": "Your Twilio Auth Token",
+      "required": true
+    },
+    "APP_SID": {
+      "description": "Your TwiML App Sid that points to this web server",
+      "required": true
+    },
+    "CALLER_ID": {
+      "description": "Phone number verified with your Twilio Account",
+      "required": true
+    }
+  }
+}
