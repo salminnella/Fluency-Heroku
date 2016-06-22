@@ -4,14 +4,14 @@ from twilio.util import TwilioCapability
 import twilio.twiml
 
 # Account Sid and Auth Token can be found in your account dashboard
-ACCOUNT_SID = 'AC2a1860c5996ee58009cb5ea5a22d29f7'
-AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
+ACCOUNT_SID = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+AUTH_TOKEN = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
 
 # TwiML app outgoing connections will use
-APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
+APP_SID = 'APZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ'
 
-CALLER_ID = '+5204403178'
-CLIENT = 'anthony'
+CALLER_ID = '+12345678901'
+CLIENT = 'jenny'
 
 app = Flask(__name__)
 
@@ -50,16 +50,16 @@ def call():
     return str(resp)
   from_client = from_value.startswith('client')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
-if not from_client:
+  if not from_client:
     # PSTN -> client
     resp.dial(callerId=from_value).client(CLIENT)
-        elif to.startswith("client:"):
-# client -> client
-resp.dial(callerId=from_value).client(to[7:])
-    else:
+  elif to.startswith("client:"):
+    # client -> client
+    resp.dial(callerId=from_value).client(to[7:])
+  else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
-        return str(resp)
+  return str(resp)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
