@@ -56,9 +56,6 @@ def call():
   elif to.startswith("client:"):
     # client -> client
     resp.dial(callerId=from_value).client(to[7:])
-  elif to.startswith("conference:"):
-    # client -> conference
-    resp.dial(callerId=from_value).conference(to[11:])
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
