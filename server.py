@@ -13,6 +13,7 @@ APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
 CALLER_ID = '+15204403178'
 CLIENT = 'anthony'
 
+
 app = Flask(__name__)
 
 @app.route('/token')
@@ -44,6 +45,7 @@ def call():
   """           routed to client named CLIENT                  """
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
+  conf_name = request.values.get('conf_name')
   to = request.values.get('To')
   if not (from_value and to):
     resp.say("Invalid request")
@@ -58,7 +60,7 @@ def call():
     resp.dial(callerId=from_value).client(to[7:])
   elif to.startswith("conference:"):
     # client -> conference
-    resp.dial(callerId=from_value).conference(to[11:])
+    resp.dial(callerId=caller_id).conference(conf_name)
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
