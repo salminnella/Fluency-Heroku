@@ -49,7 +49,7 @@ def call():
   to = request.values.get('To')
   recordConference = request.values.get('Record')
   if recordConference:
-      resp.say("Welcome to tweek")
+      resp.dial(callerId=caller_id).conference(conf_name)
       return str(resp)
   if not (from_value and to):
     resp.say("Invalid request")
