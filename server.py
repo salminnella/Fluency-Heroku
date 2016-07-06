@@ -48,7 +48,7 @@ def call():
   conf_name = request.values.get('conf_name')
   to = request.values.get('To')
   recordConference = request.values.get('Record')
-  if recordConference
+  if conf_name
       resp.say("Welcome to tweek")
       return str(resp)
   if not (from_value and to):
