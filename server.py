@@ -50,8 +50,8 @@ def call():
   recordConference = request.values.get('Record')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   if recordConference:
-      resp.dial(callerId=caller_id).conference(conf_name)
-      return str(resp)
+      output = "this is text"
+      return str(output)
   if not (from_value and to):
     resp.say("Invalid request")
     return str(resp)
