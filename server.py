@@ -65,7 +65,7 @@ def call():
     resp.dial(callerId=from_value).client(to[7:])
   elif to.startswith("conference:"):
     # client -> conference
-    resp.dial(callerId=caller_id).conference(conf_name)
+    resp = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
