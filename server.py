@@ -47,6 +47,7 @@ def call():
   from_value = request.values.get('From')
   conf_name = request.values.get('conf_name')
   to = request.values.get('To')
+  recordConference = request.values.get('Record')
   if not (from_value and to):
     resp.say("Invalid request")
     return str(resp)
@@ -61,6 +62,10 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     resp.dial(callerId=caller_id).conference(conf_name)
+    resp.dial
+  elif recordConference
+    resp.say("Welcome to tweek")
+    return str(resp)
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
