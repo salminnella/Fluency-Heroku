@@ -50,9 +50,7 @@ def call():
   recordConference = request.values.get('Record')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   if recordConference:
-      output = "<Response>
-      <Dial timeout=\"10\" record=\"true\">415-123-4567</Dial>
-</Response>"
+      output = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
       return str(output)
   if not (from_value and to):
     resp.say("Invalid request")
