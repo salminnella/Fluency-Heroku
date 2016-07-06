@@ -11,7 +11,7 @@ AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
 APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
 
 CALLER_ID = '+15204403178'
-CLIENT = 'anthony'
+CLIENT = 'anthonyasfd'
 
 
 app = Flask(__name__)
@@ -65,6 +65,7 @@ def call():
     resp.dial(callerId=from_value).client(to[7:])
   elif to.startswith("conference:"):
     # client -> conference
+    #  resp.dial(callerId=caller_id).conference(conf_name)
     resp = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
   else:
     # client -> PSTN
