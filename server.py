@@ -11,7 +11,7 @@ AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
 APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
 
 CALLER_ID = '+15204403178'
-CLIENT = 'anthonyasfd'
+CLIENT = 'anthony'
 
 
 app = Flask(__name__)
@@ -49,14 +49,22 @@ def call():
   to = request.values.get('To')
   recordConference = request.values.get('Record')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  digits = request.values.get('SendDigits')
+  
   if recordConference:
       output = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
       return str(output)
+  
+  if (SendDigits != ""):
+      output = "<Response><Dial><Number sendDigits=\"wwwwww4860\">520-440-3178</Number></Dial></Response>
+  
   if not (from_value and to):
     resp.say("Invalid request")
     return str(resp)
+
   from_client = from_value.startswith('client')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+
   if not from_client:
     # PSTN -> client
     resp.dial(callerId=from_value).client(CLIENT)
@@ -66,7 +74,7 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     #  resp.dial(callerId=caller_id).conference(conf_name)
-    resp = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
+    resp = "<Response><Dial timeout=\"10\" record=\"true\">5204403178</Dial></Response>"
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
