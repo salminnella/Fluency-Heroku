@@ -55,7 +55,7 @@ def call():
       output = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
       return str(output)
   
-  if (digits != ""):
+  if digits:
       output = "<Response><Dial><Number sendDigits=\"wwwwww4860\">520-440-3178</Number></Dial></Response>"
   
   if not (from_value and to):
