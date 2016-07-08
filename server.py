@@ -56,7 +56,7 @@ def call():
       return str(output)
   
   if (SendDigits != ""):
-      output = "<Response><Dial><Number sendDigits=\"wwwwww4860\">520-440-3178</Number></Dial></Response>
+      output = "<Response><Dial><Number sendDigits=\"wwwwww4860\">520-440-3178</Number></Dial></Response>"
   
   if not (from_value and to):
     resp.say("Invalid request")
