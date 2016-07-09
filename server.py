@@ -59,6 +59,10 @@ def call():
       output = "<Response><Dial callerId=\"5204403178\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
       return str(output)
 
+  if conf_name:
+      resp = "<Response><Dial timeout=\"10\" record=\"true\" callerId=\"5204403178\"><Conference mute='false' startConferenceOnEnter='true' endConferenceOnExit='true'>" + conf_name + "</Conference>" + to + "</Dial></Response>"
+      return resp
+
   if not (from_value and to):
     resp.say("Invalid request")
     return str(resp)
