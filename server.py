@@ -60,7 +60,7 @@ def call():
       return str(output)
 
   if conf_name:
-      resp = "<Response><Dial timeout=\"10\" record=\"true\" " + caller_id + "><Conference mute='false' startConferenceOnEnter='true' endConferenceOnExit='true'>" + conf_name + "</Conference></Dial></Response>"
+      resp = "<Response><Dial timeout=\"10\" record=\"true\" callerId=" + caller_id + "><Conference mute='false' startConferenceOnEnter='true' endConferenceOnExit='true'>" + conf_name + "</Conference></Dial></Response>"
       return resp
 
   if not (from_value and to):
