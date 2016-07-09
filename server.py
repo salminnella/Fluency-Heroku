@@ -45,7 +45,7 @@ def call():
   """           routed to client named CLIENT                  """
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
-  conf_name = request.values.get('conf_name')
+  conf_name = request.values.get('ConfName')
   to = request.values.get('To')
   recordConference = request.values.get('Record')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
