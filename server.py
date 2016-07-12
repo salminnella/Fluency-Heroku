@@ -93,7 +93,8 @@ def join():
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
 
     call = client.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=anthony",
-                           to="+15054016380",
+                            #to="+15054016380",
+                           to,
                            from_="+15204403178")
     print(call.sid)
     
