@@ -94,7 +94,7 @@ def join():
 
     call = client.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=anthony",
                             #to="+15054016380",
-                           to,
+                           to = request.values.get('To'),
                            from_="+15204403178")
     print(call.sid)
     
