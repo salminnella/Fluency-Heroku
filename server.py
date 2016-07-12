@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request
 from twilio.util import TwilioCapability
+from twilio.rest import TwilioRestClient
 import twilio.twiml
 
 # Account Sid and Auth Token can be found in your account dashboard
@@ -90,6 +91,13 @@ def call():
 def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
+    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+
+    call = client.calls.create(url="http://demo.twilio.com/docs/voice.xml",
+                           to="+15054016380",
+                           from_="+15204403178")
+    print(call.sid)
+    
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
 
