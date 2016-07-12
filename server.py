@@ -87,7 +87,9 @@ def call():
   return str(resp)
 
 @app.route('/join', methods=['GET', 'POST'])
-def join();
+def join():
+    conf_name = request.values.get('ConfName')
+    to = request.values.get('To')
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
 
 @app.route('/', methods=['GET', 'POST'])
