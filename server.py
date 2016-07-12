@@ -62,7 +62,7 @@ def call():
 
   if conf_name:
       #resp = "<Response><Dial callerId=\"" + caller_id + "\"><Conference mute=\"false\" startConferenceOnEnter=\"true\" endConferenceOnExit=\"true\">" + conf_name + "</Conference></Dial></Response>"
-      resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+      resp = "<Response><Dial><Conference mute=\"false\" startConferenceOnEnter=\"true\" endConferenceOnExit=\"true\">" + conf_name + "</Conference></Dial></Response>"
       return resp
 
   if not (from_value and to):
