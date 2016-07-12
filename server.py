@@ -91,6 +91,7 @@ def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+    return str(resp)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
