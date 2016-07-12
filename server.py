@@ -86,6 +86,10 @@ def call():
     resp.dial(to, callerId=caller_id)
   return str(resp)
 
+@app.route('/join', methods=['GET', 'POST'])
+def join();
+    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
   resp = twilio.twiml.Response()
