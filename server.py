@@ -81,7 +81,7 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     #resp.dial(callerId=from_value).conference(to[11:])
-    resp = "<Response><Dial><Conference mute=\"false\" startConferenceOnEnter=\"true\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+    resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
@@ -99,7 +99,7 @@ def join():
                            from_="+15204403178")
     print(call.sid)
     
-    resp = "<Response><Dial><Conference startConferenceOnEnter=\"true\" endConferenceOnExit=\"true\">" + conf_name + "</Conference></Dial></Response>"
+    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
 
 @app.route('/', methods=['GET', 'POST'])
