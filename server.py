@@ -13,7 +13,7 @@ APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
 
 CALLER_ID = '+15204403178'
 CLIENT = 'anthony'
-
+twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
 
 app = Flask(__name__)
 
@@ -91,16 +91,28 @@ def call():
 def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
-    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
 
-    call = client.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=anthony",
+    # updated client variable - check if an error
+    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=anthony",
                             #to="+15054016380",
                            to = request.values.get('To'),
-                           from_="+15204403178")
+                           from_="+15204403178",
+                           status_callback="https://fluency-1.herokuapp.com/recordings",
+                           status_callback_method="GET",
+                           status_events=["completed"]
+                           )
     print(call.sid)
     
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
+
+@app.route('/recordings', methods=['GET', 'POST'])
+def recordings():
+    # A list of recording objects with the properties described above
+    #recordings = twilioClient.recordings.list(CallSid=call.sid)
+    recordings = twilioClient.recordings.list(CallSid=CAd3e777bd7c010db188fb0c8d722339eb)
+    
+    return recordings
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
