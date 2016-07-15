@@ -110,7 +110,7 @@ def join():
 def recordings():
     # A list of recording objects with the properties described above
     #recordings = twilioClient.recordings.list(CallSid=call.sid)
-    recordings = twilioClient.recordings.list(CallSid=CAd3e777bd7c010db188fb0c8d722339eb)
+    recordings = twilioClient.recordings.list(CallSid = "CAd3e777bd7c010db188fb0c8d722339eb")
     
     return recordings
 
