@@ -113,10 +113,18 @@ def recordings():
     
     # A list of recording objects with the properties described above
     #recordings = twilioClient.recordings.list(CallSid=call.sid)
-    recordings = twilioClient.recordings.list()
+    # recordings = twilioClient.recordings.list(CAd3e777bd7c010db188fb0c8d722339eb)
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
-    
-    return recordings
+    # print(recordings.url)
+    # return recordings
+
+    from firebase import firebase
+    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com/', None)
+    new_user = 'Ozgur Vatansever'
+
+    result = firebase.post('/users', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+    print result
+    {u'name': u'-Io26123nDHkfybDIGl7'}
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
