@@ -2,6 +2,7 @@ import os
 from flask import Flask, request
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
+from firebase import firebase
 import twilio.twiml
 
 # Account Sid and Auth Token can be found in your account dashboard
@@ -109,8 +110,7 @@ def join():
 
 @app.route('/recordings', methods=['GET', 'POST'])
 def recordings():
-    twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    
+    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     # A list of recording objects with the properties described above
     #recordings = twilioClient.recordings.list(CallSid=call.sid)
     # recordings = twilioClient.recordings.list(CAd3e777bd7c010db188fb0c8d722339eb)
@@ -118,7 +118,6 @@ def recordings():
     # print(recordings.url)
     # return recordings
 
-    from firebase import firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com/', None)
     new_user = 'Ozgur Vatansever'
 
