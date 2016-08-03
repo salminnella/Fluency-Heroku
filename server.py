@@ -116,13 +116,12 @@ def recordings():
     
     # A list of recording objects with the properties described above
     #recordings = twilioClient.recordings.list(CallSid=call.sid)
-    for recording in twilioClient.recordings.list():
-    print recording.duration
-    #recording = twilioClient.recordings.list()
+    #for recording in twilioClient.recordings.list():
+    #print recording.duration
+    recording = twilioClient.recordings.list()
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
-    #print str(recording)
-    #return str(recording)
-    print(*recording, sep='\n')
+    print str(recording)
+    return str(recording)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
