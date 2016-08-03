@@ -119,10 +119,21 @@ def recordings():
     #recordings = twilioClient.recordings.list(CallSid=call.sid)
     #for recording in twilioClient.recordings.list():
     #print recording.duration
-    recording = twilioClient.recordings.list()
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
+    
+    #recording = twilioClient.recordings.list()
+    #return str(recording)
+
     #print str(recording)
-    return str(recording)
+
+firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com/', None)
+    new_user = 'OzgurVatansever'
+    
+    result = firebase.post('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+    
+    print result
+    
+    {u'name': u'-Io26123nDHkfybDIGl7'}
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
