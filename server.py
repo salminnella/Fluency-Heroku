@@ -81,7 +81,7 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     #resp.dial(callerId=from_value).conference(to[11:])
-    resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
+    resp = "<Response><Dial><Conference record=\"record-from-start\" >" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
