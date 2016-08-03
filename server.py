@@ -116,7 +116,7 @@ def recordings():
     
     # A list of recording objects with the properties described above
     #recordings = twilioClient.recordings.list(CallSid=call.sid)
-    recording = twilioClient.recordings.list(date_created="2016-08-02")
+    recording = twilioClient.recordings.list(after=date(2016, 7, 30))
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
     #print(recording)
     return str(recording)
