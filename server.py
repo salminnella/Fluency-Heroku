@@ -137,9 +137,8 @@ def recordings():
     #{u'name': u'-Io26123nDHkfybDIGl7'}
     
     #mikex - firebase push
-    firebase = 0
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com/User')
-    r = firebase.get('/users', None)
+    r = firebase.get('/User', None)
     #r = firebase.push({'user_id': 'wilma', 'text': 'Hello'})
     print r
     #{"name":"-INOQPH-aV_psbk3ZXEX"}
