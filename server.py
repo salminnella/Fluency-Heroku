@@ -52,9 +52,9 @@ def call():
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   digits = request.values.get('SendDigits')
   
-  if recordConference:
-      output = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
-      return str(output)
+  #if recordConference:
+  #    output = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
+  #    return str(output)
   
   if digits:
       output = "<Response><Dial callerId=\"5204403178\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
@@ -81,7 +81,10 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     #resp.dial(callerId=from_value).conference(to[11:])
-    resp = "<Response><Dial><Conference record=\"record-from-start\" >" + to[11:] + "</Conference></Dial></Response>"
+    if recordConference:
+        resp = "<Response><Dial><Conference record=\"record-from-start\" >" + to[11:] + "</Conference></Dial></Response>"
+    else:
+        resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     resp.dial(to, callerId=caller_id)
@@ -98,8 +101,8 @@ def join():
                             #to="+15054016380",
                            to = request.values.get('To'),
                            from_="+15204403178",
-                           status_callback="https://fluency-1.herokuapp.com/recordings",
-                           status_callback_method="GET",
+                                     #status_callback="https://fluency-1.herokuapp.com/recordings",
+                                     #status_callback_method="GET",
                            status_events=["completed"]
                            )
     print(call.sid)
