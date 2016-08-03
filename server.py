@@ -130,19 +130,19 @@ def recordings():
 
 
     #Ozgur - firebase push
-    #firebase = firebase.FirebaseApplication('rooturl')
-    #new_user = 'OzgurVatansever'
-    #result = firebase.push('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
-    #print result
-    #{u'name': u'-Io26123nDHkfybDIGl7'}
+    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
+    new_user = 'OzgurVatansever'
+    result = firebase.push('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+    print result
+    {u'name': u'-Io26123nDHkfybDIGl7'}
     
     #mikex - firebase push
-    fireConnection = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com/User')
-    r = fireConnection.get('/User', None)
+    #fireConnection = firebase.FirebaseApplication('/User')
+    #r = fireConnection.get('/User', None)
     #r = firebase.push({'user_id': 'wilma', 'text': 'Hello'})
-    print r
+    #print r
     #{"name":"-INOQPH-aV_psbk3ZXEX"}
-    {'1': 'John Doe', '2': 'Jane Doe'}
+    #{'1': 'John Doe', '2': 'Jane Doe'}
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
