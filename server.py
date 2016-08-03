@@ -101,8 +101,8 @@ def join():
                             #to="+15054016380",
                            to = request.values.get('To'),
                            from_="+15204403178",
-                                     #status_callback="https://fluency-1.herokuapp.com/recordings",
-                                     #status_callback_method="GET",
+                           status_callback="https://fluency-1.herokuapp.com/recordings",
+                           status_callback_method="GET",
                            status_events=["completed"]
                            )
     print(call.sid)
@@ -116,10 +116,10 @@ def recordings():
     
     # A list of recording objects with the properties described above
     #recordings = twilioClient.recordings.list(CallSid=call.sid)
-    recordings = twilioClient.recordings.list(CAd3e777bd7c010db188fb0c8d722339eb)
+    recording = twilioClient.recordings.list(CAcef57878b66811f153430b911de75003)
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
-    print(recordings.url)
-    return recordings
+    print(recording.url)
+#return recording
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
