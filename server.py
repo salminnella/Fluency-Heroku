@@ -55,6 +55,7 @@ def call():
   
   if recordConference:
       output = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
+      record="record-from-start" eventCallbackUrl="saveConferenceRecording.php"
       return str(output)
   
   if digits:
@@ -107,23 +108,6 @@ def join():
     
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
-
-@app.route('/recordings', methods=['GET', 'POST'])
-def recordings():
-    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    # A list of recording objects with the properties described above
-    #recordings = twilioClient.recordings.list(CallSid=call.sid)
-    # recordings = twilioClient.recordings.list(CAd3e777bd7c010db188fb0c8d722339eb)
-    #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
-    # print(recordings.url)
-    # return recordings
-
-    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com/', None)
-    new_user = 'OzgurVatansever'
-
-    result = firebase.post('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
-    print result
-    {u'name': u'-Io26123nDHkfybDIGl7'}
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
