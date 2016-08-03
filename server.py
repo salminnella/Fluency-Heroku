@@ -62,7 +62,6 @@ def call():
       return str(output)
 
   if conf_name:
-      #resp = "<Response><Dial callerId=\"" + caller_id + "\"><Conference mute=\"false\" startConferenceOnEnter=\"true\" endConferenceOnExit=\"true\">" + conf_name + "</Conference></Dial></Response>"
       resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
       return resp
 
@@ -83,7 +82,7 @@ def call():
     # client -> conference
     #resp.dial(callerId=from_value).conference(to[11:])
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" >" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/recordings\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
@@ -97,16 +96,14 @@ def join():
     to = request.values.get('To')
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     
-    # updated client variable - check if an error
     call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=anthony",
-                            #to="+15054016380",
                            to = request.values.get('To'),
                            from_="+15204403178",
-                           status_callback="https://fluency-1.herokuapp.com/recordings",
-                           status_callback_method="GET",
-                           status_events=["completed"]
+                           #status_callback="https://fluency-1.herokuapp.com/recordings",
+                           #status_callback_method="GET",
+                           #status_events=["completed"]
                            )
-    print(call.sid)
+    #print(call.sid)
     
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
@@ -123,14 +120,16 @@ def recordings():
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
 
     #Recording list from twilio 2
-    twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    recordings = twilioClient.recordings.list(date_created="2016-08-02")
-    return str(recordings)
+    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    #recordings = twilioClient.recordings.list(date_created="2016-08-02")
+    #return str(recordings)
     #twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
     
     #recording = twilioClient.recordings.list()
     #return str(recording)
 
+    recordingLink = request.values.get('RecordingUrl')
+    return str(recordingLink)
 
     #Ozgur - firebase push -- working
     #global firebase
