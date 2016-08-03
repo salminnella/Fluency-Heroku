@@ -131,9 +131,9 @@ firebase = firebase.FirebaseApplication('https://project-5176964787746948725.fir
     
     result = firebase.post('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
     
-    print result
+#print result
     
-    {u'name': u'-Io26123nDHkfybDIGl7'}
+#{u'name': u'-Io26123nDHkfybDIGl7'}
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
