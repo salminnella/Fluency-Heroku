@@ -2,7 +2,6 @@ import os
 from flask import Flask, request
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
-from firebase import firebase
 import twilio.twiml
 
 # Account Sid and Auth Token can be found in your account dashboard
