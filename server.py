@@ -113,27 +113,34 @@ def join():
 
 @app.route('/recordings', methods=['GET', 'POST'])
 def recordings():
-    twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    
+
+    # Recording list from twilio 1
     # A list of recording objects with the properties described above
+    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     #recordings = twilioClient.recordings.list(CallSid=call.sid)
     #for recording in twilioClient.recordings.list():
     #print recording.duration
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
-    
+
+    #Recording list from twilio 2
+    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     #recording = twilioClient.recordings.list()
     #return str(recording)
-
     #print str(recording)
 
-firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com/', None)
-    new_user = 'OzgurVatansever'
+
+    #Ozgur - firebase push
+    #firebase = firebase.FirebaseApplication('rooturl')
+    #new_user = 'OzgurVatansever'
+    #result = firebase.push('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
+    #print result
+    #{u'name': u'-Io26123nDHkfybDIGl7'}
     
-    result = firebase.post('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
-    
-#print result
-    
-#{u'name': u'-Io26123nDHkfybDIGl7'}
+    #mikex - firebase push
+    firebase = Firebase('https://project-5176964787746948725.firebaseio.com/User')
+    r = firebase.push({'user_id': 'wilma', 'text': 'Hello'})
+    print r
+    {"name":"-INOQPH-aV_psbk3ZXEX"}
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
