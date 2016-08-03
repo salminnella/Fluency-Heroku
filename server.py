@@ -124,7 +124,9 @@ def recordings():
 
     #Recording list from twilio 2
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
+    recordings = client.recordings.list(date_created="2016-08-02")
+    return recordings
+    #twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
     
     #recording = twilioClient.recordings.list()
     #return str(recording)
