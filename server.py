@@ -134,7 +134,7 @@ def recordings():
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
     new_user = 'OzgurVatansever'
     #result = firebase.post('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
-    result = firebase.put('/User', new_user)
+    result = firebase.put('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
