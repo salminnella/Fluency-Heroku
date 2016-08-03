@@ -120,23 +120,25 @@ def recordings():
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
 
     #Recording list from twilio 2
-    twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     #recordings = twilioClient.recordings.list(date_created="2016-08-02")
-    recordings = twilioClient.recordings.list()
-    return recordings[0]
+    #recordings = twilioClient.recordings.list()
+    #return recordings[0]
     #twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
 
 
-#recordingLink = request.values.get('RecordingUrl')
-#return str(recordingLink)
+    recordingLink = request.values.get('RecordingUrl')
+
 
     #Ozgur - firebase push -- working
-    #global firebase
-    #firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    #new_user = 'OzgurVatansever'
-    #result = firebase.put('/User/Anthonyminnella/CallHistory', new_user, data={'whatever': 'data'})
-    #print result
-    #{u'name': u'-Io26123nDHkfybDIGl7'}
+    global firebase
+    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
+    new_user = 'OzgurVatansever'
+    result = firebase.put('/User/Anthonyminnella/CallHistory', new_user, data={'whatever': recordingLink})
+    print result
+    {u'name': u'-Io26123nDHkfybDIGl7'}
+
+    return str(recordingLink)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
