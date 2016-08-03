@@ -125,8 +125,8 @@ def recordings():
     #return str(recordings)
     #twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
     
-    recording = twilioClient.recordings.list()
-    return recording[0]
+    recordListen = twilioClient.recordings.list()
+    return recordListen[0]
 
 #recordingLink = request.values.get('RecordingUrl')
 #return str(recordingLink)
