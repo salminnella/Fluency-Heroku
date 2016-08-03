@@ -120,16 +120,16 @@ def recordings():
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
 
     #Recording list from twilio 2
-    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     #recordings = twilioClient.recordings.list(date_created="2016-08-02")
     #return str(recordings)
     #twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
     
-    #recording = twilioClient.recordings.list()
-    #return str(recording)
+    recording = twilioClient.recordings.list()
+    return recording[0]
 
-    recordingLink = request.values.get('RecordingUrl')
-    return str(recordingLink)
+#recordingLink = request.values.get('RecordingUrl')
+#return str(recordingLink)
 
     #Ozgur - firebase push -- working
     #global firebase
