@@ -130,7 +130,7 @@ def recordings():
 
 
     #Ozgur - firebase push
-    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
+    global firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
     new_user = 'OzgurVatansever'
     result = firebase.push('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
     print result
