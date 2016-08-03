@@ -119,7 +119,7 @@ def recordings():
     recording = twilioClient.recordings.list()
     #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
     #print(recording)
-    return str(recording)
+    return recording
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
