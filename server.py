@@ -135,7 +135,8 @@ def recordings():
     new_user = 'OzgurVatansever'
     #result = firebase.post('/User', new_user, {'print': 'pretty'}, {'X_FANCY_HEADER': 'VERY FANCY'})
     result = firebase.put('/User', new_user, {'print': 'pretty'})
-    print result
+    #print result
+    return result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
     #mikex - firebase push
