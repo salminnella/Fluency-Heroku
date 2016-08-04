@@ -49,13 +49,10 @@ def call():
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
   to = request.values.get('To')
-  recordConference = request.values.get('Record')
+  recordConference = request.values.get('RecordConf')
+  recordCall = request.values.get('RecordCall')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   digits = request.values.get('SendDigits')
-  
-  #if recordConference:
-  #    output = "<Response><Dial timeout=\"10\" record=\"true\">415-123-4567</Dial></Response>"
-  #    return str(output)
   
   if digits:
       output = "<Response><Dial callerId=\"5204403178\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
@@ -80,14 +77,14 @@ def call():
     resp.dial(callerId=from_value).client(to[7:])
   elif to.startswith("conference:"):
     # client -> conference
-    #resp.dial(callerId=from_value).conference(to[11:])
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/recordings\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
-    resp.dial(to, callerId=caller_id)
+    #resp.dial(to, callerId=caller_id)
+
   return str(resp)
 
 @app.route('/join', methods=['GET', 'POST'])
