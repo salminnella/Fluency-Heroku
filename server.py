@@ -78,12 +78,15 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/recordings\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/confRecordings\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
-    resp.dial(to, callerId=caller_id)
+    if recordCall:
+        resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/recordings\" method=\"POST\">" + to + "</Dial></Response>
+    else:
+        resp.dial(to, callerId=caller_id)
 
   return str(resp)
 
@@ -101,7 +104,7 @@ def join():
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
 
-@app.route('/recordings', methods=['GET', 'POST'])
+@app.route('/confRecordings', methods=['GET', 'POST'])
 def recordings():
 
     # Recording list from twilio 1
@@ -121,17 +124,40 @@ def recordings():
 
 
     recordingLink = request.values.get('RecordingUrl')
+    recordingDuration = request.values.get('Duration')
+    recordingTimestamp = request.values.get('timestamp')
+    recordingCallSid = request.values.get('CallSid')
 
 
     #Ozgur - firebase push -- working
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    new_user = 'OzgurVatansever22'
-    result = firebase.put('/User/Anthonyminnella/CallHistory', new_user, data={'whatever': recordingLink})
+    new_user = 'OzgurVatansever233'
+    result = firebase.put('/User/Anthonyminnella/CallHistory', new_user, data={'whatever': recordingLink, 'duration': recordingDuration})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return str(recordingLink)
+
+@app.route('/callRecordings', methods=['GET', 'POST'])
+def recordings():
+
+    callSid = request.values.get('DialCallSid')
+    callDuration = request.values.get('DialCallDuration')
+    recordingLink = request.values.get('RecordingUrl')
+    
+    
+    #Ozgur - firebase push -- working
+    global firebase
+    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
+    new_user = 'OzgurVatansever2255'
+    result = firebase.put('/User/Anthonyminnella/CallHistory', new_user, data={'whatever': recordingLink})
+    print result
+    {u'name': u'-Io26123nDHkfybDIGl7'}
+    
+    return str(recordingLink)
+
+
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
