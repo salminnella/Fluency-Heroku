@@ -98,12 +98,8 @@ def join():
     
     call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=anthony",
                            to = request.values.get('To'),
-                           from_="+15204403178",
-                           #status_callback="https://fluency-1.herokuapp.com/recordings",
-                           #status_callback_method="GET",
-                           #status_events=["completed"]
+                           from_="+15204403178"
                            )
-    #print(call.sid)
     
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
@@ -133,7 +129,7 @@ def recordings():
     #Ozgur - firebase push -- working
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    new_user = 'OzgurVatansever'
+    new_user = 'OzgurVatansever22'
     result = firebase.put('/User/Anthonyminnella/CallHistory', new_user, data={'whatever': recordingLink})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
