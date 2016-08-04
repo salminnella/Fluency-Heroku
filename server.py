@@ -83,7 +83,7 @@ def call():
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
-    #resp.dial(to, callerId=caller_id)
+    resp.dial(to, callerId=caller_id)
 
   return str(resp)
 
