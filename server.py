@@ -166,20 +166,7 @@ def pushCallRecordings():
 def pushCallHistory():
 
     new_callHistoryID = 'OzgurVatansever44'
-    language = request.values.get('language')
-    name = request.values.get('name')
-    number = request.values.get('number')
-    callSid = request.values.get('DialCallSid')
-    callDuration = request.values.get('DialCallDuration')
-    #timestamp may not be returned in callback for calls
-    recordingTimestamp = request.values.get('timestamp')
 
-    #Ozgur - firebase push -- working
-    global firebase
-    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, 'callSID' 'recordingDuration': callDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
-    print result
-    {u'name': u'-Io26123nDHkfybDIGl7'}
 
 return str(new_callHistoryID)
 
