@@ -122,7 +122,6 @@ def pushConfRecordings():
     #return recordings[0]
     #twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
 
-
     language = request.values.get('language')
     name = request.values.get('name')
     number = request.values.get('number')
@@ -134,8 +133,8 @@ def pushConfRecordings():
     #Ozgur - firebase push -- working
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    new_user = 'OzgurVatansever2233'
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'recordingURI': recordingUrl, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
+    new_callHistory = 'OzgurVatansever2233'
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistory, data={'recordingURI': recordingUrl, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -144,15 +143,20 @@ def pushConfRecordings():
 @app.route('/pushCallRecordings', methods=['GET', 'POST'])
 def pushCallRecordings():
     
+    new_callHistory = 'OzgurVatansever2255'
+    language = request.values.get('language')
+    name = request.values.get('name')
+    number = request.values.get('number')
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
+    #timestamp may not be returned in callback for calls
+    recordingTimestamp = request.values.get('timestamp')
     recordingUrl = request.values.get('RecordingUrl')
     
     #Ozgur - firebase push -- working
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    new_user = 'OzgurVatansever2255'
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'recordingURI': recordingUrl})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'recordingURI': recordingUrl, 'recordingDuration': callDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
