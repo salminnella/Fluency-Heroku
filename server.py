@@ -81,10 +81,14 @@ def call():
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/confRecordings\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
-  else:
+else:
     # client -> PSTN
-    resp.dial(to, callerId=caller_id)
-  return str(resp)
+    if recordCall:
+        resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/callRecordings\" method=\"POST\">" + to + "</Dial></Response>
+    else:
+        resp.dial(to, callerId=caller_id)
+        
+    return str(resp)
 
 @app.route('/join', methods=['GET', 'POST'])
 def join():
@@ -139,7 +143,6 @@ def callRecordings():
     callDuration = request.values.get('DialCallDuration')
     recordingLink = request.values.get('RecordingUrl')
     
-    
     #Ozgur - firebase push -- working
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
@@ -147,8 +150,6 @@ def callRecordings():
     result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'whatever': recordingLink})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
-    
-    
     
     return str(recordingLink)
 
