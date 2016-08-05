@@ -83,11 +83,7 @@ def call():
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
-    if recordCall:
-        resp = "<Response><Dial record-from-answer=\"true\">" + to + "</Dial></Response>
-    else:
-        resp.dial(to, callerId=caller_id)
-
+    resp.dial(to, callerId=caller_id)
   return str(resp)
 
 @app.route('/join', methods=['GET', 'POST'])
@@ -124,9 +120,6 @@ def recordings():
 
 
     recordingLink = request.values.get('RecordingUrl')
-    recordingDuration = request.values.get('Duration')
-    recordingTimestamp = request.values.get('timestamp')
-    recordingCallSid = request.values.get('CallSid')
 
 
     #Ozgur - firebase push -- working
