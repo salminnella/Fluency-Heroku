@@ -83,11 +83,8 @@ def call():
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
 else:
     # client -> PSTN
-    if recordCall:
-        resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/callRecordings\" method=\"POST\">" + to + "</Dial></Response>
-    else:
-        resp.dial(to, callerId=caller_id)
-        
+    resp.dial(to, callerId=caller_id)
+    
     return str(resp)
 
 @app.route('/join', methods=['GET', 'POST'])
