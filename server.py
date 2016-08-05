@@ -109,12 +109,13 @@ def join():
 def pushCallHistory():
 
     new_callHistoryID = 'OzgurVatansever5566'
+    callType = request.values.get('CallType')
     language = request.values.get('language')
     name = request.values.get('name')
     number = request.values.get('number')
+    
     #conference info
     recordingUrl = request.values.get('RecordingUrl')
-    #recordingSid = request.values.get('R
     recordingDuration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
     recordingCallSid = request.values.get('CallSid')
@@ -122,11 +123,12 @@ def pushCallHistory():
     #one call to interpreter - Face to face - also returns with recordingUrl as above
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
+    callDateTime = request.values.get('CallDateTime')
 
     #Ozgur - firebase push -- working
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'recordingURI': recordingUrl, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'recordingURI': recordingUrl, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp, 'recordingCallSid': callType, 'callSid': callSid, 'callDuration': callDuration, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
