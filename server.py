@@ -101,7 +101,7 @@ def join():
     return str(resp)
 
 @app.route('/confRecordings', methods=['GET', 'POST'])
-def recordings():
+def confRecordings():
 
     # Recording list from twilio 1
     # A list of recording objects with the properties described above
@@ -133,8 +133,8 @@ def recordings():
     return str(recordingLink)
 
 @app.route('/callRecordings', methods=['GET', 'POST'])
-
-def recordings():
+def callRecordings():
+    
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     recordingLink = request.values.get('RecordingUrl')
