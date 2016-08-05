@@ -123,7 +123,10 @@ def pushConfRecordings():
     #twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
 
 
-    recordingLink = request.values.get('RecordingUrl')
+    languange = "language"
+    name = "name"
+    number = "number"
+    recordingUrl = request.values.get('RecordingUrl')
     recordingDuration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
     recordingCallSid = request.values.get('CallSid')
@@ -132,7 +135,7 @@ def pushConfRecordings():
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
     new_user = 'OzgurVatansever2233'
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'whatever': recordingLink, 'duration': recordingDuration})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'recordingURI': recordingUrl, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -143,13 +146,13 @@ def pushCallRecordings():
     
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
-    recordingLink = request.values.get('RecordingUrl')
+    recordingUrl = request.values.get('RecordingUrl')
     
     #Ozgur - firebase push -- working
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
     new_user = 'OzgurVatansever2255'
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'whatever': recordingLink})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'recordingURI': recordingUrl})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
