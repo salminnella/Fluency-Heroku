@@ -165,7 +165,7 @@ def pushCallRecordings():
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
     new_callHistoryID = 'OzgurVatansever3434'
-    return 'oscar'
+    return new_callHistoryID
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
