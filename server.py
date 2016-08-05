@@ -139,7 +139,7 @@ def pushConfRecordings():
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    return str(recordingLink)
+    return str(recordingUrl)
 
 @app.route('/pushCallRecordings', methods=['GET', 'POST'])
 def pushCallRecordings():
@@ -156,7 +156,7 @@ def pushCallRecordings():
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
-    return str(recordingLink)
+    return str(recordingUrl)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
