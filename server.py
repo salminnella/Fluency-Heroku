@@ -156,7 +156,7 @@ def pushCallRecordings():
     #Ozgur - firebase push -- working
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'recordingURI': recordingUrl, 'recordingDuration': callDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistory, data={'recordingURI': recordingUrl, 'recordingDuration': callDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
