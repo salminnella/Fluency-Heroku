@@ -86,7 +86,7 @@ def call():
     if recordCall:
         resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/pushCallRecordings\" method=\"POST\">" + to + "</Dial></Response>"
     else:
-        resp = "<Response><Dial action=\"https://fluency-1.herokuapp.com/pushCallRecordings\" method=\"POST\">" + to + "</Dial></Response>"
+        resp.dial(to, callerId=caller_id)
 
   return str(resp)
 
