@@ -84,7 +84,7 @@ def call():
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/confRecordings\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/callRecordings\" method=\"POST\">" + to + "</Dial></Response>
     else:
         resp.dial(to, callerId=caller_id)
 
