@@ -162,26 +162,7 @@ def pushCallRecordings():
     
     return str(recordingUrl)
 
-@app.route('/pushCallHistory', methods=['GET', 'POST'])
-def pushCallHistory():
-    new_callHistoryID = 'OzgurVatansever3434'
-    language = request.values.get('language')
-    name = request.values.get('name')
-    number = request.values.get('number')
-    callSid = request.values.get('DialCallSid')
-    callDuration = request.values.get('DialCallDuration')
-    #timestamp may not be returned in callback for calls
-    recordingTimestamp = request.values.get('timestamp')
-    recordingUrl = request.values.get('RecordingUrl')
-    
-    #Ozgur - firebase push -- working
-    global firebase
-    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'recordingURI': recordingUrl, 'recordingDuration': callDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
-    print result
-    {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    return new_callHistoryID
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
