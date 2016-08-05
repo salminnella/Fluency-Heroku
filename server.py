@@ -78,13 +78,13 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/confRecordings\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushConfRecordings\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/callRecordings\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/pushCallRecordings\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         resp.dial(to, callerId=caller_id)
 
@@ -104,8 +104,8 @@ def join():
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
 
-@app.route('/confRecordings', methods=['GET', 'POST'])
-def confRecordings():
+@app.route('/pushConfRecordings', methods=['GET', 'POST'])
+def pushConfRecordings():
 
     # Recording list from twilio 1
     # A list of recording objects with the properties described above
@@ -132,14 +132,14 @@ def confRecordings():
     global firebase
     firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
     new_user = 'OzgurVatansever2233'
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'whatever': recordingLink})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_user, data={'whatever': recordingLink, 'duration': recordingDuration})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return str(recordingLink)
 
-@app.route('/callRecordings', methods=['GET', 'POST'])
-def callRecordings():
+@app.route('/pushCallRecordings', methods=['GET', 'POST'])
+def pushCallRecordings():
     
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
