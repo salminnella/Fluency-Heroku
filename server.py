@@ -78,15 +78,16 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushConfRecordings\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/pushCallRecordings\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/pushCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
     else:
-        resp.dial(to, callerId=caller_id)
+        #resp.dial(to, callerId=caller_id)
+        resp = "<Response><Dial action=\"https://fluency-1.herokuapp.com/pushCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
 
   return str(resp)
 
@@ -104,25 +105,10 @@ def join():
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
 
-@app.route('/pushConfRecordings', methods=['GET', 'POST'])
-def pushConfRecordings():
+@app.route('/pushCallHistory', methods=['GET', 'POST'])
+def pushCallHistory():
 
-    # Recording list from twilio 1
-    # A list of recording objects with the properties described above
-    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    #recordings = twilioClient.recordings.list(CallSid=call.sid)
-    #for recording in twilioClient.recordings.list():
-    #print recording.duration
-    #CallSid = "CAd3e777bd7c010db188fb0c8d722339eb"
-
-    #Recording list from twilio 2
-    #twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    #recordings = twilioClient.recordings.list(date_created="2016-08-02")
-    #recordings = twilioClient.recordings.list()
-    #return recordings[0]
-    #twilioClient.recordings.delete("REe803d46f4a94d8350e66323f0e5ebceb")
-
-    new_callHistoryID = 'OzgurVatansever33'
+    new_callHistoryID = 'OzgurVatansever5566'
     language = request.values.get('language')
     name = request.values.get('name')
     number = request.values.get('number')
@@ -130,6 +116,8 @@ def pushConfRecordings():
     recordingDuration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
     recordingCallSid = request.values.get('CallSid')
+    callSid = request.values.get('DialCallSid')
+    callDuration = request.values.get('DialCallDuration')
 
     #Ozgur - firebase push -- working
     global firebase
@@ -140,27 +128,7 @@ def pushConfRecordings():
 
     return str(recordingUrl)
 
-@app.route('/pushCallRecordings', methods=['GET', 'POST'])
-def pushCallRecordings():
-    
-    new_callHistoryID = 'OzgurVatansever46'
-    language = request.values.get('language')
-    name = request.values.get('name')
-    number = request.values.get('number')
-    callSid = request.values.get('DialCallSid')
-    callDuration = request.values.get('DialCallDuration')
-    #timestamp may not be returned in callback for calls
-    recordingTimestamp = request.values.get('timestamp')
-    recordingUrl = request.values.get('RecordingUrl')
-    
-    #Ozgur - firebase push -- working
-    global firebase
-    firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'recordingURI': recordingUrl, 'recordingDuration': callDuration, 'recordingDateTime': recordingTimestamp, 'number': number, 'name': name, 'language': language})
-    print result
-    {u'name': u'-Io26123nDHkfybDIGl7'}
-    
-    return str(recordingUrl)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
