@@ -96,7 +96,7 @@ def join():
     to = request.values.get('To')
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     
-    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=anthony",
+    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=" + conf_name,
                            to = request.values.get('To'),
                            from_="+15204403178"
                            )
@@ -124,7 +124,9 @@ def confRecordings():
 
 
     recordingLink = request.values.get('RecordingUrl')
-
+    recordingDuration = request.values.get('Duration')
+    recordingTimestamp = request.values.get('timestamp')
+    recordingCallSid = request.values.get('CallSid')
 
     #Ozgur - firebase push -- working
     global firebase
