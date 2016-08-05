@@ -162,6 +162,9 @@ def pushCallRecordings():
     
     return str(recordingUrl)
 
+@app.route('/pushCallHistory', methods=['GET', 'POST'])
+def pushCallHistory():
+    return 'oscar'
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
