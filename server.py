@@ -80,7 +80,7 @@ def call():
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
@@ -112,10 +112,14 @@ def pushCallHistory():
     language = request.values.get('language')
     name = request.values.get('name')
     number = request.values.get('number')
+    #conference info
     recordingUrl = request.values.get('RecordingUrl')
+    #recordingSid = request.values.get('R
     recordingDuration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
     recordingCallSid = request.values.get('CallSid')
+    
+    #one call to interpreter - Face to face - also returns with recordingUrl as above
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
 
