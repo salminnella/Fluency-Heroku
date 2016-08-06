@@ -48,9 +48,9 @@ def call():
   """        2. To value specifies target. When call is coming """
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
-
-#if callType == "":
-#callType = request.values.get('callType')
+  global callType
+    if callType == None:
+    callType = request.values.get('callType')
   global language
   language = request.values.get('language')
   global name
