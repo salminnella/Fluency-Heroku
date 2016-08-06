@@ -156,9 +156,12 @@ def pushConfRecordingHistory():
     recordingTimestamp = request.values.get('timestamp')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'conferenceSid': conferenceSid, 'conferenceCallSid': CallSid, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp,  'number': number, 'name': name, 'language': language})
-    
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'conferenceSid': conferenceSid, 'conferenceCallSid': CallSid, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'language': language})
+
+    print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
+    
+    return str(recordingUrl)
 
 
 @app.route('/', methods=['GET', 'POST'])
