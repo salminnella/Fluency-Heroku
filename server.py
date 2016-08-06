@@ -135,7 +135,7 @@ def pushCallHistory():
     return str(recordingUrl)
 
 @app.route('/pushRecordedCallHistory', methods=['GET', 'POST'])
-def pushCallRecordingHistory():
+def pushRecordedCallHistory():
     
     #one call to interpreter - Face to face - also returns with recordingUrl as above
     new_callHistoryID = 'OzgurVatansever405'
@@ -172,7 +172,7 @@ def pushConfHistory():
 
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
-def pushConfRecordingHistory():
+def pushRecordedConfHistory():
     
     new_callHistoryID = 'OzgurVatansever5599'
     
