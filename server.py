@@ -17,7 +17,16 @@ APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
 
 CALLER_ID = '+15204403178'
 CLIENT = 'anthony'
-
+global callType
+callType = request.values.get('callType')
+global language
+language = request.values.get('language')
+global name
+name = request.values.get('name')
+global number
+number = request.values.get('number')
+global callDateTime
+callDateTime = request.values.get('CallDateTime')
 
 app = Flask(__name__)
 
@@ -48,17 +57,6 @@ def call():
   """        2. To value specifies target. When call is coming """
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
-  global callType
-  callType = request.values.get('callType')
-  global language
-  language = request.values.get('language')
-  global name
-  name = request.values.get('name')
-  global number
-  number = request.values.get('number')
-  global callDateTime
-  callDateTime = request.values.get('CallDateTime')
-  
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
@@ -158,6 +156,26 @@ def pushConfRecordingHistory():
     #Ozgur - firebase push -- working
     result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'conferenceSid': conferenceSid, 'conferenceCallSid': conferenceCallSid, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp,  'recordingURI': recordingUrl})
 
+    print result
+    {u'name': u'-Io26123nDHkfybDIGl7'}
+    
+    return str(recordingUrl)
+
+@app.route('/pushConfRecordingHistory', methods=['GET', 'POST'])
+def pushConfRecordingHistory():
+    
+    new_callHistoryID = 'OzgurVatansever5599'
+    
+    #conference info
+    conferenceSid = request.values.get('ConferenceSid')
+    conferenceCallSid = request.values.get('CallSid')
+    recordingUrl = request.values.get('RecordingUrl')
+    recordingDuration = request.values.get('Duration')
+    recordingTimestamp = request.values.get('timestamp')
+    
+    #Ozgur - firebase push -- working
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'conferenceSid': conferenceSid, 'conferenceCallSid': conferenceCallSid, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp,  'recordingURI': recordingUrl})
+    
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
