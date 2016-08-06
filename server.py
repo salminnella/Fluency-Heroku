@@ -53,11 +53,16 @@ def call():
   recordCall = request.values.get('RecordCall')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   digits = request.values.get('SendDigits')
-  global callType = request.values.get('CallType')
-  global language = request.values.get('language')
-  global name = request.values.get('name')
-  global number = request.values.get('number')
-  global callDateTime = request.values.get('CallDateTime')
+  global callType
+  callType = request.values.get('CallType')
+  global language
+  language = request.values.get('language')
+  global name
+  name = request.values.get('name')
+  global number
+  number = request.values.get('number')
+  global callDateTime
+  callDateTime = request.values.get('CallDateTime')
 
   if digits:
       output = "<Response><Dial callerId=\"5204403178\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
