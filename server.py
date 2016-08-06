@@ -93,7 +93,7 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushConfRecordingHistory\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory\" statusCallbackEvent=\"end\">" + to[11:] + "</Conference></Dial></Response>"
   else:
@@ -143,6 +143,22 @@ def pushCallHistory():
 
     return str(recordingUrl)
 
+@app.route('/pushConfRecordingHistory', methods=['GET', 'POST'])
+def pushConfRecordingHistory():
+    
+    new_callHistoryID = 'OzgurVatansever5599'
+    
+    #conference info
+    conferenceSid = request.values.get('ConferenceSid')
+    conferenceCallSid = request.values.get('CallSid')
+    recordingUrl = request.values.get('RecordingUrl')
+    recordingDuration = request.values.get('Duration')
+    recordingTimestamp = request.values.get('timestamp')
+    
+    #Ozgur - firebase push -- working
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'conferenceSid': conferenceSid, 'conferenceCallSid': CallSid, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp,  'number': number, 'name': name, 'language': language})
+    
+    {u'name': u'-Io26123nDHkfybDIGl7'}
 
 
 @app.route('/', methods=['GET', 'POST'])
