@@ -90,7 +90,7 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory\" statusCallbackEvent=\"end\">" + to[11:] + "</Conference></Dial></Response>"
   else:
