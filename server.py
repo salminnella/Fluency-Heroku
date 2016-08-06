@@ -17,16 +17,7 @@ APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
 
 CALLER_ID = '+15204403178'
 CLIENT = 'anthony'
-global callType
-callType = request.values.get('callType')
-global language
-language = request.values.get('language')
-global name
-name = request.values.get('name')
-global number
-number = request.values.get('number')
-global callDateTime
-callDateTime = request.values.get('CallDateTime')
+
 
 app = Flask(__name__)
 
@@ -57,6 +48,17 @@ def call():
   """        2. To value specifies target. When call is coming """
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
+  global callType
+  callType = request.values.get('callType')
+  global language
+  language = request.values.get('language')
+  global name
+  name = request.values.get('name')
+  global number
+  number = request.values.get('number')
+  global callDateTime
+  callDateTime = request.values.get('CallDateTime')
+  
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
@@ -93,11 +95,11 @@ def call():
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushConfRecordingHistory\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory\" statusCallbackEvent=\"end\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory\" statusCallbackEvent=\"end\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
         resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
@@ -121,21 +123,14 @@ def join():
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
 
-    new_callHistoryID = 'OzgurVatansever5599'
-    
-    #conference info
-    recordingUrl = request.values.get('RecordingUrl')
-    recordingDuration = request.values.get('Duration')
-    recordingTimestamp = request.values.get('timestamp')
-    recordingCallSid = request.values.get('CallSid')
-    conferenceSid = request.values.get('ConferenceSid')
+    new_callHistoryID = 'OzgurVatansever401'
     
     #one call to interpreter - Face to face - also returns with recordingUrl as above
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'recordingURI': recordingUrl, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp, 'recordingCallSid': recordingCallSid, 'callSid': callSid, 'callDuration': callDuration, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'conferenceSid': conferenceSid})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSid': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
