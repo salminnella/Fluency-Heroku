@@ -90,9 +90,9 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
@@ -109,12 +109,12 @@ def join():
     to = request.values.get('To')
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     
-    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=" + conf_name + "callType=" + callType,
+    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=" + conf_name,
                            to = request.values.get('To'),
                            from_="+15204403178"
                            )
     
-    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+    resp = "<Response><Dial><Conference eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
