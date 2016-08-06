@@ -114,7 +114,7 @@ def join():
                            from_="+15204403178"
                            )
     
-    resp = "<Response><Dial><Conference eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushCallHistory\">" + conf_name + "</Conference></Dial></Response>"
+    resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory\" statusCallbackEvent=\"end\">" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
