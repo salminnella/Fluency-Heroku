@@ -11,9 +11,7 @@ AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
     
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-global callType
-    if not callType:
-    callType = request.values.get('callType')
+
 
 # TwiML app outgoing connections will use
 APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
