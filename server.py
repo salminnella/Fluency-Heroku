@@ -65,7 +65,7 @@ def call():
   callDateTime = request.values.get('CallDateTime')
 
   if digits:
-      output = "<Response><Dial callerId=\"5204403178\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
+      output = "<Response><Dial callerId=\"" + caller_id + "\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
       return str(output)
 
   if conf_name:
@@ -97,7 +97,7 @@ def call():
         resp = "<Response><Dial record-from-answer=\"true\" action=\"https://fluency-1.herokuapp.com/pushCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
-        resp = "<Response><Dial callerId=\"5204403178\" action=\"https://fluency-1.herokuapp.com/pushCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
 
   return str(resp)
 
@@ -118,7 +118,7 @@ def join():
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
 
-    new_callHistoryID = 'OzgurVatansever5577'
+    new_callHistoryID = 'OzgurVatansever5588'
     
     #conference info
     recordingUrl = request.values.get('RecordingUrl')
