@@ -12,7 +12,7 @@ AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
 global callType
-    if callType:
+    if not callType:
     callType = request.values.get('callType')
 
 # TwiML app outgoing connections will use
@@ -51,8 +51,8 @@ def call():
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
 
-  if callType == "":
-    callType = request.values.get('callType')
+#if callType == "":
+#callType = request.values.get('callType')
   global language
   language = request.values.get('language')
   global name
