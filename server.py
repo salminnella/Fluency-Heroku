@@ -51,8 +51,7 @@ def call():
   if not callType:
     callType = request.values.get('callType')
   global language
-  if request.values.get('language'):
-    language = request.values.get('language')
+  language = request.values.get('language')
   global name
   name = request.values.get('name')
   global number
