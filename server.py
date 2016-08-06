@@ -54,7 +54,7 @@ def call():
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   digits = request.values.get('SendDigits')
   global callType
-  callType = request.values.get('CallType')
+  callType = request.values.get('callType')
   global language
   language = request.values.get('language')
   global name
