@@ -134,6 +134,22 @@ def pushCallHistory():
 
     return str(recordingUrl)
 
+@app.route('/pushCallRecordingHistory', methods=['GET', 'POST'])
+def pushCallRecordingHistory():
+    
+    #one call to interpreter - Face to face - also returns with recordingUrl as above
+    new_callHistoryID = 'OzgurVatansever405'
+    callSid = request.values.get('DialCallSid')
+    callDuration = request.values.get('DialCallDuration')
+    recordingUrl = request.values.get('RecordingUrl')
+    
+    #Ozgur - firebase push -- working
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSid': callSID, 'recordingURI': recordingUrl, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
+    print result
+    {u'name': u'-Io26123nDHkfybDIGl7'}
+    
+    return str(recordingUrl)
+
 @app.route('/pushConfRecordingHistory', methods=['GET', 'POST'])
 def pushConfRecordingHistory():
     
