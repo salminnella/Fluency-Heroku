@@ -137,7 +137,7 @@ def pushCallHistory():
     callDuration = request.values.get('DialCallDuration')
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'recordingURI': recordingUrl, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp, 'recordingCallSid': recordingCallSid, 'callSid': callSid, 'callDuration': callDuration, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'conferenceSid': conferenceSid})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'recordingURI': recordingUrl, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp, 'recordingCallSid': recordingCallSid, 'callSid': callSid, 'callDuration': callDuration, 'callDateTime': callDateTime, 'conferenceSid': conferenceSid})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
