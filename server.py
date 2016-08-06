@@ -182,7 +182,7 @@ def pushConfHistory():
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
     
-    new_callHistoryID = 'OzgurVatansever5599'
+    new_callHistoryID = 'OzgurVatansever6555'
     
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
@@ -192,7 +192,7 @@ def pushRecordedConfHistory():
     recordingTimestamp = request.values.get('timestamp')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'conferenceSid': conferenceSid, 'conferenceCallSid': conferenceCallSid, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp,  'recordingURI': recordingUrl})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'conferenceSid': conferenceSid, 'conferenceCallSid': conferenceCallSid, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'language': language, 'callDateTime': callDateTime, 'callType': callType})
 
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
