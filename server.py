@@ -144,7 +144,7 @@ def pushRecordedCallHistory():
     recordingUrl = request.values.get('RecordingUrl')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSid': callSID, 'recordingURI': recordingUrl, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'recordingURI': recordingUrl, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
