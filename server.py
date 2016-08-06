@@ -49,7 +49,8 @@ def call():
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
   global callType
-  callType = request.values.get('callType')
+    if not callType:
+    callType = request.values.get('callType')
   global language
   language = request.values.get('language')
   global name
