@@ -18,7 +18,6 @@ APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
 CALLER_ID = '+15204403178'
 CLIENT = 'anthony'
 
-
 app = Flask(__name__)
 
 @app.route('/token')
@@ -122,10 +121,9 @@ def join():
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
-
-    new_callHistoryID = 'OzgurVatansever401'
     
     #one call to interpreter - Face to face - also returns with recordingUrl as above
+    new_callHistoryID = 'OzgurVatansever401'
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
 
@@ -156,8 +154,8 @@ def pushConfRecordingHistory():
     
     return str(recordingUrl)
 
-@app.route('/pushConfRecordingHistory', methods=['GET', 'POST'])
-def pushConfRecordingHistory():
+@app.route('/pushConfHistory', methods=['GET', 'POST'])
+def pushConfHistory():
     
     new_callHistoryID = 'OzgurVatansever5599'
     
