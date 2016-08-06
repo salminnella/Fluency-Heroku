@@ -92,7 +92,7 @@ def call():
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference>" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory\" statusCallbackEvent=\"end\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
@@ -114,7 +114,7 @@ def join():
                            from_="+15204403178"
                            )
     
-    resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory\" statusCallbackEvent=\"end\">" + conf_name + "</Conference></Dial></Response>"
+    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
