@@ -45,14 +45,6 @@ def call():
   """        2. To value specifies target. When call is coming """
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
-  resp = twilio.twiml.Response()
-  from_value = request.values.get('From')
-  conf_name = request.values.get('ConfName')
-  to = request.values.get('To')
-  recordConference = request.values.get('RecordConf')
-  recordCall = request.values.get('RecordCall')
-  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
-  digits = request.values.get('SendDigits')
   global callType
   callType = request.values.get('callType')
   global language
@@ -63,6 +55,16 @@ def call():
   number = request.values.get('number')
   global callDateTime
   callDateTime = request.values.get('CallDateTime')
+  
+  resp = twilio.twiml.Response()
+  from_value = request.values.get('From')
+  conf_name = request.values.get('ConfName')
+  to = request.values.get('To')
+  recordConference = request.values.get('RecordConf')
+  recordCall = request.values.get('RecordCall')
+  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  digits = request.values.get('SendDigits')
+  
 
   if digits:
       output = "<Response><Dial callerId=\"" + caller_id + "\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
@@ -107,7 +109,7 @@ def join():
     to = request.values.get('To')
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     
-    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=" + conf_name,
+    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/call?ConfName=" + conf_name + "callType=" + callType,
                            to = request.values.get('To'),
                            from_="+15204403178"
                            )
