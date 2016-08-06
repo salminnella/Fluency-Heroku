@@ -53,7 +53,12 @@ def call():
   recordCall = request.values.get('RecordCall')
   caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   digits = request.values.get('SendDigits')
-  
+  callType = request.values.get('CallType')
+  language = request.values.get('language')
+  name = request.values.get('name')
+  number = request.values.get('number')
+  callDateTime = request.values.get('CallDateTime')
+
   if digits:
       output = "<Response><Dial callerId=\"5204403178\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
       return str(output)
@@ -109,10 +114,6 @@ def join():
 def pushCallHistory():
 
     new_callHistoryID = 'OzgurVatansever5566'
-    callType = request.values.get('CallType')
-    language = request.values.get('language')
-    name = request.values.get('name')
-    number = request.values.get('number')
     
     #conference info
     recordingUrl = request.values.get('RecordingUrl')
@@ -123,7 +124,6 @@ def pushCallHistory():
     #one call to interpreter - Face to face - also returns with recordingUrl as above
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
-    callDateTime = request.values.get('CallDateTime')
 
     #Ozgur - firebase push -- working
     global firebase
