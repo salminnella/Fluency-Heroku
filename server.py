@@ -133,8 +133,8 @@ def join():
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
     
-    #one call to interpreter - Face to face - also returns with recordingUrl as above
-    new_callHistoryID = 'OzgurVatansever401'
+    #one call to interpreter - Face to face
+    new_callHistoryID = 'OzgurVatansever2222'
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
 
@@ -148,8 +148,8 @@ def pushCallHistory():
 @app.route('/pushRecordedCallHistory', methods=['GET', 'POST'])
 def pushRecordedCallHistory():
     
-    #one call to interpreter - Face to face - also returns with recordingUrl as above
-    new_callHistoryID = 'OzgurVatansever405'
+    #one call to interpreter - recorded - Face to face
+    new_callHistoryID = 'OzgurVatansever3333'
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     recordingUrl = request.values.get('RecordingUrl')
@@ -164,7 +164,7 @@ def pushRecordedCallHistory():
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
     
-    new_callHistoryID = 'OzgurVatansever5599'
+    new_callHistoryID = 'OzgurVatansever4444'
     
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
@@ -182,9 +182,9 @@ def pushConfHistory():
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
     
-    new_callHistoryID = 'OzgurVatansever6555'
+    new_callHistoryID = 'OzgurVatansever8888'
     
-    #conference info
+    #conference info - recorded
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
     recordingUrl = request.values.get('RecordingUrl')
