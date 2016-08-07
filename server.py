@@ -134,12 +134,12 @@ def join():
 def pushCallHistory():
     
     #one call to interpreter - Face to face
-    new_callHistoryID = 'OzgurVatansever2222'
+    new_callHistoryID = 'OzgurVatansever-call'
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSid': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -149,13 +149,13 @@ def pushCallHistory():
 def pushRecordedCallHistory():
     
     #one call to interpreter - recorded - Face to face
-    new_callHistoryID = 'OzgurVatansever3333'
+    new_callHistoryID = 'OzgurVatansever-recorded-call'
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     recordingUrl = request.values.get('RecordingUrl')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'recordingURI': recordingUrl, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'recordingURI': recordingUrl, })
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
@@ -164,14 +164,15 @@ def pushRecordedCallHistory():
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
     
-    new_callHistoryID = 'OzgurVatansever4444'
+    new_callHistoryID = 'OzgurVatansever-conference'
     
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
+    duration = request.values.get('Duration')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'conferenceSid': conferenceSid, 'conferenceCallSid': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
     
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
@@ -182,17 +183,17 @@ def pushConfHistory():
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
     
-    new_callHistoryID = 'OzgurVatansever8888'
+    new_callHistoryID = 'OzgurVatansever-recorded-conference'
     
     #conference info - recorded
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
     recordingUrl = request.values.get('RecordingUrl')
-    recordingDuration = request.values.get('Duration')
+    duration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'conferenceSid': conferenceSid, 'conferenceCallSid': conferenceCallSid, 'recordingDuration': recordingDuration, 'recordingDateTime': recordingTimestamp,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'language': language, 'callDateTime': callDateTime, 'callType': callType})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'language': language})
 
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
