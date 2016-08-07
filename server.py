@@ -6,8 +6,11 @@ import twilio.twiml
 from firebase import firebase
 
 # Account Sid and Auth Token can be found in your account dashboard
-ACCOUNT_SID = 'AC2a1860c5996ee58009cb5ea5a22d29f7'
-AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
+# testing from my trial account
+#ACCOUNT_SID = 'AC2a1860c5996ee58009cb5ea5a22d29f7'
+#AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
+ACCOUNT_SID = 'ACdd8953205cab360450e486f1a3a52fe9'
+AUTH_TOKEN = '4eea9c2481e3f5f8b630a7d30942a1b6'
     
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
