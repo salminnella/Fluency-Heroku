@@ -155,7 +155,7 @@ def pushRecordedCallHistory():
     recordingUrl = request.values.get('RecordingUrl')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'recordingURI': recordingUrl, })
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'recordingURI': recordingUrl})
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
@@ -173,8 +173,7 @@ def pushConfHistory():
     
     #Ozgur - firebase push -- working
     result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
-    
-    print result
+
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
     return str(recordingUrl)
