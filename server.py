@@ -9,6 +9,7 @@ from firebase import firebase
 # testing from my trial account
 #ACCOUNT_SID = 'AC2a1860c5996ee58009cb5ea5a22d29f7'
 #AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
+#current fluency account
 ACCOUNT_SID = 'ACdd8953205cab360450e486f1a3a52fe9'
 AUTH_TOKEN = '4eea9c2481e3f5f8b630a7d30942a1b6'
     
@@ -17,7 +18,10 @@ firebase = firebase.FirebaseApplication('https://project-5176964787746948725.fir
 
 
 # TwiML app outgoing connections will use
-APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
+# testing from my trial account
+#APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
+#current fluency account
+APP_SID = 'AP2e55b89356bc0bb298806f1289e827cc'
 
 CALLER_ID = '+15204403178'
 CLIENT = 'anthony'
