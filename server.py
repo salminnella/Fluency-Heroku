@@ -143,7 +143,7 @@ def pushCallHistory():
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    return str(recordingUrl)
+    return str(name)
 
 @app.route('/pushRecordedCallHistory', methods=['GET', 'POST'])
 def pushRecordedCallHistory():
@@ -156,10 +156,10 @@ def pushRecordedCallHistory():
     
     #Ozgur - firebase push -- working
     result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'recordingURI': recordingUrl})
-    print result
+    
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
-    return str(recordingUrl)
+    return str(name)
 
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
@@ -176,7 +176,7 @@ def pushConfHistory():
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
-    return str(recordingUrl)
+    return str(name)
 
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
@@ -197,7 +197,7 @@ def pushRecordedConfHistory():
     print result
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
-    return str(recordingUrl)
+    return str(name)
 
 
 @app.route('/', methods=['GET', 'POST'])
