@@ -128,8 +128,8 @@ def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    
-    call = twilioClient.calls.create(url=str("https://fluency-1.herokuapp.com/conference?ConfName=") + conf_name,
+    urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + conf_name
+    call = twilioClient.calls.create(url=urlString,
                            to = request.values.get('To'),
                            from_="+15204403178"
                            )
