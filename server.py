@@ -135,7 +135,7 @@ def join():
                            )
     
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-    return str(urlString)
+    return str(resp)
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
