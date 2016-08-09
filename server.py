@@ -128,14 +128,13 @@ def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + str(conf_name)
-    call = twilioClient.calls.create(url=urlString,
+    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/conference?ConfName=anthony",
                            to = request.values.get('To'),
                            from_="+15204403178"
                            )
     
-    #resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-    #return str(resp)
+    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+    return str(resp)
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
