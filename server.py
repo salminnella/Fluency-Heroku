@@ -134,8 +134,8 @@ def join():
                            from_="+15204403178"
                            )
     
-    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-    return str(resp)
+    #resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+    #return str(resp)
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
