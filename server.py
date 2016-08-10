@@ -10,8 +10,8 @@ from firebase import firebase
 #ACCOUNT_SID = 'AC2a1860c5996ee58009cb5ea5a22d29f7'
 #AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
 #current fluency account
-ACCOUNT_SID = 'ACdd8953205cab360450e486f1a3a52fe9'
-AUTH_TOKEN = '4eea9c2481e3f5f8b630a7d30942a1b6'
+ACCOUNT_SID = 'ACf77a120ddab12722fa0e8a32f4fc31c4'
+AUTH_TOKEN = '0c8d784a604ed9f8008947f4e7f46a60'
     
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
@@ -128,7 +128,8 @@ def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    call = twilioClient.calls.create(url="https://fluency-1.herokuapp.com/conference?ConfName=anthony",
+    urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + str(conf_name)
+    call = twilioClient.calls.create(url=urlString,
                            to = request.values.get('To'),
                            from_="+15204403178"
                            )
