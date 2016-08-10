@@ -7,11 +7,11 @@ from firebase import firebase
 
 # Account Sid and Auth Token can be found in your account dashboard
 # testing from my trial account
-#ACCOUNT_SID = 'AC2a1860c5996ee58009cb5ea5a22d29f7'
-#AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
+ACCOUNT_SID = 'AC2a1860c5996ee58009cb5ea5a22d29f7'
+AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
 #current fluency account
-ACCOUNT_SID = 'ACf77a120ddab12722fa0e8a32f4fc31c4'
-AUTH_TOKEN = '0c8d784a604ed9f8008947f4e7f46a60'
+#ACCOUNT_SID = 'ACf77a120ddab12722fa0e8a32f4fc31c4'
+#AUTH_TOKEN = '0c8d784a604ed9f8008947f4e7f46a60'
     
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
