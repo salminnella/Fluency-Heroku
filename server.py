@@ -166,7 +166,7 @@ def pushRecordedCallHistory():
     
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
-    return str(callDateTime)
+    return str(new_callHistoryID)
 
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
