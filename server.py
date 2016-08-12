@@ -187,7 +187,7 @@ def pushConfHistory():
     duration = request.values.get('Duration')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
