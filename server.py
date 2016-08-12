@@ -65,6 +65,14 @@ def call():
   number = request.values.get('number')
   global callDateTime
   callDateTime = request.values.get('CallDateTime')
+  global srcLanguage
+  srcLang = request.values.get('sourceLanguage')
+  global interLanguage
+  selLanguage = request.values.get('interpreterLanguage')
+  global countryCode
+  countryCode = request.values.get('countryCode')
+  #global new_callHistoryID
+  #new_callHistoryID = request.values.get('callHistoryID')
   
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
@@ -146,7 +154,7 @@ def pushCallHistory():
     callDuration = request.values.get('DialCallDuration')
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -162,7 +170,7 @@ def pushRecordedCallHistory():
     recordingUrl = request.values.get('RecordingUrl')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'recordingURI': recordingUrl})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
     
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
@@ -179,7 +187,7 @@ def pushConfHistory():
     duration = request.values.get('Duration')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'language': language, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
@@ -199,7 +207,7 @@ def pushRecordedConfHistory():
     recordingTimestamp = request.values.get('timestamp')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'language': language})
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'language': language, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
     
