@@ -156,7 +156,7 @@ def pushCallHistory():
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    return str(0)
+    return str(callSid)
 
 @app.route('/pushRecordedCallHistory', methods=['GET', 'POST'])
 def pushRecordedCallHistory():
