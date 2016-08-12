@@ -69,8 +69,8 @@ def call():
   interLanguage = request.values.get('interpreterLanguage')
   global countryCode
   countryCode = request.values.get('countryCode')
-  #global new_callHistoryID
-  #new_callHistoryID = request.values.get('callHistoryID')
+  global new_callHistoryID
+  new_callHistoryID = request.values.get('nextCallHistoryId')
   
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
@@ -147,7 +147,7 @@ def join():
 def pushCallHistory():
     
     #one call to interpreter - Face to face
-    new_callHistoryID = 'OzgurVatansever-call2'
+    #new_callHistoryID = 'OzgurVatansever-call2'
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
 
@@ -162,7 +162,7 @@ def pushCallHistory():
 def pushRecordedCallHistory():
     
     #one call to interpreter - recorded - Face to face
-    new_callHistoryID = 'OzgurVatansever-recorded-call2'
+    #new_callHistoryID = 'OzgurVatansever-recorded-call2'
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     recordingUrl = request.values.get('RecordingUrl')
@@ -177,7 +177,7 @@ def pushRecordedCallHistory():
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
     
-    new_callHistoryID = 'OzgurVatansever-conference2'
+    #new_callHistoryID = 'OzgurVatansever-conference2'
     
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
@@ -195,7 +195,7 @@ def pushConfHistory():
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
     
-    new_callHistoryID = 'OzgurVatansever-recorded-conference2'
+    #new_callHistoryID = 'OzgurVatansever-recorded-conference2'
     
     #conference info - recorded
     conferenceSid = request.values.get('ConferenceSid')
