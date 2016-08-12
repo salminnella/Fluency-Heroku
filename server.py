@@ -66,9 +66,9 @@ def call():
   global callDateTime
   callDateTime = request.values.get('CallDateTime')
   global srcLanguage
-  srcLang = request.values.get('sourceLanguage')
+  srcLanguage = request.values.get('sourceLanguage')
   global interLanguage
-  selLanguage = request.values.get('interpreterLanguage')
+  interLanguage = request.values.get('interpreterLanguage')
   global countryCode
   countryCode = request.values.get('countryCode')
   #global new_callHistoryID
