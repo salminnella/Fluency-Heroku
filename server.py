@@ -196,7 +196,7 @@ def pushConfHistory():
     timestamp_start = mktime_tz(parsedate_tz(conference.date_created))
     timestamp_end = mktime_tz(parsedate_tz(conference.date_updated))
     
-    duration = timestamp_start - timestamp_end
+    duration = timestamp_end - timestamp_start
     #duration = conference.date_updated + ' minus ' + conference.date_created
     
     #return str(conferenceCallSid)
