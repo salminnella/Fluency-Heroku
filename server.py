@@ -192,8 +192,12 @@ def pushConfHistory():
     
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     conference = client.conferences.get("CFc559d38e52807e0aaa1e81b9c4217dbb")
-    timestamp = mktime_tz(parsedate_tz(conference.date_updated))
-    duration = conference.date_updated + ' minus ' + conference.date_created
+    
+    timestamp_start = mktime_tz(parsedate_tz(conference.date_created))
+    timestamp_end = mktime_tz(parsedate_tz(conference.date_updated))
+    
+    duration = time.mktime(timestamp_start.timetuple()) - time.mktime(timestamp_end.timetuple())
+    #duration = conference.date_updated + ' minus ' + conference.date_created
     
     #return str(conferenceCallSid)
     return str(timestamp)
