@@ -5,7 +5,6 @@ from twilio.rest import TwilioRestClient
 import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
-import time
 
 # Account Sid and Auth Token can be found in your account dashboard
 # testing from my trial account
@@ -197,11 +196,11 @@ def pushConfHistory():
     timestamp_start = mktime_tz(parsedate_tz(conference.date_created))
     timestamp_end = mktime_tz(parsedate_tz(conference.date_updated))
     
-    duration = time.mktime(timestamp_start.timetuple()) - time.mktime(timestamp_end.timetuple())
+    duration = timestamp_start - timestamp_end
     #duration = conference.date_updated + ' minus ' + conference.date_created
     
     #return str(conferenceCallSid)
-    return str(timestamp)
+    return str(duration)
 
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
