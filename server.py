@@ -193,7 +193,7 @@ def pushConfHistory():
     conference = client.conferences.get("CFc559d38e52807e0aaa1e81b9c4217dbb")
     
     #return str(conferenceCallSid)
-    return str(conference.DateCreated)
+    return str(conference.status)
 
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
