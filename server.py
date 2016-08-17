@@ -181,26 +181,26 @@ def pushConfHistory():
     #new_callHistoryID = 'OzgurVatansever-conference2'
     
     #conference info
-    #conferenceSid = request.values.get('ConferenceSid')
-    #conferenceCallSid = request.values.get('CallSid')
-    #duration = request.values.get('Duration')
-    
-    #Ozgur - firebase push -- working
-    #result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, #'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
-
-    #{u'name': u'-Io26123nDHkfybDIGl7'}
+    conferenceSid = request.values.get('ConferenceSid')
+    conferenceCallSid = request.values.get('CallSid')
     
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     conference = client.conferences.get("CFc559d38e52807e0aaa1e81b9c4217dbb")
     
-    timestamp_start = mktime_tz(parsedate_tz(conference.date_created))
-    timestamp_end = mktime_tz(parsedate_tz(conference.date_updated))
+    timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
+    timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
     
-    duration = timestamp_end - timestamp_start
-    #duration = conference.date_updated + ' minus ' + conference.date_created
+    duration = timestamp_updated - timestamp_created
     
-    #return str(conferenceCallSid)
-    return str(duration)
+    #duration = request.values.get('Duration')
+    
+    #Ozgur - firebase push -- working
+    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
+
+    {u'name': u'-Io26123nDHkfybDIGl7'}
+    
+    return str(conferenceCallSid)
+    #return str(duration)
 
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
