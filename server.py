@@ -191,9 +191,10 @@ def pushConfHistory():
     
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     conference = client.conferences.get("CFc559d38e52807e0aaa1e81b9c4217dbb")
+    duration = conference.date_updated + ' minus ' + conference.date_created
     
     #return str(conferenceCallSid)
-    return str(conference.date_created)
+    return str(duration)
 
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
