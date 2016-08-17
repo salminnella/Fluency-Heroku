@@ -185,7 +185,7 @@ def pushConfHistory():
     timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
     timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
     
-    duration = timestamp_updated - timestamp_created
+    duration = str(timestamp_updated - timestamp_created)
     
     #Ozgur - firebase push -- working
     result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
