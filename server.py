@@ -180,16 +180,20 @@ def pushConfHistory():
     #new_callHistoryID = 'OzgurVatansever-conference2'
     
     #conference info
-    conferenceSid = request.values.get('ConferenceSid')
-    conferenceCallSid = request.values.get('CallSid')
-    duration = request.values.get('Duration')
+    #conferenceSid = request.values.get('ConferenceSid')
+    #conferenceCallSid = request.values.get('CallSid')
+    #duration = request.values.get('Duration')
     
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
+    #result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, #'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
-    {u'name': u'-Io26123nDHkfybDIGl7'}
+    #{u'name': u'-Io26123nDHkfybDIGl7'}
     
-    return str(conferenceCallSid)
+    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    conference = client.conferences.get("CFc559d38e52807e0aaa1e81b9c4217dbb")
+    
+    #return str(conferenceCallSid)
+    return str(conference.DateCreated)
 
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
