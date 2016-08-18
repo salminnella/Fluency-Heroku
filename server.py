@@ -212,6 +212,15 @@ def pushRecordedConfHistory():
     
     return str(new_callHistoryID)
 
+@app.route('/delete-recording', methods=['GET', 'POST'])
+def recording():
+    
+    recordingSID = request.values.get('RecordingSID')
+    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    client.recordings.delete(recordingSID)
+
+    return str(recordingSID)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
