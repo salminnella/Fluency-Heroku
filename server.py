@@ -222,7 +222,7 @@ def recording():
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     client.recordings.delete(recordingSID)
 
-    return str(recordingSID)'
+    return str(recordingSID)
 
 @app.route('/charge', methods=['GET', 'POST'])
 def chargeCreditCard():
