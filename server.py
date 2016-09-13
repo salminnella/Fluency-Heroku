@@ -232,7 +232,7 @@ def chargeCreditCard():
     stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
 
     stripe.Charge.create(
-                     amount=20,
+                     amount=200,
                      currency="usd",
                      source=stripeToken, # obtained with Stripe.js
                      description="Charge for salminnella@gmail.com"
