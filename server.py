@@ -1,4 +1,5 @@
 import os
+import stripe
 from flask import Flask, request
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
@@ -221,7 +222,23 @@ def recording():
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     client.recordings.delete(recordingSID)
 
-    return str(recordingSID)
+    return str(recordingSID)'
+
+@app.route('/charge', methods=['GET', 'POST'])
+def chargeCreditCard():
+
+    stripeToken = request.values.get('sToken')
+
+    stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+
+    stripe.Charge.create(
+                     amount=20,
+                     currency="usd",
+                     source=stripeToken, # obtained with Stripe.js
+                     description="Charge for salminnella@gmail.com"
+                     )
+
+    return str(stripeToken)
 
 
 @app.route('/', methods=['GET', 'POST'])
