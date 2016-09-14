@@ -262,8 +262,10 @@ def authCreditCard():
 @app.route('/capture', methods=['GET', 'POST'])
 def captureCharge():
 
+    stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+
     chargeID = request.values.get('chargeID')
-    ch = stripe.Charge.retrieve(chargeID)
+    ch = stripe.Charge.retrieve(request.values.get('chargeID'))
     ch.capture()
 
     return str(chargeID)
