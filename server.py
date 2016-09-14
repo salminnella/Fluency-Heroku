@@ -259,6 +259,15 @@ def authCreditCard():
     #return str(stripe.Charge.retrieve(a_charge.id))
     return str(a_charge.id)
 
+@app.route('/capture', methods=['GET', 'POST'])
+def captureCharge():
+
+    chargeID = request.values.get('chargeID')
+    ch = stripe.Charge.retrieve(chargeID)
+    ch.capture()
+
+    return str(chargeID)
+
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
   resp = twilio.twiml.Response()
