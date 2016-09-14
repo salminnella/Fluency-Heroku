@@ -256,7 +256,8 @@ def authCreditCard():
                          )
                          
     #return str(stripeToken)
-    return str(stripe.Charge.retrieve(a_charge.id))
+    #return str(stripe.Charge.retrieve(a_charge.id))
+    return str(a_charge.id)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
