@@ -240,6 +240,22 @@ def chargeCreditCard():
 
     return str(stripeToken)
 
+@app.route('/preauth', methods=['GET', 'POST'])
+def authCreditCard():
+    
+    stripeToken = request.values.get('sToken')
+    
+    stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+    
+    stripe.Charge.create(
+                         amount=200,
+                         currency="usd",
+                         capture=false,
+                         source=stripeToken, # obtained with Stripe.js
+                         description="Charge for salminnella@gmail.com"
+                         )
+                         
+    return str(stripeToken)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
