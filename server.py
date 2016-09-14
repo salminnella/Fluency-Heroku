@@ -247,7 +247,7 @@ def authCreditCard():
     
     stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
     
-    stripe.Charge.create(
+    a_charge = stripe.Charge.create(
                          amount=200,
                          currency="usd",
                          capture="false",
@@ -255,7 +255,8 @@ def authCreditCard():
                          description="Charge for salminnella@gmail.com"
                          )
                          
-    return str(stripeToken)
+    #return str(stripeToken)
+    return str(stripe.Charge.retrieve(a_charge.id))
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
