@@ -250,7 +250,7 @@ def authCreditCard():
     stripe.Charge.create(
                          amount=200,
                          currency="usd",
-                         capture=false,
+                         capture="false",
                          source=stripeToken, # obtained with Stripe.js
                          description="Charge for salminnella@gmail.com"
                          )
