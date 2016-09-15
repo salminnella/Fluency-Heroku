@@ -337,9 +337,9 @@ def captureCharge():
 
 @app.route('/cancel_preauth', methods=['GET', 'POST'])
 def cancel_preauth():
-    stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+    
     chargeID = request.values.get('chargeID')
-    re = stripe.Refund.create(charge="ch_18tuaGKx8RwYBt0sK5CE7J0H")
+    stripe.Refund.create(charge=chargeID)
 
     return str(chargeID)
 
