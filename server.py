@@ -246,7 +246,7 @@ def create_customer():
 
     return str(customer.id)
 
-@app.route('/charge_customer')
+@app.route('/charge_customer', methods=['GET', 'POST'])
 def chargeCustomer():
     
     custID = request.values.get('customerID')
