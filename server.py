@@ -342,7 +342,7 @@ def cancel_preauth():
 #    re = stripe.Refund.create(charge=chargeID)
 
     ch = stripe.Charge.retrieve(chargeID)
-    re = ch.refunds.create()
+    re = ch.refund()
 
     return str(chargeID)
 
