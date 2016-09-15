@@ -246,6 +246,15 @@ def create_customer():
 
     return str(customer.id)
 
+@app.route('/charge_customer')
+def chargeCustomer():
+    a_charge = stripe.Charge.create(
+                         amount=1500, # $15.00 this time
+                         currency="usd",
+                         customer="cus_9CGife3kW1ecxz"
+                         )
+
+    return str(a_charge.id)
 
 @app.route('/charge', methods=['GET', 'POST'])
 def chargeCreditCard():
