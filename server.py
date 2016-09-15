@@ -335,6 +335,14 @@ def captureCharge():
 
     return str(chargeID)
 
+@app.route('/cancel_preauth', methods=['GET', 'POST'])
+def cancel_preauth():
+    
+    chargeID = request.values.get('chargeID')
+    re = stripe.Refund.create(charge=chargeID)
+
+    return str(chargeID)
+
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
   resp = twilio.twiml.Response()
