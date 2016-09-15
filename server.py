@@ -230,20 +230,6 @@ def create_customer():
                                       description="Example customer - Anthony M"
                                       )
 
-#    # Charge the Customer instead of the card
-#    stripe.Charge.create(
-#                         amount=1000, # in cents
-#                        currency="usd",
-#                         customer=customer.id
-#                         )
-#
-#
-#    stripe.Charge.create(
-#                         amount=1500, # $15.00 this time
-#                         currency="usd",
-#                         customer=customer_id # Previously stored, then retrieved
-#                         )
-
     return str(customer.id)
 
 @app.route('/charge_customer', methods=['GET', 'POST'])
@@ -320,15 +306,17 @@ def chargeCreditCard():
 @app.route('/preauth', methods=['GET', 'POST'])
 def authCreditCard():
     
-    stripeToken = request.values.get('stripeToken')
+    #stripeToken = request.values.get('stripeToken')
+    custID = request.values.get('customerID')
     
-    stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+    #stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
     
     a_charge = stripe.Charge.create(
                          amount=200,
                          currency="usd",
                          capture="false",
-                         source=stripeToken, # obtained with Stripe.js
+                         customer=custID,
+                         #source=stripeToken, # obtained with Stripe.js
                          description="Charge for salminnella@gmail.com"
                          )
                          
