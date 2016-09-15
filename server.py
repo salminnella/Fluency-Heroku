@@ -250,7 +250,8 @@ def create_customer():
 def chargeCustomer():
     
     custID = request.values.get('customerID')
-    cents = request.values.get('totalCost')
+    cost = request.values.get('totalCost')
+    cents = int(cost)
     
     a_charge = stripe.Charge.create(
                          amount=cents
