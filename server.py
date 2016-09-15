@@ -8,22 +8,15 @@ from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
 
 # Account Sid and Auth Token can be found in your account dashboard
-# testing from my trial account
-#ACCOUNT_SID = 'AC2a1860c5996ee58009cb5ea5a22d29f7'
-#AUTH_TOKEN = '375378e3bf5c28925a951f5ad54a0b70'
-#current fluency account
 ACCOUNT_SID = 'ACdd8953205cab360450e486f1a3a52fe9'
 AUTH_TOKEN = '4eea9c2481e3f5f8b630a7d30942a1b6'
     
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
 
-
 # TwiML app outgoing connections will use
-# testing from my trial account
-#APP_SID = 'AP64b440ac8f67ab9e653ebd21c9b8a2f6'
-#current fluency account
 APP_SID = 'AP2e55b89356bc0bb298806f1289e827cc'
+stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
 
 CALLER_ID = '+1 855-999-9083'
 CLIENT = 'anthony'
@@ -224,26 +217,95 @@ def recording():
 
     return str(recordingSID)
 
+
+@app.route('/create_customer')
+def create_customer():
+
+    token = request.values.get['stripeToken']
+
+    # Create a Customer
+    customer = stripe.Customer.create(
+                                      source=token,
+                                      description="Example customer - Anthony M"
+                                      )
+
+#    # Charge the Customer instead of the card
+#    stripe.Charge.create(
+#                         amount=1000, # in cents
+#                        currency="usd",
+#                         customer=customer.id
+#                         )
+#
+#
+#    stripe.Charge.create(
+#                         amount=1500, # $15.00 this time
+#                         currency="usd",
+#                         customer=customer_id # Previously stored, then retrieved
+#                         )
+
+    return str(customer.id)
+
+
 @app.route('/charge', methods=['GET', 'POST'])
 def chargeCreditCard():
 
-    stripeToken = request.values.get('sToken')
-
-    stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
-
+    stripeToken = request.values.get('stripeToken')
+    
     stripe.Charge.create(
-                     amount=200,
-                     currency="usd",
-                     source=stripeToken, # obtained with Stripe.js
-                     description="Charge for salminnella@gmail.com"
-                     )
+                         amount=200,
+                         currency="usd",
+                         source=stripeToken, # obtained with Stripe.js
+                         description="Charge for salminnella@gmail.com"
+                         )
+    
+#    try:
+#        # Use Stripe's library to make requests...
+#        stripe.Charge.create(
+#                             amount=200,
+#                             currency="usd",
+#                             source=stripeToken, # obtained with Stripe.js
+#                             description="Charge for salminnella@gmail.com"
+#                             )
+#        pass
+#    except stripe.error.CardError as e:
+#        # Since it's a decline, stripe.error.CardError will be caught
+#        body = e.json_body
+#        err  = body['error']
+#            
+#        print "Status is: %s" % e.http_status
+#        print "Type is: %s" % err['type']
+#        print "Code is: %s" % err['code']
+#        # param is '' in this case
+#        print "Param is: %s" % err['param']
+#        print "Message is: %s" % err['message']
+#    except stripe.error.RateLimitError as e:
+#        # Too many requests made to the API too quickly
+#        pass
+#    except stripe.error.InvalidRequestError as e:
+#        # Invalid parameters were supplied to Stripe's API
+#        pass
+#    except stripe.error.AuthenticationError as e:
+#        # Authentication with Stripe's API failed
+#        # (maybe you changed API keys recently)
+#        pass
+#    except stripe.error.APIConnectionError as e:
+#        # Network communication with Stripe failed
+#        pass
+#    except stripe.error.StripeError as e:
+#        # Display a very generic error to the user, and maybe send
+#        # yourself an email
+#        pass
+#    except Exception as e:
+#        # Something else happened, completely unrelated to Stripe
+#        pass
+
 
     return str(stripeToken)
 
 @app.route('/preauth', methods=['GET', 'POST'])
 def authCreditCard():
     
-    stripeToken = request.values.get('sToken')
+    stripeToken = request.values.get('stripeToken')
     
     stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
     
