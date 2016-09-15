@@ -221,11 +221,12 @@ def recording():
 @app.route('/create_customer')
 def create_customer():
 
-    token = request.POST['stripeToken']
+    #token = request.POST['stripeToken']
+    stripeToken = request.values.get('stripeToken')
 
     # Create a Customer
     customer = stripe.Customer.create(
-                                      source=token,
+                                      source=stripeToken,
                                       description="Example customer - Anthony M"
                                       )
 
