@@ -248,10 +248,13 @@ def create_customer():
 
 @app.route('/charge_customer')
 def chargeCustomer():
+    
+    custID = request.values.get('customerID')
+    
     a_charge = stripe.Charge.create(
-                         amount=1500, # $15.00 this time
+                         amount=150, # $1.50 this time
                          currency="usd",
-                         customer="cus_9CGife3kW1ecxz"
+                         customer=custID
                          )
 
     return str(a_charge.id)
