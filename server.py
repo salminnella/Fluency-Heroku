@@ -339,7 +339,10 @@ def captureCharge():
 def cancel_preauth():
     
     chargeID = request.values.get('chargeID')
-    stripe.Refund.create(charge=chargeID)
+#    re = stripe.Refund.create(charge=chargeID)
+
+    ch = stripe.Charge.retrieve(chargeID)
+    re = ch.refunds.create()
 
     return str(chargeID)
 
