@@ -218,7 +218,7 @@ def recording():
     return str(recordingSID)
 
 
-@app.route('/create_customer')
+@app.route('/create_customer', methods=['GET', 'POST'])
 def create_customer():
 
     #token = request.POST['stripeToken']
