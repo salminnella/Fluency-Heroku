@@ -227,10 +227,18 @@ def create_customer():
     # Create a Customer
     customer = stripe.Customer.create(
                                       source=stripeToken,
-                                      description="Example customer - Anthony M"
+                                      description="2nd Customer - Sal Minnella"
                                       )
 
     return str(customer.id)
+
+@app.route('/retrieve_customer')
+def retrieve_customer():
+
+    custID = request.values.get('customerID')
+    stripeCustomer = stripe.Customer.retrieve(custID)
+
+    return str(stripeCustomer)
 
 @app.route('/charge_customer', methods=['GET', 'POST'])
 def chargeCustomer():
