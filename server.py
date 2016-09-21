@@ -1,6 +1,6 @@
 import os
 import stripe
-from stripe.error import (  # noqa
+from stripe import (  # noqa
                           StripeError, APIError, APIConnectionError, AuthenticationError, CardError,
                           InvalidRequestError)
 from flask import Flask, request
@@ -273,7 +273,7 @@ def chargeCreditCard():
                                         )
         chargeResponse = b_charge.id
         pass
-    except stripe.CardError as e:
+    except stripe.error.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
