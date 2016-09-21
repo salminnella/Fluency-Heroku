@@ -353,7 +353,7 @@ def chargeCreditCard():
 #        pass
 
 
-    return str(err.message)
+    return str(err.Message)
 
 @app.route('/preauth', methods=['GET', 'POST'])
 def authCreditCard():
