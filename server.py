@@ -1,6 +1,8 @@
 import os
 import Stripe
-import error
+from stripe.error import (  # noqa
+                          StripeError, APIError, APIConnectionError, AuthenticationError, CardError,
+                          InvalidRequestError)
 from flask import Flask, request
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
