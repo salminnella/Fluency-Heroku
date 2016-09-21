@@ -1,6 +1,6 @@
 import os
 import stripe
-from stripe.error import (  # noqa
+from stripe import (  # noqa
                           StripeError, APIError, APIConnectionError, AuthenticationError, CardError,
                           InvalidRequestError)
 from flask import Flask, request
