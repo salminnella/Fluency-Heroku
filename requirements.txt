@@ -9,4 +9,4 @@ twilio==3.6.9
 wsgiref==0.1.2
 requests
 python-firebase
-stripe
+stripe==1.9.1
