@@ -331,6 +331,7 @@ def chargeCreditCard():
         # param is '' in this case
 #        print "Param is: %s" % err['param']
         print "Message is: %s" % err['message']
+        response = err['message']
 #    except stripe.error.RateLimitError as e:
 #        # Too many requests made to the API too quickly
 #        pass
@@ -353,7 +354,7 @@ def chargeCreditCard():
 #        pass
 
 
-    return str(err.Message)
+    return str(response)
 
 @app.route('/preauth', methods=['GET', 'POST'])
 def authCreditCard():
