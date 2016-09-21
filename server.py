@@ -332,32 +332,32 @@ def chargeCard( str ):
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
-    except stripe.error.RateLimitError as e:
+    except stripe.RateLimitError as e:
         # Too many requests made to the API too quickly
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
         pass
-    except stripe.error.InvalidRequestError as e:
+    except stripe.InvalidRequestError as e:
         # Invalid parameters were supplied to Stripe's API
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
         pass
-    except stripe.error.AuthenticationError as e:
+    except stripe.AuthenticationError as e:
         # Authentication with Stripe's API failed
         # (maybe you changed API keys recently)
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
         pass
-    except stripe.error.APIConnectionError as e:
+    except stripe.APIConnectionError as e:
         # Network communication with Stripe failed
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
         pass
-    except stripe.error.StripeError as e:
+    except stripe.StripeError as e:
         # Display a very generic error to the user, and maybe send
         # yourself an email
         body = e.json_body
