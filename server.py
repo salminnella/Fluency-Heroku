@@ -246,70 +246,71 @@ def retrieve_customer():
 
 @app.route('/charge_customer', methods=['GET', 'POST'])
 def chargeCustomer():
-    
     custID = request.values.get('customerID')
     cost = request.values.get('totalCost')
     cents = int(cost)
-        
-    a_charge = stripe.Charge.create(
-                                    amount=cents,
-                                    currency="usd",
-                                    customer=custID
-                                    )
-                                    
-#        try:
-#            # Use Stripe's library to make requests...
-#            a_charge = stripe.Charge.create(
-#                                            amount=cents,
-#                                            currency="usd",
-#                                            customer=custID
-#                                            )
-#            pass
-#        except stripe.error.CardError as e:
-#            # Since it's a decline, stripe.error.CardError will be caught
-#            body = e.json_body
-#            err  = body['error']
-#        
-#            print "Status is: %s" % e.http_status
-#            print "Type is: %s" % err['type']
-#            print "Code is: %s" % err['code']
-#            # param is '' in this case
-#            print "Param is: %s" % err['param']
-#            print "Message is: %s" % err['message']
-#    except stripe.error.RateLimitError as e:
-#        #Too many requests made to the API too quickly
-#        pass
-#    except stripe.error.InvalidRequestError as e:
-#        # Invalid parameters were supplied to Stripe's API
-#        pass
-#    except stripe.error.AuthenticationError as e:
-#        # Authentication with Stripe's API failed
-#        # (maybe you changed API keys recently)
-#        pass
-#    except stripe.error.APIConnectionError as e:
-#        # Network communication with Stripe failed
-#        pass
-#    except stripe.error.StripeError as e:
-#        # Display a very generic error to the user, and maybe send
-#        # yourself an email
-#        pass
-#    except Exception as e:
-#        # Something else happened, completely unrelated to Stripe
-#        pass
 
-    return str(a_charge.id)
+    try:
+        # Use Stripe's library to make requests...
+        a_charge = stripe.Charge.create(
+                                        amount=cents,
+                                        currency="usd",
+                                        customer=custID
+                                        )
+
+        response = a_charge.id
+        pass
+    except stripe.CardError as e:
+        # Since it's a decline, stripe.error.CardError will be caught
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+    except stripe.error.RateLimitError as e:
+        # Too many requests made to the API too quickly
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except stripe.error.InvalidRequestError as e:
+        # Invalid parameters were supplied to Stripe's API
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except stripe.error.AuthenticationError as e:
+        # Authentication with Stripe's API failed
+        # (maybe you changed API keys recently)
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+
+    except stripe.error.APIConnectionError as e:
+        # Network communication with Stripe failed
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except stripe.error.StripeError as e:
+        # Display a very generic error to the user, and maybe send
+        # yourself an email
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except Exception as e:
+        # Something else happened, completely unrelated to Stripe
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+
+    return str(response)
 
 @app.route('/charge', methods=['GET', 'POST'])
 def chargeCreditCard():
     b_charge = ""
     stripeToken = request.values.get('stripeToken')
-    
-#    stripe.Charge.create(
-#                         amount=200,
-#                         currency="usd",
-#                         source=stripeToken, # obtained with Stripe.js
-#                         description="Charge for salminnella@gmail.com"
-#                         )
 
     try:
         # Use Stripe's library to make requests...
@@ -319,81 +320,117 @@ def chargeCreditCard():
                              source=stripeToken,
                              description="Charge for salminnella@gmail.com"
                              )
+        response = b_charge.id
         pass
     except stripe.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
-            
-        print "Status is: %s" % e.http_status
-        print "Type is: %s" % err['type']
-        print "Code is: %s" % err['code']
-        # param is '' in this case
-#        print "Param is: %s" % err['param']
-        print "Message is: %s" % err['message']
         response = err['message']
-#    except stripe.error.RateLimitError as e:
-#        # Too many requests made to the API too quickly
-#        pass
-#    except stripe.error.InvalidRequestError as e:
-#        # Invalid parameters were supplied to Stripe's API
-#        pass
-#    except stripe.error.AuthenticationError as e:
-#        # Authentication with Stripe's API failed
-#        # (maybe you changed API keys recently)
-#        pass
-#    except stripe.error.APIConnectionError as e:
-#        # Network communication with Stripe failed
-#        pass
-#    except stripe.error.StripeError as e:
-#        # Display a very generic error to the user, and maybe send
-#        # yourself an email
-#        pass
-#    except Exception as e:
-#        # Something else happened, completely unrelated to Stripe
-#        pass
-
+    except stripe.error.RateLimitError as e:
+        # Too many requests made to the API too quickly
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except stripe.error.InvalidRequestError as e:
+        # Invalid parameters were supplied to Stripe's API
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except stripe.error.AuthenticationError as e:
+        # Authentication with Stripe's API failed
+        # (maybe you changed API keys recently)
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except stripe.error.APIConnectionError as e:
+        # Network communication with Stripe failed
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except stripe.error.StripeError as e:
+        # Display a very generic error to the user, and maybe send
+        # yourself an email
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
+    except Exception as e:
+        # Something else happened, completely unrelated to Stripe
+        body = e.json_body
+        err  = body['error']
+        response = err['message']
+        pass
 
     return str(response)
 
 @app.route('/preauth', methods=['GET', 'POST'])
 def authCreditCard():
-    
-    #stripeToken = request.values.get('stripeToken')
     custID = request.values.get('customerID')
-    
-    #stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
-    
-    a_charge = stripe.Charge.create(
-                         amount=200,
-                         currency="usd",
-                         capture="false",
-                         customer=custID,
-                         #source=stripeToken, # obtained with Stripe.js
-                         description="Charge for salminnella@gmail.com"
-                         )
-                         
-    #return str(stripeToken)
-    #return str(stripe.Charge.retrieve(a_charge.id))
-    return str(a_charge.id)
+    try:
+        # Use Stripe's library to make requests...
+        a_charge = stripe.Charge.create(
+                                        amount=200,
+                                        currency="usd",
+                                        capture="false",
+                                        customer=custID,
+                                        description="Charge for salminnella@gmail.com"
+                                        )
+            
+        pass
+    except stripe.CardError as e:
+        # Since it's a decline, stripe.error.CardError will be caught
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+    except stripe.error.RateLimitError as e:
+        # Too many requests made to the API too quickly
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except stripe.error.InvalidRequestError as e:
+        # Invalid parameters were supplied to Stripe's API
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except stripe.error.AuthenticationError as e:
+        # Authentication with Stripe's API failed
+        # (maybe you changed API keys recently)
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except stripe.error.APIConnectionError as e:
+        # Network communication with Stripe failed
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except stripe.error.StripeError as e:
+        # Display a very generic error to the user, and maybe send
+        # yourself an email
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except Exception as e:
+        # Something else happened, completely unrelated to Stripe
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
 
-@app.route('/capture', methods=['GET', 'POST'])
-def captureCharge():
-
-    stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
-
-    chargeID = request.values.get('chargeID')
-    ch = stripe.Charge.retrieve(request.values.get('chargeID'))
-    ch.capture()
-
-    return str(chargeID)
+    return str(preAuthResponse)
 
 @app.route('/cancel_preauth', methods=['GET', 'POST'])
 def cancel_preauth():
-    
     chargeID = request.values.get('chargeID')
-#    re = stripe.Refund.create(charge=chargeID)
-
     ch = stripe.Charge.retrieve(chargeID)
     re = ch.refund()
 
