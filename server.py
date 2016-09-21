@@ -19,7 +19,7 @@ firebase = firebase.FirebaseApplication('https://project-5176964787746948725.fir
 
 # TwiML app outgoing connections will use
 APP_SID = 'AP2e55b89356bc0bb298806f1289e827cc'
-stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJdk"
+stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
 
 CALLER_ID = '+1 855-999-9083'
 CLIENT = 'anthony'
