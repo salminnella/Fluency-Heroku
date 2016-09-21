@@ -1,5 +1,5 @@
 import os
-import Stripe
+import stripe
 from stripe.error import (  # noqa
                           StripeError, APIError, APIConnectionError, AuthenticationError, CardError,
                           InvalidRequestError)
