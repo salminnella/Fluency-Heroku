@@ -316,13 +316,14 @@ def chargeCreditCard():
 
     return response
 
+
 def chargeCard( str ):
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
                                         amount=200,
                                         currency="usd",
-                                        source=stripeToken,
+                                        source=str,
                                         description="Charge for salminnella@gmail.com"
                                         )
         chargeResponse = b_charge.id
