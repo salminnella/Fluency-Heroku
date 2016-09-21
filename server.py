@@ -301,33 +301,33 @@ def chargeCreditCard():
 
     stripeToken = request.values.get('stripeToken')
     
-#    stripe.Charge.create(
-#                         amount=200,
-#                         currency="usd",
-#                         source=stripeToken, # obtained with Stripe.js
-#                         description="Charge for salminnella@gmail.com"
-#                         )
+    stripe.Charge.create(
+                         amount=200,
+                         currency="usd",
+                         source=stripeToken, # obtained with Stripe.js
+                         description="Charge for salminnella@gmail.com"
+                         )
 
-    try:
-        # Use Stripe's library to make requests...
-        b_charge = stripe.Charge.create(
-                             amount=200,
-                             currency="usd",
-                             source=stripeToken,
-                             description="Charge for salminnella@gmail.com"
-                             )
-#        pass
-    except stripe.error.CardError as e:
-        # Since it's a decline, stripe.error.CardError will be caught
-        body = e.json_body
-        err  = body['error']
-            
-        print "Status is: %s" % e.http_status
-        print "Type is: %s" % err['type']
-        print "Code is: %s" % err['code']
-        # param is '' in this case
-        print "Param is: %s" % err['param']
-        print "Message is: %s" % err['message']
+#    try:
+#        # Use Stripe's library to make requests...
+#        b_charge = stripe.Charge.create(
+#                             amount=200,
+#                             currency="usd",
+#                             source=stripeToken,
+#                             description="Charge for salminnella@gmail.com"
+#                             )
+##        pass
+#    except stripe.error.CardError as e:
+#        # Since it's a decline, stripe.error.CardError will be caught
+#        body = e.json_body
+#        err  = body['error']
+#            
+#        print "Status is: %s" % e.http_status
+#        print "Type is: %s" % err['type']
+#        print "Code is: %s" % err['code']
+#        # param is '' in this case
+#        print "Param is: %s" % err['param']
+#        print "Message is: %s" % err['message']
 #    except stripe.error.RateLimitError as e:
 #        # Too many requests made to the API too quickly
 #        pass
