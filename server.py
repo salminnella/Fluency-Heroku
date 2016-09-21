@@ -280,7 +280,7 @@ def chargeCreditCard():
         #        chargeResponse = err['message']
         chargeResponse = err
         pass
-    except stripe.error.InvalidRequestError as e:
+    except stripe.InvalidRequestError as e:
         # Too many requests made to the API too quickly
         body = e.json_body
         err  = body['error']
