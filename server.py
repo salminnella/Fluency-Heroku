@@ -1,5 +1,5 @@
 import os
-import stripe
+from stripe import stripe
 from flask import Flask, request
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
@@ -316,7 +316,7 @@ def chargeCreditCard():
                              source=stripeToken,
                              description="Charge for salminnella@gmail.com"
                              )
-#        pass
+        pass
     except stripe.error.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
