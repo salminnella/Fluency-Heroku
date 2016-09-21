@@ -329,7 +329,7 @@ def chargeCreditCard():
         print "Type is: %s" % err['type']
         print "Code is: %s" % err['code']
         # param is '' in this case
-        print "Param is: %s" % err['param']
+#        print "Param is: %s" % err['param']
         print "Message is: %s" % err['message']
 #    except stripe.error.RateLimitError as e:
 #        # Too many requests made to the API too quickly
