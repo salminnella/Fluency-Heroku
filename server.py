@@ -297,7 +297,8 @@ def chargeCard( str, chargeAmount ):
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+#        chargeResponse = err['message']
+        chargeResponse = err
     except stripe.RateLimitError as e:
         # Too many requests made to the API too quickly
         body = e.json_body
