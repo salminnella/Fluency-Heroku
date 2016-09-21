@@ -19,7 +19,7 @@ firebase = firebase.FirebaseApplication('https://project-5176964787746948725.fir
 
 # TwiML app outgoing connections will use
 APP_SID = 'AP2e55b89356bc0bb298806f1289e827cc'
-stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJdk"
 
 CALLER_ID = '+1 855-999-9083'
 CLIENT = 'anthony'
@@ -266,7 +266,7 @@ def chargeCreditCard():
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
-                                        amount=str,
+                                        amount=cents,
                                         currency="usd",
                                         source=stripeToken,
                                         description="Charge for salminnella@gmail.com"
@@ -277,28 +277,23 @@ def chargeCreditCard():
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
-        #        chargeResponse = err['message']
+#        chargeResponse = err['message']
         chargeResponse = err
         pass
     except stripe.InvalidRequestError as e:
-        # Too many requests made to the API too quickly
+        # Invalid parameters were supplied to Stripe's API
         body = e.json_body
         err  = body['error']
 #        chargeResponse = err['message']
         chargeResponse = err
-        pass
-    except stripe.RateLimitError as e:
-        # Invalid parameters were supplied to Stripe's API
-        body = e.json_body
-        err  = body['error']
-        chargeResponse = err['message']
         pass
     except stripe.AuthenticationError as e:
         # Authentication with Stripe's API failed
         # (maybe you changed API keys recently)
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+#        chargeResponse = err['message']
+        chargeResponse = err
         pass
     except stripe.APIConnectionError as e:
         # Network communication with Stripe failed
@@ -309,6 +304,12 @@ def chargeCreditCard():
     except stripe.StripeError as e:
         # Display a very generic error to the user, and maybe send
         # yourself an email
+        body = e.json_body
+        err  = body['error']
+        chargeResponse = err['message']
+        pass
+    except stripe.RateLimitError as e:
+        # Too many requests made to the API too quickly
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
