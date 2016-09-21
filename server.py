@@ -250,84 +250,49 @@ def chargeCustomer():
     cost = request.values.get('totalCost')
     cents = int(cost)
 
-    try:
-        # Use Stripe's library to make requests...
-        a_charge = stripe.Charge.create(
-                                        amount=cents,
-                                        currency="usd",
-                                        customer=custID
-                                        )
-
-        response = a_charge.id
-        pass
-    except stripe.CardError as e:
-        # Since it's a decline, stripe.error.CardError will be caught
-        body = e.json_body
-        err  = body['error']
-        response = err['message']
-    except stripe.error.RateLimitError as e:
-        # Too many requests made to the API too quickly
-        body = e.json_body
-        err  = body['error']
-        response = err['message']
-        pass
-    except stripe.error.InvalidRequestError as e:
-        # Invalid parameters were supplied to Stripe's API
-        body = e.json_body
-        err  = body['error']
-        response = err['message']
-        pass
-    except stripe.error.AuthenticationError as e:
-        # Authentication with Stripe's API failed
-        # (maybe you changed API keys recently)
-        body = e.json_body
-        err  = body['error']
-        response = err['message']
-        pass
-
-    except stripe.error.APIConnectionError as e:
-        # Network communication with Stripe failed
-        body = e.json_body
-        err  = body['error']
-        response = err['message']
-        pass
-    except stripe.error.StripeError as e:
-        # Display a very generic error to the user, and maybe send
-        # yourself an email
-        body = e.json_body
-        err  = body['error']
-        response = err['message']
-        pass
-    except Exception as e:
-        # Something else happened, completely unrelated to Stripe
-        body = e.json_body
-        err  = body['error']
-        response = err['message']
-        pass
-
-    return str(response)
+    response = chargeCard(custID, cents)
+    
+    return response
 
 @app.route('/charge', methods=['GET', 'POST'])
 def chargeCreditCard():
     b_charge = ""
     stripeToken = request.values.get('stripeToken')
+    cents = 300
 
-    response = chargeCard(stripeToken)
+    response = chargeCard(stripeToken, cents)
 
     return response
 
 
-def chargeCard( str ):
+@app.route('/preauth', methods=['GET', 'POST'])
+def authCreditCard():
+    custID = request.values.get('customerID')
+    
+    response = chargeCard(custID, 200)
+    
+    return response
+
+@app.route('/cancel_preauth', methods=['GET', 'POST'])
+def cancel_preauth():
+    chargeID = request.values.get('chargeID')
+    ch = stripe.Charge.retrieve(chargeID)
+    re = ch.refund()
+
+    return str(chargeID)
+
+
+def chargeCard( str, chargeAmount):
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
-                                        amount=200,
+                                        amount=chargeAmount,
                                         currency="usd",
                                         source=str,
                                         description="Charge for salminnella@gmail.com"
                                         )
-        chargeResponse = b_charge.id
-        pass
+                                        chargeResponse = b_charge.id
+                                        pass
     except stripe.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
@@ -371,76 +336,9 @@ def chargeCard( str ):
         err  = body['error']
         chargeResponse = err['message']
         pass
-                                    
+    
     return chargeResponse
 
-@app.route('/preauth', methods=['GET', 'POST'])
-def authCreditCard():
-    custID = request.values.get('customerID')
-    try:
-        # Use Stripe's library to make requests...
-        a_charge = stripe.Charge.create(
-                                        amount=200,
-                                        currency="usd",
-                                        capture="false",
-                                        customer=custID,
-                                        description="Charge for salminnella@gmail.com"
-                                        )
-            
-        pass
-    except stripe.CardError as e:
-        # Since it's a decline, stripe.error.CardError will be caught
-        body = e.json_body
-        err  = body['error']
-        preAuthResponse = err['message']
-    except stripe.error.RateLimitError as e:
-        # Too many requests made to the API too quickly
-        body = e.json_body
-        err  = body['error']
-        preAuthResponse = err['message']
-        pass
-    except stripe.error.InvalidRequestError as e:
-        # Invalid parameters were supplied to Stripe's API
-        body = e.json_body
-        err  = body['error']
-        preAuthResponse = err['message']
-        pass
-    except stripe.error.AuthenticationError as e:
-        # Authentication with Stripe's API failed
-        # (maybe you changed API keys recently)
-        body = e.json_body
-        err  = body['error']
-        preAuthResponse = err['message']
-        pass
-    except stripe.error.APIConnectionError as e:
-        # Network communication with Stripe failed
-        body = e.json_body
-        err  = body['error']
-        preAuthResponse = err['message']
-        pass
-    except stripe.error.StripeError as e:
-        # Display a very generic error to the user, and maybe send
-        # yourself an email
-        body = e.json_body
-        err  = body['error']
-        preAuthResponse = err['message']
-        pass
-    except Exception as e:
-        # Something else happened, completely unrelated to Stripe
-        body = e.json_body
-        err  = body['error']
-        preAuthResponse = err['message']
-        pass
-
-    return str(preAuthResponse)
-
-@app.route('/cancel_preauth', methods=['GET', 'POST'])
-def cancel_preauth():
-    chargeID = request.values.get('chargeID')
-    ch = stripe.Charge.retrieve(chargeID)
-    re = ch.refund()
-
-    return str(chargeID)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
