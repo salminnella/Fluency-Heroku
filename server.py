@@ -1,6 +1,6 @@
 import os
 import stripe
-from stripe import error
+import StripeError
 from flask import Flask, request
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
