@@ -266,9 +266,9 @@ def chargeCreditCard():
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
-                                        amount=cents,
+                                        amount=str,
                                         currency="usd",
-                                        source=str,
+                                        source=stripeToken,
                                         description="Charge for salminnella@gmail.com"
                                         )
         chargeResponse = b_charge.id
