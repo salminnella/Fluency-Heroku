@@ -282,7 +282,7 @@ def cancel_preauth():
     return str(chargeID)
 
 
-def chargeCard( str, chargeAmount):
+def chargeCard( str, chargeAmount ):
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
@@ -291,8 +291,8 @@ def chargeCard( str, chargeAmount):
                                         source=str,
                                         description="Charge for salminnella@gmail.com"
                                         )
-                                        chargeResponse = b_charge.id
-                                        pass
+        chargeResponse = b_charge.id
+        pass
     except stripe.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
