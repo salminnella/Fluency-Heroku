@@ -284,7 +284,8 @@ def chargeCreditCard():
         # Too many requests made to the API too quickly
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+#        chargeResponse = err['message']
+        chargeResponse = err
         pass
     except stripe.RateLimitError as e:
         # Invalid parameters were supplied to Stripe's API
