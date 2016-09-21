@@ -266,7 +266,7 @@ def chargeCreditCard():
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
-                                        amount=cents,
+                                        amount=str,
                                         currency="usd",
                                         source=stripeToken,
                                         description="Charge for salminnella@gmail.com"
@@ -280,7 +280,7 @@ def chargeCreditCard():
         #        chargeResponse = err['message']
         chargeResponse = err
         pass
-    except stripe.RateLimitError as e:
+    except stripe.error.RateLimitError as e:
         # Too many requests made to the API too quickly
         body = e.json_body
         err  = body['error']
