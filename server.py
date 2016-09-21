@@ -301,7 +301,7 @@ def chargeCustomer():
 
 @app.route('/charge', methods=['GET', 'POST'])
 def chargeCreditCard():
-    b_charge = None
+    b_charge
     stripeToken = request.values.get('stripeToken')
     
 #    stripe.Charge.create(
@@ -353,7 +353,7 @@ def chargeCreditCard():
 #        pass
 
 
-    return str(b_charge.id)
+    return str(err)
 
 @app.route('/preauth', methods=['GET', 'POST'])
 def authCreditCard():
