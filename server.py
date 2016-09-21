@@ -273,20 +273,20 @@ def chargeCreditCard():
                                         )
         chargeResponse = b_charge.id
         pass
-    except stripe.error.CardError as e:
+    except stripe.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
         #        chargeResponse = err['message']
         chargeResponse = err
         pass
-    except stripe.error.RateLimitError as e:
+    except stripe.error.InvalidRequestError as e:
         # Too many requests made to the API too quickly
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
         pass
-    except stripe.InvalidRequestError as e:
+    except stripe.RateLimitError as e:
         # Invalid parameters were supplied to Stripe's API
         body = e.json_body
         err  = body['error']
