@@ -301,7 +301,7 @@ def chargeCustomer():
 
 @app.route('/charge', methods=['GET', 'POST'])
 def chargeCreditCard():
-
+    b_charge = None
     stripeToken = request.values.get('stripeToken')
     
 #    stripe.Charge.create(
