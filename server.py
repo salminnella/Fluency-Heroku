@@ -351,6 +351,8 @@ def update_customer():
     cu.source = stripeToken
     cu.save()
 
+    return str('updated customer card')
+
 
 def chargeCard( str, chargeAmount ):
     try:
