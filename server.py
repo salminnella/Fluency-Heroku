@@ -341,6 +341,16 @@ def cancel_preauth():
 
     return str(chargeID)
 
+@app.route('/update_customer', methods=['GET', 'POST'])
+def update_customer():
+    
+    stripeToken = request.values.get('stripeToken')
+    custID = request.values.get('customerID')
+
+    cu = stripe.Customer.retrieve("cus_9CGife3kW1ecxz")
+    cu.source = stripeToken
+    cu.save()
+
 
 def chargeCard( str, chargeAmount ):
     try:
@@ -358,24 +368,21 @@ def chargeCard( str, chargeAmount ):
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
-    except stripe.RateLimitError as e:
-        # Too many requests made to the API too quickly
-        body = e.json_body
-        err  = body['error']
-        chargeResponse = err['message']
         pass
     except stripe.InvalidRequestError as e:
         # Invalid parameters were supplied to Stripe's API
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+        #        chargeResponse = err['message']
+        chargeResponse = err
         pass
     except stripe.AuthenticationError as e:
         # Authentication with Stripe's API failed
         # (maybe you changed API keys recently)
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+        #        chargeResponse = err['message']
+        chargeResponse = err
         pass
     except stripe.APIConnectionError as e:
         # Network communication with Stripe failed
@@ -390,15 +397,20 @@ def chargeCard( str, chargeAmount ):
         err  = body['error']
         chargeResponse = err['message']
         pass
+    except stripe.RateLimitError as e:
+        # Too many requests made to the API too quickly
+        body = e.json_body
+        err  = body['error']
+        chargeResponse = err['message']
+        pass
     except Exception as e:
         # Something else happened, completely unrelated to Stripe
         body = e.json_body
         err  = body['error']
         chargeResponse = err['message']
         pass
-    
-    return chargeResponse
 
+    return chargeResponse
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
