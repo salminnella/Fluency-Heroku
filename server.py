@@ -347,7 +347,7 @@ def update_customer():
     stripeToken = request.values.get('stripeToken')
     custID = request.values.get('customerID')
 
-    cu = stripe.Customer.retrieve("cus_9CGife3kW1ecxz")
+    cu = stripe.Customer.retrieve(custID)
     cu.source = stripeToken
     cu.save()
 
