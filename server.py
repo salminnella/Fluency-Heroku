@@ -332,7 +332,10 @@ def authCreditCard():
     response = chargeCard(custID, 2500)
     
 #    return response
-    return str("there was a problem with the preauth")
+#    return str("there was a problem with the preauth")
+    return str("{u'type': u'card_error', u'code': u'card_declined', u'message': u'Your card was declined.', u'charge': u'ch_18wIxPKx8RwYBt0sRVymHrb9'}")
+
+
 
 @app.route('/cancel_preauth', methods=['GET', 'POST'])
 def cancel_preauth():
