@@ -9,6 +9,7 @@ from twilio.rest import TwilioRestClient
 import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
+import json
 
 # Account Sid and Auth Token can be found in your account dashboard
 ACCOUNT_SID = 'ACdd8953205cab360450e486f1a3a52fe9'
@@ -351,7 +352,9 @@ def authCreditCard():
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
-        preAuthResponse = err['message']
+        jsonArray = json.dumps(d)
+        preAuthResponse = jsonArray
+#        preAuthResponse = err['message']
     except stripe.error.RateLimitError as e:
         # Too many requests made to the API too quickly
         body = e.json_body
