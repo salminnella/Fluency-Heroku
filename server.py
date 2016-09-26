@@ -329,10 +329,10 @@ def chargeCreditCard():
 def authCreditCard():
     custID = request.values.get('customerID')
     
-    response = chargeCard(custID, 2500)
+#    response = chargeCard(custID, 2500)
 
-    return response
-#    return str("there was a problem with the preauth")
+#    return response
+    return str("there was a problem with the preauth")
 #    return str("{u\"type\": u\"card_error\", u\"code": u\"card_declined\", u\"message\": u\"Your card was declined.\", u\"charge\": u\"ch_18wIxPKx8RwYBt0sRVymHrb9\"}")
 
 
