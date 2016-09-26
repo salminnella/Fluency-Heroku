@@ -344,6 +344,7 @@ def authCreditCard():
                                         customer=custID,
                                         description="Charge for salminnella@gmail.com"
                                         )
+        preAuthResponse = a_charge.id
         
         pass
     except stripe.CardError as e:
