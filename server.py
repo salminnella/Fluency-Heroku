@@ -416,7 +416,7 @@ def chargeCard( str, chargeAmount ):
         chargeResponse = err['message']
         pass
 
-    return chargeResponse
+    return str(chargeResponse)
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
