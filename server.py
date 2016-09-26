@@ -329,11 +329,68 @@ def chargeCreditCard():
 def authCreditCard():
     custID = request.values.get('customerID')
     
-    response = chargeCard(custID, 2500)
+#    response = chargeCard(custID, 2500)
 
-    return response
+#    return response
 #    return str("there was a problem with the preauth")
 #    return str("{u\"type\": u\"card_error\", u\"code": u\"card_declined\", u\"message\": u\"Your card was declined.\", u\"charge\": u\"ch_18wIxPKx8RwYBt0sRVymHrb9\"}")
+
+    try:
+        # Use Stripe's library to make requests...
+        a_charge = stripe.Charge.create(
+                                        amount=2500,
+                                        currency="usd",
+                                        capture="false",
+                                        customer=custID,
+                                        description="Charge for salminnella@gmail.com"
+                                        )
+        
+        pass
+    except stripe.CardError as e:
+        # Since it's a decline, stripe.error.CardError will be caught
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+    except stripe.error.RateLimitError as e:
+        # Too many requests made to the API too quickly
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except stripe.error.InvalidRequestError as e:
+        # Invalid parameters were supplied to Stripe's API
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except stripe.error.AuthenticationError as e:
+        # Authentication with Stripe's API failed
+        # (maybe you changed API keys recently)
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except stripe.error.APIConnectionError as e:
+        # Network communication with Stripe failed
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except stripe.error.StripeError as e:
+        # Display a very generic error to the user, and maybe send
+        # yourself an email
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+    except Exception as e:
+        # Something else happened, completely unrelated to Stripe
+        body = e.json_body
+        err  = body['error']
+        preAuthResponse = err['message']
+        pass
+                                    
+    return str(preAuthResponse)
 
 
 
