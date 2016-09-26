@@ -373,7 +373,7 @@ def chargeCard( str, chargeAmount ):
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
-        chargeResponse = "1 - " + err['message']
+        chargeResponse = err['message']
         pass
     except stripe.InvalidRequestError as e:
         # Invalid parameters were supplied to Stripe's API
