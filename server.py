@@ -352,7 +352,7 @@ def authCreditCard():
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
-        jsonArray = json.dumps(d)
+        jsonArray = json.dumps(err)
         preAuthResponse = jsonArray
 #        preAuthResponse = err['message']
     except stripe.error.RateLimitError as e:
