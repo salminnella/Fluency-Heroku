@@ -329,7 +329,7 @@ def chargeCreditCard():
 def authCreditCard():
     custID = request.values.get('customerID')
     
-#    response = chargeCard(custID, 2500)
+    response = chargeCard(custID, 2500)
 
     return response
 #    return str("there was a problem with the preauth")
@@ -373,7 +373,7 @@ def chargeCard( str, chargeAmount ):
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+        chargeResponse = "1 - " + err['message']
         pass
     except stripe.InvalidRequestError as e:
         # Invalid parameters were supplied to Stripe's API
