@@ -249,9 +249,10 @@ def retrieve_customer():
 def chargeCustomer():
     custID = request.values.get('customerID')
     cost = request.values.get('totalCost')
+    emailAddress = request.values.get('emailAddress')
     cents = int(cost)
 
-    response = chargeCard(custID, cents)
+    response = chargeCard(custID, cents, emailAddress)
     
     return response
 
@@ -329,6 +330,7 @@ def chargeCreditCard():
 @app.route('/preauth', methods=['GET', 'POST'])
 def authCreditCard():
     custID = request.values.get('customerID')
+    emailAddress = request.values.get('emailAddress')
 
     try:
         # Use Stripe's library to make requests...
@@ -337,7 +339,7 @@ def authCreditCard():
                                         currency="usd",
                                         capture="false",
                                         customer=custID,
-                                        description="Charge for salminnella@gmail.com"
+                                        description="PreAuth for " + emailAddress
                                         )
         preAuthResponse = "{ \"charge\": \"" + a_charge.id + "\"}"
         pass
@@ -418,14 +420,14 @@ def update_customer():
     return str('updated customer card')
 
 
-def chargeCard( customerID, chargeAmount ):
+def chargeCard( customerID, chargeAmount, emailAddress ):
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
                                         amount=chargeAmount,
                                         currency="usd",
                                         customer=customerID,
-                                        description="Charge for salminnella@gmail.com"
+                                        description="Charge for " + emailAddress
                                         )
         chargeResponse = "{ \"charge\": \"" + b_charge.id + "\"}"
         
