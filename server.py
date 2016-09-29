@@ -329,10 +329,6 @@ def chargeCreditCard():
 @app.route('/preauth', methods=['GET', 'POST'])
 def authCreditCard():
     custID = request.values.get('customerID')
-    
-#    response = chargeCard(custID, 2500)
-
-#    return response
 
     try:
         # Use Stripe's library to make requests...
@@ -344,7 +340,6 @@ def authCreditCard():
                                         description="Charge for salminnella@gmail.com"
                                         )
         preAuthResponse = "{ \"charge\": \"" + a_charge.id + "\"}"
-        
         pass
     except stripe.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
@@ -432,53 +427,59 @@ def chargeCard( str, chargeAmount ):
                                         source=str,
                                         description="Charge for salminnella@gmail.com"
                                         )
-        chargeResponse = b_charge.id
+        chargeResponse = "{ \"charge\": \"" + b_charge.id + "\"}"
+        
         pass
     except stripe.CardError as e:
         # Since it's a decline, stripe.error.CardError will be caught
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+        jsonArray = json.dumps(err)
+        chargeResponse = jsonArray
         pass
     except stripe.InvalidRequestError as e:
         # Invalid parameters were supplied to Stripe's API
         body = e.json_body
         err  = body['error']
-        #        chargeResponse = err['message']
-        chargeResponse = err
+        jsonArray = json.dumps(err)
+        chargeResponse = jsonArray
         pass
     except stripe.AuthenticationError as e:
         # Authentication with Stripe's API failed
         # (maybe you changed API keys recently)
         body = e.json_body
         err  = body['error']
-        #        chargeResponse = err['message']
-        chargeResponse = err
+        jsonArray = json.dumps(err)
+        chargeResponse = jsonArray
         pass
     except stripe.APIConnectionError as e:
         # Network communication with Stripe failed
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+        jsonArray = json.dumps(err)
+        chargeResponse = jsonArray
         pass
     except stripe.StripeError as e:
         # Display a very generic error to the user, and maybe send
         # yourself an email
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+        jsonArray = json.dumps(err)
+        chargeResponse = jsonArray
         pass
     except stripe.RateLimitError as e:
         # Too many requests made to the API too quickly
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+        jsonArray = json.dumps(err)
+        chargeResponse = jsonArray
         pass
     except Exception as e:
         # Something else happened, completely unrelated to Stripe
         body = e.json_body
         err  = body['error']
-        chargeResponse = err['message']
+        jsonArray = json.dumps(err)
+        chargeResponse = jsonArray
         pass
 
     return str(chargeResponse)
