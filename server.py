@@ -482,7 +482,7 @@ def chargeCard( str, chargeAmount ):
         chargeResponse = jsonArray
         pass
 
-    return str(chargeResponse)
+    return chargeResponse
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
