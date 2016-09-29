@@ -418,13 +418,13 @@ def update_customer():
     return str('updated customer card')
 
 
-def chargeCard( str, chargeAmount ):
+def chargeCard( customerID, chargeAmount ):
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
                                         amount=chargeAmount,
                                         currency="usd",
-                                        source=str,
+                                        customer=customerID,
                                         description="Charge for salminnella@gmail.com"
                                         )
         chargeResponse = "{ \"charge\": \"" + b_charge.id + "\"}"
