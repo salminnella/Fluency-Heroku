@@ -427,7 +427,7 @@ def chargeCard( customerID, chargeAmount ):
                                         customer=customerID,
                                         description="Charge for salminnella@gmail.com"
                                         )
-        chargeResponse = "{ \"id\": \"" + b_charge.id + "\"}"
+        chargeResponse = "{ \"charge\": \"" + b_charge.id + "\"}"
         
         pass
     except stripe.CardError as e:
