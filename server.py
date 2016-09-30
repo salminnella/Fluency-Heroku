@@ -72,6 +72,8 @@ def call():
   new_callHistoryID = request.values.get('nextCallHistoryId')
   global contactImage
   contactImage = request.values.get('contactImage')
+  global userID
+  userID = request.values.get('userID')
   
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
@@ -152,7 +154,7 @@ def pushCallHistory():
     callDuration = request.values.get('DialCallDuration')
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/Anthonyminnella/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
