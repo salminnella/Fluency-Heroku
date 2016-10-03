@@ -82,7 +82,7 @@ def call():
   contactImage = request.values.get('contactImage')
   #global userID
   userId = request.values.get('userID')
-  params = "userID=" + userId + "&name=" + name +
+  #  params = "userID=" + userId + "&name=" + name +
   
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
