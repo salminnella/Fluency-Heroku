@@ -159,7 +159,6 @@ def join():
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
     params = request.query_string
-    print "params = " + params
     d = dict(item.split("=") for item in params.split("%26"))
 
     #one call to interpreter - Face to face
