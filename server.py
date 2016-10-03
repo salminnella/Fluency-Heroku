@@ -178,6 +178,7 @@ def pushCallHistory():
 
 @app.route('/pushRecordedCallHistory', methods=['GET', 'POST'])
 def pushRecordedCallHistory():
+    params = request.query_string
     d = dict(item.split("=") for item in params.split("%26"))
     #one call to interpreter - recorded - Face to face
     callSid = request.values.get('DialCallSid')
@@ -206,6 +207,7 @@ def pushRecordedCallHistory():
 
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
+    params = request.query_string
     d = dict(item.split("=") for item in params.split("%26"))
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
@@ -239,6 +241,7 @@ def pushConfHistory():
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
+    params = request.query_string
     d = dict(item.split("=") for item in params.split("%26"))
     #conference info - recorded
     conferenceSid = request.values.get('ConferenceSid')
