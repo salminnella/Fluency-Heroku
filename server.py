@@ -83,8 +83,8 @@ def call():
 
 #  params = request.query_string
 #  params = "userID=" + userId + "&nextCallHistoryId=" + new_callHistoryID + "&countryCode=" + urllib.quote_plus(countryCode) + "&interpreterLanguage=" + interLanguage + "&sourceLanguage=" + srcLanguage + "&CallDateTime=" + urllib.quote_plus(callDateTime) + "&number=" + "testNumber" + "&name=" + "testName" + "&callType=" + urllib.quote(callType)
-#  params = "userID=" + userId + "&nextCallHistoryId=" + new_callHistoryID
-  params = {"userID": userId, "nextCallHistoryId": new_callHistoryID}
+  params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID
+#  params = {"userID": userId, "nextCallHistoryId": new_callHistoryID}
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
@@ -128,7 +128,7 @@ def call():
         resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?{}".format(urllib.urlencode(params)) + "\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
 
   return str(resp)
 
