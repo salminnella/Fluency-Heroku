@@ -50,7 +50,7 @@ def token():
 
 @app.route('/check_query', methods=['GET', 'POST'])
 def check_query():
-    queryParams = request.GET.urlencode
+    queryParams = request.POST.urlencode
 
     return str(queryParams)
 
