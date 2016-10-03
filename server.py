@@ -72,7 +72,7 @@ def call():
   new_callHistoryID = request.values.get('nextCallHistoryId')
   global contactImage
   contactImage = request.values.get('contactImage')
-  global userID
+  #global userID
   userID = request.values.get('userID')
   
   resp = twilio.twiml.Response()
@@ -118,7 +118,7 @@ def call():
         resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?userID=" + userID + " method=\"POST\">" + to + "</Dial></Response>"
 
   return str(resp)
 
@@ -152,6 +152,7 @@ def pushCallHistory():
     #one call to interpreter - Face to face
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
+    userID = request.values.get('userID')
 
     #Ozgur - firebase push -- working
     result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
