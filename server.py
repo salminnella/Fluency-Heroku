@@ -10,6 +10,7 @@ import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
 import json
+from urllib.parse import urlencode
 
 # Account Sid and Auth Token can be found in your account dashboard
 ACCOUNT_SID = 'ACdd8953205cab360450e486f1a3a52fe9'
@@ -47,6 +48,13 @@ def token():
   # This returns a token to use with Twilio based on the account and capabilities defined above
   return capability.generate()
 
+@app.route(check_query)
+def check_query():
+    queryParams = request.GET.urlencode
+
+    return str(queryParams)
+
+
 @app.route('/call', methods=['GET', 'POST'])
 def call():
   """ This method routes calls from/to client                  """
@@ -74,6 +82,7 @@ def call():
   contactImage = request.values.get('contactImage')
   #global userID
   userId = request.values.get('userID')
+  params = "userID=" + userId + "&name=" + name +
   
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
