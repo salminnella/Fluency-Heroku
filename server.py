@@ -60,28 +60,28 @@ def call():
   """        2. To value specifies target. When call is coming """
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
-  global callType
-  callType = request.values.get('callType')
-  global name
-  name = request.values.get('name')
-  global number
-  number = request.values.get('number')
-  global callDateTime
-  callDateTime = request.values.get('CallDateTime')
-  global srcLanguage
-  srcLanguage = request.values.get('sourceLanguage')
-  global interLanguage
-  interLanguage = request.values.get('interpreterLanguage')
-  global countryCode
-  countryCode = request.values.get('countryCode')
-  global new_callHistoryID
-  new_callHistoryID = request.values.get('nextCallHistoryId')
-  global contactImage
-  contactImage = request.values.get('contactImage')
-  #global userID
-  userId = request.values.get('userID')
-  #  params = "userID=" + userId + "&name=" + name +
-  
+#  global callType
+#  callType = request.values.get('callType')
+#  global name
+#  name = request.values.get('name')
+#  global number
+#  number = request.values.get('number')
+#  global callDateTime
+#  callDateTime = request.values.get('CallDateTime')
+#  global srcLanguage
+#  srcLanguage = request.values.get('sourceLanguage')
+#  global interLanguage
+#  interLanguage = request.values.get('interpreterLanguage')
+#  global countryCode
+#  countryCode = request.values.get('countryCode')
+#  global new_callHistoryID
+#  new_callHistoryID = request.values.get('nextCallHistoryId')
+#  global contactImage
+#  contactImage = request.values.get('contactImage')
+#  global userID
+#  userId = request.values.get('userID')
+
+  params = request.query_string
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
@@ -116,16 +116,16 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?userID=" + userId + "\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
 
   return str(resp)
 
