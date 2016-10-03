@@ -171,7 +171,7 @@ def pushCallHistory():
     new_callHistoryID = request.values.get('nextCallHistoryId')
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': str(number), 'name': str(name), 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': str(countryCode)})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
