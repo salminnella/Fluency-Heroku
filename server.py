@@ -10,8 +10,6 @@ import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
 import json
-import urllib
-import requests
 
 # Account Sid and Auth Token can be found in your account dashboard
 ACCOUNT_SID = 'ACdd8953205cab360450e486f1a3a52fe9'
@@ -51,8 +49,8 @@ def token():
 
 @app.route('/check_query', methods=['GET', 'POST'])
 def check_query():
-    queryParams = request.POST.urlencode
-
+#    queryParams = request.POST.urlencode
+    queryParams = self.request.query_string
     return str(queryParams)
 
 
