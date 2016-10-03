@@ -48,7 +48,7 @@ def token():
   # This returns a token to use with Twilio based on the account and capabilities defined above
   return capability.generate()
 
-@app.route(check_query)
+@app.route('/check_query', methods=['GET', 'POST'])
 def check_query():
     queryParams = request.GET.urlencode
 
