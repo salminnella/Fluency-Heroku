@@ -207,8 +207,8 @@ def pushRecordedCallHistory():
 
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
-    params = request.query_string
-    d = dict(item.split("=") for item in params.split("%26"))
+    # params = request.query_string
+    # d = dict(item.split("=") for item in params.split("%26"))
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
@@ -218,18 +218,28 @@ def pushConfHistory():
     timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
     duration = str(timestamp_updated - timestamp_created)
 
-    userID = d['userID']
-    callTypeEncoded = d['callType']
-    callType = callTypeEncoded.replace("%20", " ")
-    name = d['name']
-    number = d['number']
-    callDateTimeEncoded = d['CallDateTime']
-    callDateTime = callDateTimeEncoded.replace("%2F", "/")
-    srcLanguage = d['sourceLanguage']
-    interLanguage = d['interpreterLanguage']
-    countryCodeEncoded = d['countryCode']
-    countryCode = countryCodeEncoded.replace("%2B", "+")
-    new_callHistoryID = d['nextCallHistoryId']
+    # userID = d['userID']
+    # callTypeEncoded = d['callType']
+    # callType = callTypeEncoded.replace("%20", " ")
+    # name = d['name']
+    # number = d['number']
+    # callDateTimeEncoded = d['CallDateTime']
+    # callDateTime = callDateTimeEncoded.replace("%2F", "/")
+    # srcLanguage = d['sourceLanguage']
+    # interLanguage = d['interpreterLanguage']
+    # countryCodeEncoded = d['countryCode']
+    # countryCode = countryCodeEncoded.replace("%2B", "+")
+    # new_callHistoryID = d['nextCallHistoryId']
+
+    userID = request.values.get('userID')
+    callType = request.values.get('callType')
+    name = request.values.get('name')
+    number = request.values.get('number')
+    callDateTime = request.values.get('CallDateTime')
+    srcLanguage = request.values.get('sourceLanguage')
+    interLanguage = request.values.get('interpreterLanguage')
+    countryCode = request.values.get('countryCode')
+    new_callHistoryID = request.values.get('nextCallHistoryId')
 
     #Ozgur - firebase push -- working
     result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
@@ -249,19 +259,6 @@ def pushRecordedConfHistory():
     recordingUrl = request.values.get('RecordingUrl')
     duration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
-
-    # userID = d['userID']
-    # callTypeEncoded = d['callType']
-    # callType = callTypeEncoded.replace("%20", " ")
-    # name = d['name']
-    # number = d['number']
-    # callDateTimeEncoded = d['CallDateTime']
-    # callDateTime = callDateTimeEncoded.replace("%2F", "/")
-    # srcLanguage = d['sourceLanguage']
-    # interLanguage = d['interpreterLanguage']
-    # countryCodeEncoded = d['countryCode']
-    # countryCode = countryCodeEncoded.replace("%2B", "+")
-    # new_callHistoryID = d['nextCallHistoryId']
 
     userID = request.values.get('userID')
     callType = request.values.get('callType')
