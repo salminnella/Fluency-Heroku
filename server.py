@@ -62,23 +62,14 @@ def call():
   """        2. To value specifies target. When call is coming """
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
-#  global callType
   callType = request.values.get('callType')
-#  global name
   name = request.values.get('name')
-#  global number
   number = request.values.get('number')
-#  global callDateTime
   callDateTime = request.values.get('CallDateTime')
-#  global srcLanguage
   srcLanguage = request.values.get('sourceLanguage')
-#  global interLanguage
   interLanguage = request.values.get('interpreterLanguage')
-#  global countryCode
   countryCode = request.values.get('countryCode')
-#  global new_callHistoryID
   new_callHistoryID = request.values.get('nextCallHistoryId')
-#  global userID
   userId = request.values.get('userID')
 
 #  params = request.query_string
@@ -187,11 +178,24 @@ def pushCallHistory():
 
 @app.route('/pushRecordedCallHistory', methods=['GET', 'POST'])
 def pushRecordedCallHistory():
-
+    d = dict(item.split("=") for item in params.split("%26"))
     #one call to interpreter - recorded - Face to face
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     recordingUrl = request.values.get('RecordingUrl')
+
+    userID = d['userID']
+    callTypeEncoded = d['callType']
+    callType = callTypeEncoded.replace("%20", " ")
+    name = d['name']
+    number = d['number']
+    callDateTimeEncoded = d['CallDateTime']
+    callDateTime = callDateTimeEncoded.replace("%2F", "/")
+    srcLanguage = d['sourceLanguage']
+    interLanguage = d['interpreterLanguage']
+    countryCodeEncoded = d['countryCode']
+    countryCode = countryCodeEncoded.replace("%2B", "+")
+    new_callHistoryID = d['nextCallHistoryId']
 
     #Ozgur - firebase push -- working
     result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
@@ -202,20 +206,31 @@ def pushRecordedCallHistory():
 
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
-
+    d = dict(item.split("=") for item in params.split("%26"))
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
-
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     conference = client.conferences.get(conferenceSid)
     timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
     timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
-
     duration = str(timestamp_updated - timestamp_created)
 
+    userID = d['userID']
+    callTypeEncoded = d['callType']
+    callType = callTypeEncoded.replace("%20", " ")
+    name = d['name']
+    number = d['number']
+    callDateTimeEncoded = d['CallDateTime']
+    callDateTime = callDateTimeEncoded.replace("%2F", "/")
+    srcLanguage = d['sourceLanguage']
+    interLanguage = d['interpreterLanguage']
+    countryCodeEncoded = d['countryCode']
+    countryCode = countryCodeEncoded.replace("%2B", "+")
+    new_callHistoryID = d['nextCallHistoryId']
+
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode, 'contactImage': contactImage})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -224,7 +239,7 @@ def pushConfHistory():
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
-
+    d = dict(item.split("=") for item in params.split("%26"))
     #conference info - recorded
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
@@ -232,8 +247,21 @@ def pushRecordedConfHistory():
     duration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
 
+    userID = d['userID']
+    callTypeEncoded = d['callType']
+    callType = callTypeEncoded.replace("%20", " ")
+    name = d['name']
+    number = d['number']
+    callDateTimeEncoded = d['CallDateTime']
+    callDateTime = callDateTimeEncoded.replace("%2F", "/")
+    srcLanguage = d['sourceLanguage']
+    interLanguage = d['interpreterLanguage']
+    countryCodeEncoded = d['countryCode']
+    countryCode = countryCodeEncoded.replace("%2B", "+")
+    new_callHistoryID = d['nextCallHistoryId']
+
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode, 'contactImage': contactImage})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -241,13 +269,11 @@ def pushRecordedConfHistory():
 
 @app.route('/delete-recording', methods=['GET', 'POST'])
 def recording():
-
     recordingSID = request.values.get('RecordingSID')
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     client.recordings.delete(recordingSID)
 
     return str(recordingSID)
-
 
 @app.route('/create_customer', methods=['GET', 'POST'])
 def create_customer():
