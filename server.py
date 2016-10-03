@@ -61,27 +61,26 @@ def call():
   """           from PSTN, To value is ignored and call is     """
   """           routed to client named CLIENT                  """
 #  global callType
-#  callType = request.values.get('callType')
+  callType = request.values.get('callType')
 #  global name
-#  name = request.values.get('name')
+  name = request.values.get('name')
 #  global number
-#  number = request.values.get('number')
+  number = request.values.get('number')
 #  global callDateTime
-#  callDateTime = request.values.get('CallDateTime')
+  callDateTime = request.values.get('CallDateTime')
 #  global srcLanguage
-#  srcLanguage = request.values.get('sourceLanguage')
+  srcLanguage = request.values.get('sourceLanguage')
 #  global interLanguage
-#  interLanguage = request.values.get('interpreterLanguage')
+  interLanguage = request.values.get('interpreterLanguage')
 #  global countryCode
-#  countryCode = request.values.get('countryCode')
+  countryCode = request.values.get('countryCode')
 #  global new_callHistoryID
-#  new_callHistoryID = request.values.get('nextCallHistoryId')
-#  global contactImage
-#  contactImage = request.values.get('contactImage')
+  new_callHistoryID = request.values.get('nextCallHistoryId')
 #  global userID
-#  userId = request.values.get('userID')
+  userId = request.values.get('userID')
 
-  params = request.query_string
+#  params = request.query_string
+  params = "userID=" + userId + "&nextCallHistoryId=" + new_callHistoryID + "&countryCode=" + countryCode + "&interpreterLanguage=" + interLanguage + "&sourceLanguage=" + srcLanguage + "&CallDateTime=" + CallDateTime + "&number=" + number + "&name=" + name + "&callType=" + callType
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
