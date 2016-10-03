@@ -80,7 +80,7 @@ def call():
   userId = request.values.get('userID')
 
 #  params = request.query_string
-  params = "userID=" + userId + "&nextCallHistoryId=" + new_callHistoryID + "&countryCode=" + countryCode + "&interpreterLanguage=" + interLanguage + "&sourceLanguage=" + srcLanguage + "&CallDateTime=" + callDateTime + "&number=" + number + "&name=" + name + "&callType=" + urlencode(callType)
+  params = "userID=" + userId + "&nextCallHistoryId=" + new_callHistoryID + "&countryCode=" + countryCode + "&interpreterLanguage=" + interLanguage + "&sourceLanguage=" + srcLanguage + "&CallDateTime=" + callDateTime + "&number=" + number + "&name=" + name + "&callType=" + urllib.urlencode(callType)
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
