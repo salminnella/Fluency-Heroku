@@ -73,7 +73,7 @@ def call():
   global contactImage
   contactImage = request.values.get('contactImage')
   #global userID
-  userID = request.values.get('userID')
+  userId = request.values.get('userID')
   
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
@@ -118,7 +118,7 @@ def call():
         resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?userID=" + userID + "\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?userID=" + userId + "\" method=\"POST\">" + to + "</Dial></Response>"
 
   return str(resp)
 
