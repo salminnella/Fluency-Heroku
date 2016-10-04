@@ -49,12 +49,6 @@ def token():
   # This returns a token to use with Twilio based on the account and capabilities defined above
   return capability.generate()
 
-@app.route('/check_query', methods=['GET', 'POST'])
-def check_query():
-#    queryParams = request.POST.urlencode
-    return request.query_string
-
-
 @app.route('/call', methods=['GET', 'POST'])
 def call():
   """ This method routes calls from/to client                  """
@@ -72,10 +66,7 @@ def call():
   new_callHistoryID = request.values.get('nextCallHistoryId')
   userId = request.values.get('userID')
 
-#  params = request.query_string
   params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
-#  params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID
-#  params = {"userID": userId, "nextCallHistoryId": new_callHistoryID}
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
@@ -238,16 +229,6 @@ def pushConfHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
-    # userID = request.values.get('userID')
-    # callType = request.values.get('callType')
-    # name = request.values.get('name')
-    # number = request.values.get('number')
-    # callDateTime = request.values.get('CallDateTime')
-    # srcLanguage = request.values.get('sourceLanguage')
-    # interLanguage = request.values.get('interpreterLanguage')
-    # countryCode = request.values.get('countryCode')
-    # new_callHistoryID = request.values.get('nextCallHistoryId')
-
     #Ozgur - firebase push -- working
     result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
 
@@ -258,8 +239,6 @@ def pushConfHistory():
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
-    # params = request.query_string
-    # d = dict(item.split("=") for item in params.split("%26"))
     #conference info - recorded
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
@@ -332,9 +311,6 @@ def chargeCreditCard():
     stripeToken = request.values.get('stripeToken')
     cents = 300
 
-#    response = chargeCard(stripeToken, cents)
-#
-#    return response
     try:
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
