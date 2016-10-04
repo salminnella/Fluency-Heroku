@@ -212,7 +212,7 @@ def pushRecordedCallHistory():
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
     params = request.query_string
-    d = dict(item.split("=") for item in params.split("%26"))
+    d = dict(item.split("%3D") for item in params.split("%26"))
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
