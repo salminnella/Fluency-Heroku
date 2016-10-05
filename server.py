@@ -177,6 +177,7 @@ def pushRecordedCallHistory():
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     recordingUrl = request.values.get('RecordingUrl')
+    recordingID = recordingUrl[89:]
 
     userID = d['userID']
     callTypeEncoded = d['callType']
@@ -194,7 +195,7 @@ def pushRecordedCallHistory():
     new_callHistoryID = d['nextCallHistoryId']
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode, 'recordingID': recordingID})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -243,6 +244,7 @@ def pushRecordedConfHistory():
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
     recordingUrl = request.values.get('RecordingUrl')
+    recordingID = recordingUrl[89:]
     duration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
 
@@ -257,7 +259,7 @@ def pushRecordedConfHistory():
     new_callHistoryID = request.values.get('nextCallHistoryId')
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode, 'recordingID': recordingID})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
