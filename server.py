@@ -407,7 +407,7 @@ def chargeCard( customerID, chargeAmount, emailAddress ):
                                         amount=chargeAmount,
                                         currency="usd",
                                         customer=customerID,
-                                        receipt_email=emailAddress
+                                        receipt_email=emailAddress,
                                         description="Charge for " + emailAddress
                                         )
         chargeResponse = "{ \"charge\": \"" + b_charge.id + "\"}"
