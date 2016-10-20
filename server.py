@@ -61,12 +61,14 @@ def call():
   number = request.values.get('number')
   callDateTime = request.values.get('CallDateTime')
   srcLanguage = request.values.get('sourceLanguage')
+  srcLanguageIso = request.values.get('sourceLanguageIso')
   interLanguage = request.values.get('interpreterLanguage')
+  interLanguageIso = request.values.get('interpreterLanguageIso')
   countryCode = request.values.get('countryCode')
   new_callHistoryID = request.values.get('nextCallHistoryId')
   userId = request.values.get('userID')
 
-  params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
+  params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
@@ -155,15 +157,19 @@ def pushCallHistory():
     callDateTimeEncoded = d['CallDateTime']
     callDateTime = callDateTimeEncoded.replace("%2F", "/")
     srcLanguageEncoded = d['sourceLanguage']
+    srcLanguageIsoEncoded = d['sourceLanguageIso']
     srcLanguage = srcLanguageEncoded.replace("%20", " ")
+    srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
     interLanguageEncoded = d['interpreterLanguage']
+    interLanguageIsoEncoded = d['interpreterLanguageIso']
     interLanguage = interLanguageEncoded.replace("%20", " ")
+    interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
     countryCodeEncoded = d['countryCode']
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
+    result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -187,15 +193,19 @@ def pushRecordedCallHistory():
     callDateTimeEncoded = d['CallDateTime']
     callDateTime = callDateTimeEncoded.replace("%2F", "/")
     srcLanguageEncoded = d['sourceLanguage']
+    srcLanguageIsoEncoded = d['sourceLanguageIso']
     srcLanguage = srcLanguageEncoded.replace("%20", " ")
+    srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
     interLanguageEncoded = d['interpreterLanguage']
+    interLanguageIsoEncoded = d['interpreterLanguageIso']
     interLanguage = interLanguageEncoded.replace("%20", " ")
+    interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
     countryCodeEncoded = d['countryCode']
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode, 'recordingID': recordingID})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -223,15 +233,19 @@ def pushConfHistory():
     callDateTimeEncoded = d['CallDateTime']
     callDateTime = callDateTimeEncoded.replace("%2F", "/")
     srcLanguageEncoded = d['sourceLanguage']
+    srcLanguageIsoEncoded = d['sourceLanguageIso']
     srcLanguage = srcLanguageEncoded.replace("%20", " ")
+    srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
     interLanguageEncoded = d['interpreterLanguage']
+    interLanguageIsoEncoded = d['interpreterLanguageIso']
     interLanguage = interLanguageEncoded.replace("%20", " ")
+    interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
     countryCodeEncoded = d['countryCode']
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -254,12 +268,14 @@ def pushRecordedConfHistory():
     number = request.values.get('number')
     callDateTime = request.values.get('CallDateTime')
     srcLanguage = request.values.get('sourceLanguage')
+    srcLanguageIso = request.values.get('sourceLanguageIso')
     interLanguage = request.values.get('interpreterLanguage')
+    interLanguageIso = request.values.get('interpreterLanguageIso')
     countryCode = request.values.get('countryCode')
     new_callHistoryID = request.values.get('nextCallHistoryId')
 
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'interLanguage': interLanguage, 'countryCode': countryCode, 'recordingID': recordingID})
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
