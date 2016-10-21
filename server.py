@@ -16,13 +16,13 @@ from urllib import urlencode
 # Account Sid and Auth Token can be found in your account dashboard
 ACCOUNT_SID = 'ACdd8953205cab360450e486f1a3a52fe9'
 AUTH_TOKEN = '4eea9c2481e3f5f8b630a7d30942a1b6'
-
-global firebase
-firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
-
 # TwiML app outgoing connections will use
 APP_SID = 'AP2e55b89356bc0bb298806f1289e827cc'
+# Stripe API key
 stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+# Firebase url
+global firebase
+firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
 
 CALLER_ID = '+1 855-999-9083'
 CLIENT = 'anthony'
