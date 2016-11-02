@@ -496,7 +496,7 @@ def welcome():
 def clientMessage():
     address = request.values.get('address')
     host = address
-    port = 9999
+    port = 6767
     #create an INET, STREAMing socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
