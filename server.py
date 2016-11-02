@@ -490,6 +490,25 @@ def welcome():
   resp.say("Welcome to Twilio")
   return str(resp)
 
+@app.route('/clientMessage', methods=['GET', 'POST'])
+def clientMessage():
+    address = request.values.get('address')
+    host = address
+    port = 9999
+    #create an INET, STREAMing socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host, port))
+    s.send("fuckin a")
+
+    #accept connections from outside
+    # (clientsocket, address) = serversocket.accept()
+
+    #send message using socket
+    # mysend(clientsocket, "fuck")
+    # send_msg(serversocket, "well fuckin a")
+
+    return "msg sent"
+
 if __name__ == "__main__":
   port = int(os.environ.get("PORT", 5000))
   app.run(host='0.0.0.0', port=port, debug=True)
