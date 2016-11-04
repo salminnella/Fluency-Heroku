@@ -500,7 +500,7 @@ def clientMessage():
     #create an INET, STREAMing socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
-    s.send("fuckin a")
+    s.sendall("fuckin a\n")
 
     #accept connections from outside
     # (clientsocket, address) = serversocket.accept()
