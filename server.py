@@ -511,6 +511,12 @@ def clientMessage():
 
     return "msg sent"
 
+@app.route('/sayDisconnected', methods=['GET', 'POST'])
+def sayDisconnected():
+    resp = twilio.twiml.Response()
+    resp.say("Caller Disconnected")
+    return str(resp)
+
 if __name__ == "__main__":
   port = int(os.environ.get("PORT", 5000))
   app.run(host='0.0.0.0', port=port, debug=True)
