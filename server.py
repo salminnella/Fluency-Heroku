@@ -487,7 +487,7 @@ def chargeCard( customerID, chargeAmount, emailAddress ):
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
-  address = socket.gethostbyname(socket.gethostname())
+  # address = socket.gethostbyname(socket.gethostname())
   resp = twilio.twiml.Response()
   resp.say("Welcome to Twilio")
   return str(address)
