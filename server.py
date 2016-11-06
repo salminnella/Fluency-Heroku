@@ -490,7 +490,7 @@ def welcome():
   # address = socket.gethostbyname(socket.gethostname())
   resp = twilio.twiml.Response()
   resp.say("Welcome to Twilio")
-  return str(address)
+  return str(resp)
 
 @app.route('/clientMessage', methods=['GET', 'POST'])
 def clientMessage():
@@ -515,6 +515,8 @@ def clientMessage():
 def sayDisconnected():
     resp = twilio.twiml.Response()
     resp.say("Caller Disconnected")
+    # resp = "<Response><Say>Hello World</Say></Response>"
+
     return str(resp)
 
 if __name__ == "__main__":
