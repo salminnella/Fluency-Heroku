@@ -107,7 +107,7 @@ def call():
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" statusCallbackEvent=\"answered\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
@@ -487,35 +487,15 @@ def chargeCard( customerID, chargeAmount, emailAddress ):
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
-  # address = socket.gethostbyname(socket.gethostname())
   resp = twilio.twiml.Response()
   resp.say("Welcome to Twilio")
   return str(resp)
-
-@app.route('/clientMessage', methods=['GET', 'POST'])
-def clientMessage():
-    address = request.values.get('address')
-    host = address
-    port = 8080
-    #create an INET, STREAMing socket
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((host, port))
-    s.sendall("fuckin a\n")
-
-    #accept connections from outside
-    # (clientsocket, address) = serversocket.accept()
-
-    #send message using socket
-    # mysend(clientsocket, "fuck")
-    # send_msg(serversocket, "well fuckin a")
-
-    return "msg sent"
 
 @app.route('/sayDisconnected', methods=['GET', 'POST'])
 def sayDisconnected():
     resp = twilio.twiml.Response()
     # resp.say("Caller Disconnected")
-    
+
     resp = "<Response><Say>Hello World disconnected</Say></Response>"
 
     return str(resp)
