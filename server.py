@@ -15,6 +15,7 @@ from urllib import urlencode
 
 # Stripe API key
 stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+# stripe.api_key = os.environ.get("STRIPE_API_KEY", STRIPE_API_KEY)
 # Firebase url
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
@@ -22,7 +23,7 @@ firebase = firebase.FirebaseApplication('https://project-5176964787746948725.fir
 CLIENT = 'Fluency'
 
 app = Flask(__name__)
-app.config.from_pyfile('settings.py')
+# app.config.from_pyfile('settings.py')
 
 @app.route('/token')
 def token():
