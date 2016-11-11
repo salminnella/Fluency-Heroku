@@ -76,7 +76,7 @@ def call():
   try:
         twilio_client = TwilioRestClient(os.environ.get("ACCOUNT_SID"),
                                          os.environ.get("AUTH_TOKEN"))
-    except Exception as e:
+  except Exception as e:
         msg = 'Missing configuration variable: {0}'.format(e)
         return jsonify({'error': msg})
 
