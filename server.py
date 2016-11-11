@@ -33,9 +33,12 @@ app.config.from_pyfile('settings.py')
 
 @app.route('/token')
 def token():
-  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
-  app_sid = os.environ.get("APP_SID", APP_SID)
+  # account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  account_sid = app.config['ACCOUNT_SID']
+  # auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
+  auth_token = app.config['AUTH_TOKEN']
+  # app_sid = os.environ.get("APP_SID", APP_SID)
+  app_sid = app.config['APP_SID']
 
   capability = TwilioCapability(account_sid, auth_token)
 
@@ -77,7 +80,8 @@ def call():
   to = request.values.get('To')
   recordConference = request.values.get('RecordConf')
   recordCall = request.values.get('RecordCall')
-  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  caller_id = app.config['CALLER_ID']
   digits = request.values.get('SendDigits')
 
 
@@ -94,7 +98,8 @@ def call():
     return str(resp)
 
   from_client = from_value.startswith('client')
-  caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
+  caller_id = app.config['CALLER_ID']
 
   if not from_client:
     # PSTN -> client
@@ -286,7 +291,8 @@ def pushRecordedConfHistory():
 @app.route('/delete-recording', methods=['GET', 'POST'])
 def recording():
     recordingSID = request.values.get('RecordingSID')
-    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    client = TwilioRestClient(app.config['ACCOUNT_SID'],
+                                         app.config['AUTH_TOKEN'])
     client.recordings.delete(recordingSID)
 
     return str(recordingSID)
