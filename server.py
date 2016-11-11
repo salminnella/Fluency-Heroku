@@ -29,9 +29,9 @@ app = Flask(__name__)
 def token():
   account_sid = os.environ.get("ACCOUNT_SID")
   # account_sid = app.config['ACCOUNT_SID']
-  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
+  auth_token = os.environ.get("AUTH_TOKEN")
   # auth_token = app.config['AUTH_TOKEN']
-  app_sid = os.environ.get("APP_SID", APP_SID)
+  app_sid = os.environ.get("APP_SID")
   # app_sid = app.config['APP_SID']
 
   capability = TwilioCapability(account_sid, auth_token)
@@ -131,7 +131,7 @@ def conference():
 def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
-    twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    twilioClient = TwilioRestClient(os.environ.get("ACCOUNT_SID"), os.environ.get("AUTH_TOKEN"))
     urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + str(conf_name)
     call = twilioClient.calls.create(url=urlString,
                            to = request.values.get('To'),
@@ -220,7 +220,7 @@ def pushConfHistory():
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
-    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    client = TwilioRestClient(os.environ.get("ACCOUNT_SID"), os.environ.get("AUTH_TOKEN"))
     conference = client.conferences.get(conferenceSid)
     timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
     timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
@@ -285,8 +285,7 @@ def pushRecordedConfHistory():
 @app.route('/delete-recording', methods=['GET', 'POST'])
 def recording():
     recordingSID = request.values.get('RecordingSID')
-    client = TwilioRestClient(app.config['ACCOUNT_SID'],
-                                         app.config['AUTH_TOKEN'])
+    client = TwilioRestClient(os.environ.get("ACCOUNT_SID"), os.environ.get("AUTH_TOKEN"))
     client.recordings.delete(recordingSID)
 
     return str(recordingSID)
