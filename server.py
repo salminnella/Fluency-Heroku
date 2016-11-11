@@ -73,6 +73,13 @@ def call():
   caller_id = os.environ.get("CALLER_ID")
   digits = request.values.get('SendDigits')
 
+  # try:
+  #       twilio_client = TwilioRestClient(os.environ.get("ACCOUNT_SID"),
+  #                                        os.environ.get("AUTH_TOKEN"))
+  #   except Exception as e:
+  #       msg = 'Missing configuration variable: {0}'.format(e)
+  #       return jsonify({'error': msg})
+
 
   if digits:
       output = "<Response><Dial callerId=\"" + caller_id + "\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
@@ -100,7 +107,7 @@ def call():
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"answer\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
@@ -110,6 +117,12 @@ def call():
         resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
 
   return str(resp)
+
+  @app.route('/outbound', methods=['POST'])
+  def outbound():
+      resp = twiml.Response()
+
+      resp =
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
