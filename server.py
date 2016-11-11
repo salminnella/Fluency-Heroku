@@ -15,7 +15,7 @@ from urllib import urlencode
 
 # Stripe API key
 stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
-# stripe.api_key = os.environ.get("STRIPE_API_KEY", STRIPE_API_KEY)
+# stripe.api_key = os.environ.get("STRIPE_API_KEY")
 # Firebase url
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
@@ -23,16 +23,12 @@ firebase = firebase.FirebaseApplication('https://project-5176964787746948725.fir
 CLIENT = 'Fluency'
 
 app = Flask(__name__)
-# app.config.from_pyfile('settings.py')
 
 @app.route('/token')
 def token():
   account_sid = os.environ.get("ACCOUNT_SID")
-  # account_sid = app.config['ACCOUNT_SID']
   auth_token = os.environ.get("AUTH_TOKEN")
-  # auth_token = app.config['AUTH_TOKEN']
   app_sid = os.environ.get("APP_SID")
-  # app_sid = app.config['APP_SID']
 
   capability = TwilioCapability(account_sid, auth_token)
 
@@ -74,7 +70,6 @@ def call():
   to = request.values.get('To')
   recordConference = request.values.get('RecordConf')
   recordCall = request.values.get('RecordCall')
-  # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
   caller_id = os.environ.get("CALLER_ID")
   digits = request.values.get('SendDigits')
 
