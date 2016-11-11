@@ -27,7 +27,7 @@ app = Flask(__name__)
 
 @app.route('/token')
 def token():
-  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  account_sid = os.environ.get("ACCOUNT_SID")
   # account_sid = app.config['ACCOUNT_SID']
   auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
   # auth_token = app.config['AUTH_TOKEN']
