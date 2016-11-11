@@ -26,12 +26,12 @@ app.config.from_pyfile('settings.py')
 
 @app.route('/token')
 def token():
-  # account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  account_sid = app.config['ACCOUNT_SID']
-  # auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
-  auth_token = app.config['AUTH_TOKEN']
-  # app_sid = os.environ.get("APP_SID", APP_SID)
-  app_sid = app.config['APP_SID']
+  account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  # account_sid = app.config['ACCOUNT_SID']
+  auth_token = os.environ.get("AUTH_TOKEN", AUTH_TOKEN)
+  # auth_token = app.config['AUTH_TOKEN']
+  app_sid = os.environ.get("APP_SID", APP_SID)
+  # app_sid = app.config['APP_SID']
 
   capability = TwilioCapability(account_sid, auth_token)
 
