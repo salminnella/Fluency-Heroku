@@ -73,12 +73,12 @@ def call():
   caller_id = os.environ.get("CALLER_ID")
   digits = request.values.get('SendDigits')
 
-  # try:
-  #       twilio_client = TwilioRestClient(os.environ.get("ACCOUNT_SID"),
-  #                                        os.environ.get("AUTH_TOKEN"))
-  #   except Exception as e:
-  #       msg = 'Missing configuration variable: {0}'.format(e)
-  #       return jsonify({'error': msg})
+  try:
+        twilio_client = TwilioRestClient(os.environ.get("ACCOUNT_SID"),
+                                         os.environ.get("AUTH_TOKEN"))
+    except Exception as e:
+        msg = 'Missing configuration variable: {0}'.format(e)
+        return jsonify({'error': msg})
 
 
   if digits:
@@ -107,22 +107,43 @@ def call():
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"answer\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
+        try:
+            twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
+                                       to=to,
+                                       url=url_for('.outbound?callType=inPerson&record=true',
+                                       method="GET",
+                                       status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
+                                       status_callback_method="POST",
+                                       status_events=["answered"],
+                                                   _external=True))
+        except Exception as e:
+            app.logger.error(e)
+            return jsonify({'error': str(e)})
+
+        # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
         resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
 
-  return str(resp)
+  # return str(resp)
+  return jsonify({'message': 'Call incoming!'})
 
-  @app.route('/outbound', methods=['POST'])
-  def outbound():
-      resp = twiml.Response()
 
-      resp =
+@app.route('/outbound', methods=['POST'])
+def outbound():
+    resp = twiml.Response()
+    callType = request.values.get('callType')
+    record = request.values.get('record')
+
+    if callType == 'inPerson' and record:
+        # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
+
+        return str(resp)
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
