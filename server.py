@@ -75,7 +75,7 @@ def call():
   recordConference = request.values.get('RecordConf')
   recordCall = request.values.get('RecordCall')
   # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
-  caller_id = app.config['CALLER_ID']
+  caller_id = os.environ.get("CALLER_ID")
   digits = request.values.get('SendDigits')
 
 
@@ -92,8 +92,7 @@ def call():
     return str(resp)
 
   from_client = from_value.startswith('client')
-  # caller_id = os.environ.get("CALLER_ID", CALLER_ID)
-  caller_id = app.config['CALLER_ID']
+  caller_id = os.environ.get("CALLER_ID")
 
   if not from_client:
     # PSTN -> client
