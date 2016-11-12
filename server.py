@@ -147,7 +147,13 @@ def outbound():
 
     if callType == 'inPerson' and record:
         # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
-        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
+
+        # Uncomment this code and replace the number with the number you want
+        # your customers to call.
+        with resp.dial() as dial:
+            dial.number(to)
+
+        # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
 
         return str(resp)
 
