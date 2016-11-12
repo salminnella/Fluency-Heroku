@@ -134,7 +134,8 @@ def call():
 
   # return str(resp)
   # return jsonify({'message': 'Call incoming!'})
-  return ('', 204)
+  # return ('', 204)
+  return '<Response></Response>'
 
 @app.route('/outbound', methods=['GET', 'POST'])
 def outbound():
