@@ -155,9 +155,7 @@ def outbound():
 
         # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
 
-        return str(resp)
-
-    return '<Response></Response>'
+    return str(resp)
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
