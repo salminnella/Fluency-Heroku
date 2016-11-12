@@ -215,31 +215,38 @@ def pushRecordedCallHistory():
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     recordingUrl = request.values.get('RecordingUrl')
-    recordingID = recordingUrl[89:]
+    if recordingUrl:
+        recordingID = recordingUrl[89:]
+        userID = d['userID']
+        callTypeEncoded = d['callType']
+        callType = callTypeEncoded.replace("%20", " ")
+        name = d['name']
+        number = d['number']
+        callDateTimeEncoded = d['CallDateTime']
+        callDateTime = callDateTimeEncoded.replace("%2F", "/")
+        srcLanguageEncoded = d['sourceLanguage']
+        srcLanguageIsoEncoded = d['sourceLanguageIso']
+        srcLanguage = srcLanguageEncoded.replace("%20", " ")
+        srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
+        interLanguageEncoded = d['interpreterLanguage']
+        interLanguageIsoEncoded = d['interpreterLanguageIso']
+        interLanguage = interLanguageEncoded.replace("%20", " ")
+        interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
+        countryCodeEncoded = d['countryCode']
+        countryCode = countryCodeEncoded.replace("%2B", "+")
+        new_callHistoryID = d['nextCallHistoryId']
 
-    userID = d['userID']
-    callTypeEncoded = d['callType']
-    callType = callTypeEncoded.replace("%20", " ")
-    name = d['name']
-    number = d['number']
-    callDateTimeEncoded = d['CallDateTime']
-    callDateTime = callDateTimeEncoded.replace("%2F", "/")
-    srcLanguageEncoded = d['sourceLanguage']
-    srcLanguageIsoEncoded = d['sourceLanguageIso']
-    srcLanguage = srcLanguageEncoded.replace("%20", " ")
-    srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
-    interLanguageEncoded = d['interpreterLanguage']
-    interLanguageIsoEncoded = d['interpreterLanguageIso']
-    interLanguage = interLanguageEncoded.replace("%20", " ")
-    interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
-    countryCodeEncoded = d['countryCode']
-    countryCode = countryCodeEncoded.replace("%2B", "+")
-    new_callHistoryID = d['nextCallHistoryId']
+        #Ozgur - firebase push -- working
+        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
 
-    #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    else:
+        result = firebase.put('/User/' + userID + '/callStatus', new_callHistoryID, data={'answered': 'true'})
 
-    {u'name': u'-Io26123nDHkfybDIGl7'}
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+
+
+
 
     return '<Response></Response>'
 
