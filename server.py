@@ -210,7 +210,7 @@ def pushCallHistory():
 @app.route('/pushRecordedCallHistory', methods=['GET', 'POST'])
 def pushRecordedCallHistory():
     params = request.query_string
-    d = dict(item.split("=") for item in params.split("%26"))
+    d = dict(item.split("=") for item in params.split("&"))
     #one call to interpreter - recorded - Face to face
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
