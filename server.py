@@ -116,7 +116,7 @@ def call():
     # client -> PSTN
     if recordCall:
         try:
-            twilio_client.calls.create(url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True),
+            twilio_client.calls.create(applicationsid=os.environ.get("APP_SID"),
                                        to=to,
                                        from_=os.environ.get("CALLER_ID"),
                                        method="GET",
