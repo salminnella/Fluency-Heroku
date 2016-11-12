@@ -167,7 +167,7 @@ def outbound2():
     with response.dial() as dial:
         dial.number("+16518675309")
     '''
-    return str(response)
+    return str(resp)
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
