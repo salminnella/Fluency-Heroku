@@ -120,7 +120,7 @@ def call():
                                        to=to,
                                        url=url_for('.outbound2', callType="inPerson", record="true", To=to, _external=True),
                                        method="GET",
-                                       Record=true,
+                                       Record="true",
                                        status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
                                        status_callback_method="POST",
                                        status_events=["completed"])
