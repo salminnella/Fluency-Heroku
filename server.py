@@ -118,7 +118,12 @@ def call():
         try:
             twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
                                        to=to,
-                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, _external=True))
+                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, _external=True),
+                                       method="GET",
+                                       Record=true,
+                                       status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
+                                       status_callback_method="POST",
+                                       status_events=["completed"])
         except Exception as e:
             app.logger.error(e)
             return jsonify({'error': str(e)})
@@ -131,7 +136,7 @@ def call():
   # return str(resp)
   # return jsonify({'message': 'Call incoming!'})
   # return ('', 204)
-  return '<Response></Response>'
+  return '<Response></Response'
 
 @app.route('/outbound', methods=['GET', 'POST'])
 def outbound():
@@ -147,27 +152,28 @@ def outbound():
 
         # Uncomment this code and replace the number with the number you want
         # your customers to call.
-        with resp.dial() as dial:
-            dial.number(to)
+        # with resp.dial() as dial:
+        #     dial.number(to)
 
-        # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
 
     return str(resp)
 
 @app.route('/outbound2', methods=['GET', 'POST'])
 def outbound2():
     resp = twilio.twiml.Response()
-    resp.say("Thank you for contacting our sales department. If this "
-                 "click to call application was in production, we would "
-                 "dial out to your sales team with the Dial verb.",
-                 voice='alice')
-    '''
+    # resp.say("Thank you for contacting our sales department. If this "
+    #              "click to call application was in production, we would "
+    #              "dial out to your sales team with the Dial verb.",
+    #              voice='alice')
+
     # Uncomment this code and replace the number with the number you want
     # your customers to call.
     with response.dial() as dial:
-        dial.number("+16518675309")
-    '''
+        dial.number("+5204403178")
+
     return str(resp)
+
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
