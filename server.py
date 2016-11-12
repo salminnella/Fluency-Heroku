@@ -162,17 +162,18 @@ def outbound():
 @app.route('/outbound2', methods=['GET', 'POST'])
 def outbound2():
     resp = twilio.twiml.Response()
+    to = request.values.get('To')
+    userID = request.values.get('userID')
     # resp.say("Thank you for contacting our sales department. If this "
     #              "click to call application was in production, we would "
     #              "dial out to your sales team with the Dial verb.",
     #              voice='alice')
-    resp.say(" ", voice='alice')
+    # resp.say(" ", voice='alice')
 
     # Uncomment this code and replace the number with the number you want
     # your customers to call.
-    # with resp.dial() as dial:
-    #     dial.number("+15204403178")
-    userID = request.values.get('userID')
+    with resp.dial() as dial:
+        dial.number(to)
     result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
