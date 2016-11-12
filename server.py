@@ -116,7 +116,7 @@ def call():
         try:
             twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
                                        to=to,
-                                       url=url_for('.outbound', callType=inPerson, record=true),
+                                       url=url_for('.outbound', callType="inPerson", record="true"),
                                        method="GET",
                                        status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
                                        status_callback_method="POST",
