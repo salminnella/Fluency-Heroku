@@ -118,7 +118,7 @@ def call():
         try:
             twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
                                        to=to,
-                                       url=url_for("http://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient"),
+                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True),
                                        method="GET",
                                        status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
                                        status_callback_method="POST",
@@ -133,10 +133,10 @@ def call():
         #resp.dial(to, callerId=caller_id)
         resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
 
-  # return str(resp)
+  return str(resp)
   # return jsonify({'message': 'Call incoming!'})
   # return ('', 204)
-  return '<Response></Response>'
+  # return '<Response></Response>'
 
 @app.route('/outbound', methods=['GET', 'POST'])
 def outbound():
@@ -176,7 +176,8 @@ def outbound2():
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    return '<Response></Response>'
+    # return '<Response></Response>'
+    return ('', 204)
 
 
 @app.route('/conference', methods=['GET', 'POST'])
