@@ -118,7 +118,7 @@ def call():
         try:
             twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
                                        to=to,
-                                       url=url_for('.outbound', callType="inPerson", record="true", _external=True),
+                                       url=url_for('.outbound', callType="inPerson", record="true", To=to, _external=True),
                                        method="GET",
                                        status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
                                        status_callback_method="POST",
@@ -139,14 +139,18 @@ def call():
 @app.route('/outbound', methods=['POST'])
 def outbound():
     resp = twiml.Response()
+    caller_id = os.environ.get("CALLER_ID")
     callType = request.values.get('callType')
     record = request.values.get('record')
+    to = request.values.get('To')
 
     if callType == 'inPerson' and record:
         # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
         resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
 
         return str(resp)
+
+    return '<Response></Response>'
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
