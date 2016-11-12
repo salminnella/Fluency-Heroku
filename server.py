@@ -169,7 +169,7 @@ def outbound2():
 
     # Uncomment this code and replace the number with the number you want
     # your customers to call.
-    with response.dial() as dial:
+    with resp.dial() as dial:
         dial.number("+5204403178")
 
     return str(resp)
