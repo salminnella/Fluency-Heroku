@@ -118,7 +118,12 @@ def call():
         try:
             twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
                                        to=to,
-                                       applicationsid=os.environ.get("APP_SID"))
+                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True),
+                                       method="GET",
+                                       status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
+                                       status_callback_method="POST",
+                                       status_events=["completed”])
+
         except Exception as e:
             app.logger.error(e)
             return jsonify({'error': str(e)})
@@ -166,8 +171,12 @@ def outbound2():
     # your customers to call.
     # with resp.dial() as dial:
     #     dial.number("+15204403178")
+    userID = request.values.get('userID')
+    result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
 
-    return str(resp)
+    {u'name': u'-Io26123nDHkfybDIGl7'}
+
+    return '<Response></Response>'
 
 
 @app.route('/conference', methods=['GET', 'POST'])
