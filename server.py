@@ -118,7 +118,7 @@ def call():
         try:
             twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
                                        to=to,
-                                       url=url_for('.outbound', callType="inPerson", record="true", To=to, _external=True))
+                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, _external=True))
         except Exception as e:
             app.logger.error(e)
             return jsonify({'error': str(e)})
@@ -153,6 +153,21 @@ def outbound():
         # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
 
     return str(resp)
+
+@app.route('/outbound2', methods=['GET', 'POST'])
+def outbound2():
+    resp = twilio.twiml.Response()
+    resp.say("Thank you for contacting our sales department. If this "
+                 "click to call application was in production, we would "
+                 "dial out to your sales team with the Dial verb.",
+                 voice='alice')
+    '''
+    # Uncomment this code and replace the number with the number you want
+    # your customers to call.
+    with response.dial() as dial:
+        dial.number("+16518675309")
+    '''
+    return str(response)
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
