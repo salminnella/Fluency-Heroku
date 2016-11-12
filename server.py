@@ -255,7 +255,7 @@ def pushRecordedCallHistory():
 
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    return '<Response></Response>'
+    return render_template('page.html'), 201
 
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
