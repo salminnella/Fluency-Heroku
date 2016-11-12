@@ -116,9 +116,9 @@ def call():
     # client -> PSTN
     if recordCall:
         try:
-            twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
+            twilio_client.calls.create(url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True),
                                        to=to,
-                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True),
+                                       from_=os.environ.get("CALLER_ID"),
                                        method="GET",
                                        status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
                                        status_callback_method="POST",
@@ -178,8 +178,8 @@ def outbound2():
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    # return '<Response></Response>'
-    return str(resp)
+    return '<Response></Response>'
+    # return str(resp)
 
 
 @app.route('/conference', methods=['GET', 'POST'])
