@@ -118,12 +118,7 @@ def call():
         try:
             twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
                                        to=to,
-                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, _external=True),
-                                       method="GET",
-                                       Record="true",
-                                       status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
-                                       status_callback_method="POST",
-                                       status_events=["completed"])
+                                       applicationsid=os.environ.get("APP_SID"))
         except Exception as e:
             app.logger.error(e)
             return jsonify({'error': str(e)})
