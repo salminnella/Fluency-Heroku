@@ -122,7 +122,7 @@ def call():
                                        method="GET",
                                        status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
                                        status_callback_method="POST",
-                                       status_events=["answered"])
+                                       status_events=["end"])
         except Exception as e:
             app.logger.error(e)
             return jsonify({'error': str(e)})
