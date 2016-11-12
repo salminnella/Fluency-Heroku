@@ -136,7 +136,7 @@ def call():
   return jsonify({'message': 'Call incoming!'})
 
 
-@app.route('/outbound', methods=['POST'])
+@app.route('/outbound', methods=['GET', 'POST'])
 def outbound():
     resp = twiml.Response()
     caller_id = os.environ.get("CALLER_ID")
