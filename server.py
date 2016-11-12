@@ -241,12 +241,10 @@ def pushRecordedCallHistory():
 
         {u'name': u'-Io26123nDHkfybDIGl7'}
     else:
-        result = firebase.put('/User/' + userID + '/callStatus', new_callHistoryID, data={'answered': 'true'})
+        userID = d['userID']
+        result = firebase.put('/User/' + userID + '/callStatus' data={'answered': 'true'})
 
         {u'name': u'-Io26123nDHkfybDIGl7'}
-
-
-
 
     return '<Response></Response>'
 
