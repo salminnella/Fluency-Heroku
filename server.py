@@ -65,7 +65,9 @@ def call():
   new_callHistoryID = request.values.get('nextCallHistoryId')
   userId = request.values.get('userID')
 
-  params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
+  # params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
+  params = "userID=" + userId + "&nextCallHistoryId=" + new_callHistoryID + "&countryCode=" + urllib.quote_plus(countryCode) + "&interpreterLanguage=" + urllib.quote(interLanguage) + "&interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "&sourceLanguage=" + urllib.quote(srcLanguage) + "&sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "&CallDateTime=" + urllib.quote_plus(callDateTime) + "&number=" + number + "&name=" + name + "&callType=" + urllib.quote(callType)
+
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
   conf_name = request.values.get('ConfName')
