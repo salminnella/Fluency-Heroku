@@ -118,6 +118,7 @@ def call():
         try:
             twilio_client.calls.create(from_=os.environ.get("CALLER_ID"),
                                        to=to,
+                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, _external=True),
                                        method="GET",
                                        Record="true",
                                        status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
@@ -169,7 +170,7 @@ def outbound2():
     # Uncomment this code and replace the number with the number you want
     # your customers to call.
     with resp.dial() as dial:
-        dial.number("+5204403178")
+        dial.number("+15204403178")
 
     return str(resp)
 
