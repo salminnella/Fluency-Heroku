@@ -133,8 +133,8 @@ def call():
         resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
 
   # return str(resp)
-  return jsonify({'message': 'Call incoming!'})
-  # return str("successfull call")
+  # return jsonify({'message': 'Call incoming!'})
+  return ('', 204)
 
 @app.route('/outbound', methods=['GET', 'POST'])
 def outbound():
