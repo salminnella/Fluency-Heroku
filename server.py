@@ -175,7 +175,7 @@ def outbound2():
     #              "click to call application was in production, we would "
     #              "dial out to your sales team with the Dial verb.",
     #              voice='alice')
-    resp.say("Connected", voice='alice')
+    # resp.say("Connected", voice='alice')
 
     # Uncomment this code and replace the number with the number you want
     # your customers to call.
