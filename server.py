@@ -179,12 +179,12 @@ def outbound2():
 
     # Uncomment this code and replace the number with the number you want
     # your customers to call.
-    with resp.dial() as dial:
-        dial.number(to)
+    # with resp.dial() as dial:
+    #     dial.number(to)
     result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
-
+    resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
     return str(resp)
     # return str(resp)
 
