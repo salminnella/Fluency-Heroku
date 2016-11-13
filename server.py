@@ -15,6 +15,10 @@ import json
 import urllib
 from urllib import urlencode
 
+
+ACCOUNT_SID = os.environ.get("ACCOUNT_SID")
+AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
+APP_SID = os.environ.get("APP_SID")
 # Stripe API key
 stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
 # stripe.api_key = os.environ.get("STRIPE_API_KEY")
@@ -23,20 +27,20 @@ global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
 
 CLIENT = 'Fluency'
-
+CALLER_ID = os.environ.get("CALLER_ID")
 app = Flask(__name__)
 
 @app.route('/token')
 def token():
-  account_sid = os.environ.get("ACCOUNT_SID")
-  auth_token = os.environ.get("AUTH_TOKEN")
-  app_sid = os.environ.get("APP_SID")
+  # account_sid = os.environ.get("ACCOUNT_SID")
+  # auth_token = os.environ.get("AUTH_TOKEN")
+  # app_sid = os.environ.get("APP_SID")
 
-  capability = TwilioCapability(account_sid, auth_token)
+  capability = TwilioCapability(ACCOUNT_SID, AUTH_TOKEN)
 
   # This allows outgoing connections to TwiML application
   if request.values.get('allowOutgoing') != 'false':
-     capability.allow_client_outgoing(app_sid)
+     capability.allow_client_outgoing(APP_SID)
 
   # This allows incoming connections to client (if specified)
   client = request.values.get('client')
@@ -74,12 +78,12 @@ def call():
   to = request.values.get('To')
   recordConference = request.values.get('RecordConf')
   recordCall = request.values.get('RecordCall')
-  caller_id = os.environ.get("CALLER_ID")
+  # caller_id = os.environ.get("CALLER_ID")
+  caller_id = CALLER_ID
   digits = request.values.get('SendDigits')
 
   try:
-        twilio_client = TwilioRestClient(os.environ.get("ACCOUNT_SID"),
-                                         os.environ.get("AUTH_TOKEN"))
+        twilio_client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
   except Exception as e:
         msg = 'Missing configuration variable: {0}'.format(e)
         return jsonify({'error': msg})
@@ -98,7 +102,8 @@ def call():
     return str(resp)
 
   from_client = from_value.startswith('client')
-  caller_id = os.environ.get("CALLER_ID")
+  # caller_id = os.environ.get("CALLER_ID")
+  caller_id = CALLER_ID
 
   if not from_client:
     # PSTN -> client
@@ -116,18 +121,15 @@ def call():
     # client -> PSTN
     if recordCall:
         try:
-            # twilio_client.calls.create(url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True),
-            #                            to=to,
-            #                            from_=os.environ.get("CALLER_ID"),
-            #                            method="GET",
-            #                            status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
-            #                            status_callback_method="POST",
-            #                            status_events=["completed"])
+            twilio_client.calls.create(url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True),
+                                       to=to,
+                                       from_=CALLER_ID,
+                                       method="GET",
+                                       status_callback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params,
+                                       status_callback_method="POST",
+                                       status_events=["completed"])
 
-            twilio_client.calls.create(to=to,  # Any phone number
-                           from_=os.environ.get("CALLER_ID"), # Must be a valid Twilio number
-                           url="http://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient")
-                           
+
         except Exception as e:
             app.logger.error(e)
             return jsonify({'error': str(e)})
@@ -146,7 +148,8 @@ def call():
 def outbound():
     # resp = twiml.Response()
     resp = twilio.twiml.Response()
-    caller_id = os.environ.get("CALLER_ID")
+    # caller_id = os.environ.get("CALLER_ID")
+    caller_id = CALLER_ID
     callType = request.values.get('callType')
     record = request.values.get('record')
     to = request.values.get('To')
