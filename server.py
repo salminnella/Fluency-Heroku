@@ -167,6 +167,7 @@ def outbound2():
     resp = twilio.twiml.Response()
     to = request.values.get('To')
     userID = request.values.get('userID')
+    caller_id = CALLER_ID
     # resp.say("Thank you for contacting our sales department. If this "
     #              "click to call application was in production, we would "
     #              "dial out to your sales team with the Dial verb.",
