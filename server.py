@@ -124,6 +124,9 @@ def call():
                                        status_callback_method="POST",
                                        status_events=["completed"])
 
+            twilio_client.calls.create(to=to,  # Any phone number
+                           from_=os.environ.get("CALLER_ID"), # Must be a valid Twilio number
+                           url="http://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient")
         except Exception as e:
             app.logger.error(e)
             return jsonify({'error': str(e)})
