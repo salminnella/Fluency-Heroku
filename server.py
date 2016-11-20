@@ -181,7 +181,8 @@ def outbound2():
     result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
-    resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
+    # resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
+    resp = <Response></Response>
     return str(resp)
     # return str(resp)
 
