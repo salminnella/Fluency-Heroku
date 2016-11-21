@@ -182,7 +182,7 @@ def outbound2():
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
     # resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
-    resp = "<Response><Say loop=\"0\"></Say></Response>"
+    resp = "<Response><Say loop=\"0\">hi</Say></Response>"
     return str(resp)
     # return str(resp)
 
