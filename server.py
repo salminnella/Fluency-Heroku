@@ -121,9 +121,9 @@ def call():
     # client -> PSTN
     if recordCall:
         try:
-            twilio_client.calls.create(url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True),
-                                       to=to,
-                                       from_=CALLER_ID)
+            call = twilio_client.calls.create(to=to,
+                                       from_=CALLER_ID,
+                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True))
 
 
         except Exception as e:
@@ -182,7 +182,9 @@ def outbound2():
 
     {u'name': u'-Io26123nDHkfybDIGl7'}
     # resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
-    resp = "<Response><Say loop=\"0\">_</Say></Response>"
+    # resp = "<Response><Say loop=\"0\">_</Say></Response>"
+
+    resp.say("_", loop="0")
     return str(resp)
     # return str(resp)
 
