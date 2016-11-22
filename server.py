@@ -214,11 +214,13 @@ def outbound2():
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
   resp = twilio.twiml.Response()
+  to = "+15204403178"
+  userId "fXtYkA9NBdSN3JH9uXfI8vpYlcs1"
   # resp.say("Congratulations! You have made your first oubound call! Good bye.")
   try:
       twilio_client.calls.create(to=to,
                                  from_=CALLER_ID,
-                                 url=url_for('.call', callType="inPerson", record="true", To=to, userID=userId, _external=True))
+                                 url=url_for('.callInProgress', callType="inPerson", record="true", To=to, userID=userId, _external=True))
 
   except Exception as e:
       app.logger.error(e)
