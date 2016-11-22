@@ -227,8 +227,8 @@ def outgoing():
 
   return jsonify({'message': 'Call incoming!'})
 
-@app.route('/call', methods=['GET', 'POST'])
-def call():
+@app.route('/callInProgress', methods=['GET', 'POST'])
+def callInProgress():
     resp = twilio.twiml.Response()
     to = request.values.get('To')
     userID = request.values.get('userID')
