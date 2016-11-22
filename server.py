@@ -215,7 +215,7 @@ def outbound2():
 def outgoing():
   resp = twilio.twiml.Response()
   to = "+15204403178"
-  userId "fXtYkA9NBdSN3JH9uXfI8vpYlcs1"
+  userId = "fXtYkA9NBdSN3JH9uXfI8vpYlcs1"
   # resp.say("Congratulations! You have made your first oubound call! Good bye.")
   try:
       twilio_client.calls.create(to=to,
