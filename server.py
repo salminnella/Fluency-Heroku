@@ -7,14 +7,14 @@ from flask import Flask, request
 from flask import url_for
 from flask import jsonify
 from twilio.util import TwilioCapability
-from twilio.rest import TwilioRestClient
+from twilio.jwt.access_token import AccessToken, VoiceGrant
+from twilio.rest import Client
 import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
 import json
 import urllib
 from urllib import urlencode
-from twilio.jwt.access_token import AccessToken, VoiceGrant
 
 ACCOUNT_SID = os.environ.get("ACCOUNT_SID")
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
