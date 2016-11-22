@@ -20,7 +20,7 @@ ACCOUNT_SID = os.environ.get("ACCOUNT_SID")
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 APP_SID = os.environ.get("APP_SID")
 API_KEY = os.environ.get("API_KEY")
-API_SECRET = os.environ.get("API_SECRET")
+API_KEY_SECRET = os.environ.get("API_SECRET")
 PUSH_CREDENTIAL_SID = os.environ.get("PUSH_CREDENTIAL_SID")
 IDENTITY = 'voice_test'
 # Stripe API key
