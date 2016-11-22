@@ -19,6 +19,10 @@ from urllib import urlencode
 ACCOUNT_SID = os.environ.get("ACCOUNT_SID")
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 APP_SID = os.environ.get("APP_SID")
+IDENTITY = 'voice_test'
+API_KEY = os.environ.get("API_KEY")
+PUSH_CREDENTIAL_SID = os.environ.get("PUSH_CREDENTIAL_SID")
+
 # Stripe API key
 stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
 # stripe.api_key = os.environ.get("STRIPE_API_KEY")
@@ -49,6 +53,24 @@ def token():
 
   # This returns a token to use with Twilio based on the account and capabilities defined above
   return capability.generate()
+
+@app.route('/accessToken')
+def token():
+  # account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
+  # api_key = os.environ.get("API_KEY", API_KEY)
+  # api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
+  # push_credential_sid = os.environ.get("PUSH_CREDENTIAL_SID", PUSH_CREDENTIAL_SID)
+  # app_sid = os.environ.get("APP_SID", APP_SID)
+
+  grant = VoiceGrant(
+    push_credential_sid=PUSH_CREDENTIAL_SID,
+    outgoing_application_sid=APP_SID
+  )
+
+  token = AccessToken(ACCOUNT_SID, API_KEY, AUTH_TOKEN, IDENTITY)
+  token.add_grant(grant)
+
+  return str(token)
 
 @app.route('/call', methods=['GET', 'POST'])
 def call():
