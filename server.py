@@ -55,7 +55,7 @@ def token():
   return capability.generate()
 
 @app.route('/accessToken')
-def token():
+def accessToken():
   # account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
   # api_key = os.environ.get("API_KEY", API_KEY)
   # api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
