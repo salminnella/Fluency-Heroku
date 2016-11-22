@@ -213,7 +213,11 @@ def outbound2():
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  resp = twilio.twiml.Response()
+  try:
+       twilio_client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+  except Exception as e:
+      msg = 'Missing configuration variable: {0}'.format(e)
+      return jsonify({'error': msg})
   to = "+15204403178"
   userId = "fXtYkA9NBdSN3JH9uXfI8vpYlcs1"
   # resp.say("Congratulations! You have made your first oubound call! Good bye.")
