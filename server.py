@@ -19,6 +19,7 @@ from urllib import urlencode
 ACCOUNT_SID = os.environ.get("ACCOUNT_SID")
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 APP_SID = os.environ.get("APP_SID")
+QUICKSTART_APP_SID = "AP64bc41b1312c42c2aa110492d3ee4eea"
 IDENTITY = 'voice_test'
 API_KEY = os.environ.get("API_KEY")
 PUSH_CREDENTIAL_SID = os.environ.get("PUSH_CREDENTIAL_SID")
@@ -64,7 +65,7 @@ def accessToken():
 
   grant = VoiceGrant(
     push_credential_sid=PUSH_CREDENTIAL_SID,
-    outgoing_application_sid=APP_SID
+    outgoing_application_sid=QUICKSTART_APP_SID
   )
 
   token = AccessToken(ACCOUNT_SID, API_KEY, AUTH_TOKEN, IDENTITY)
