@@ -37,8 +37,12 @@ def token():
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
-  resp = twilio.twiml.Response()
-  # resp.say("Congratulations! You have made your first oubound call! Good bye.")
+  try:
+       twilio_client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+  except Exception as e:
+      msg = 'Missing configuration variable: {0}'.format(e)
+      return jsonify({'error': msg})
+
   try:
       twilio_client.calls.create(to=to,
                                  from_=CALLER_ID,
@@ -47,7 +51,6 @@ def outgoing():
   except Exception as e:
       app.logger.error(e)
       return str("Error creating client")
-
 
   return jsonify({'message': 'Call incoming!'})
 
