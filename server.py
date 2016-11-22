@@ -211,6 +211,11 @@ def outbound2():
     return str(resp)
     # return str(resp)
 
+@app.route('/outgoing', methods=['GET', 'POST'])
+def outgoing():
+  resp = twilio.twiml.Response()
+  resp.say("Congratulations! You have made your first oubound call! Good bye.")
+  return str(resp)
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
