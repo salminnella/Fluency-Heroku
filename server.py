@@ -217,6 +217,18 @@ def outgoing():
   resp.say("Congratulations! You have made your first oubound call! Good bye.")
   return str(resp)
 
+@app.route('/placeCall', methods=['GET', 'POST'])
+def placeCall():
+  client = Client(API_KEY, AUTH_TOKEN, ACCOUNT_SID)
+  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_='client:' + CALLER_ID)
+  return str(call.sid)
+
+@app.route('/incoming', methods=['GET', 'POST'])
+def incoming():
+  resp = twilio.twiml.Response()
+  resp.say("Congratulations! You have received your first inbound call! Good bye.")
+  return str(resp)
+
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
 
