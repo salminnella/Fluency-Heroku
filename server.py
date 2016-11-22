@@ -19,14 +19,13 @@ from urllib import urlencode
 ACCOUNT_SID = os.environ.get("ACCOUNT_SID")
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 APP_SID = os.environ.get("APP_SID")
-QUICKSTART_APP_SID = "AP64bc41b1312c42c2aa110492d3ee4eea"
-IDENTITY = 'voice_test'
 API_KEY = os.environ.get("API_KEY")
+API_SECRET = os.environ.get("API_SECRET")
 PUSH_CREDENTIAL_SID = os.environ.get("PUSH_CREDENTIAL_SID")
-
+IDENTITY = 'voice_test'
 # Stripe API key
-stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
-# stripe.api_key = os.environ.get("STRIPE_API_KEY")
+# stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
+stripe.api_key = os.environ.get("STRIPE_API_KEY")
 # Firebase url
 global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
@@ -65,10 +64,10 @@ def accessToken():
 
   grant = VoiceGrant(
     push_credential_sid=PUSH_CREDENTIAL_SID,
-    outgoing_application_sid=QUICKSTART_APP_SID
+    outgoing_application_sid=APP_SID
   )
 
-  token = AccessToken(ACCOUNT_SID, API_KEY, AUTH_TOKEN, IDENTITY)
+  token = AccessToken(ACCOUNT_SID, API_KEY, API_KEY_SECRET, IDENTITY)
   token.add_grant(grant)
 
   return str(token)
@@ -215,20 +214,34 @@ def outbound2():
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
   resp = twilio.twiml.Response()
-  resp.say("Congratulations! You have made your first oubound call! Good bye.")
-  return str(resp)
+  # resp.say("Congratulations! You have made your first oubound call! Good bye.")
+  try:
+      twilio_client.calls.create(to=to,
+                                 from_=CALLER_ID,
+                                 url=url_for('.call', callType="inPerson", record="true", To=to, userID=userId, _external=True))
 
-@app.route('/placeCall', methods=['GET', 'POST'])
-def placeCall():
-  client = Client(API_KEY, AUTH_TOKEN, ACCOUNT_SID)
-  call = client.calls.create(url=request.url_root + 'incoming', to='client:' + IDENTITY, from_='client:' + CALLER_ID)
-  return str(call.sid)
+  except Exception as e:
+      app.logger.error(e)
+      return str("Error creating client")
 
-@app.route('/incoming', methods=['GET', 'POST'])
-def incoming():
-  resp = twilio.twiml.Response()
-  resp.say("Congratulations! You have received your first inbound call! Good bye.")
-  return str(resp)
+
+  return jsonify({'message': 'Call incoming!'})
+
+@app.route('/call', methods=['GET', 'POST'])
+def call():
+    resp = twilio.twiml.Response()
+    to = request.values.get('To')
+    userID = request.values.get('userID')
+    caller_id = CALLER_ID
+
+    result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+
+    {u'name': u'-Io26123nDHkfybDIGl7'}
+    resp = "<Response><Say loop=\"0\">_</Say></Response>"
+    # resp.say("_", loop="0")
+
+    return str(resp)
+
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
