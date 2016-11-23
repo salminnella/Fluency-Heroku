@@ -190,11 +190,11 @@ def outbound2():
     to = request.values.get('To')
     userID = request.values.get('userID')
     caller_id = CALLER_ID
-    resp.say("Thank you for contacting our sales department. If this "
-                 "click to call application was in production, we would "
-                 "dial out to your sales team with the Dial verb.",
-                 voice='alice')
-    resp.say("Connected", voice='alice')
+    # resp.say("Thank you for contacting our sales department. If this "
+    #              "click to call application was in production, we would "
+    #              "dial out to your sales team with the Dial verb.",
+    #              voice='alice')
+    # resp.say("Connected", voice='alice')
 
     # Uncomment this code and replace the number with the number you want
     # your customers to call.
@@ -206,7 +206,7 @@ def outbound2():
     # resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
     # resp = "<Response><Say loop=\"0\">_</Say></Response>"
 
-    # resp.say("_", loop="0")
+    resp.say("_", loop="0")
     return str(resp)
     # return str(resp)
 
