@@ -194,10 +194,15 @@ def outbound2():
     result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
     {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    resp.say("Thank you for contacting our sales department. If this "
-                 "click to call application was in production, we would "
-                 "dial out to your sales team with the Dial verb.",
-                 voice='alice')
+    # Uncomment this code and replace the number with the number you want
+    # your customers to call.
+    with resp.dial() as dial:
+        dial.number(to)
+
+    # resp.say("Thank you for contacting our sales department. If this "
+    #              "click to call application was in production, we would "
+    #              "dial out to your sales team with the Dial verb.",
+    #              voice='alice')
     # resp = "<Response><Say loop=\"0\">_</Say></Response>"
     # resp.say("_", loop="0")
     return str(resp)
