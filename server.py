@@ -206,7 +206,7 @@ def outbound2():
     # resp = "<Response><Say loop=\"0\">_</Say></Response>"
     # resp.say("_", loop="0")
 
-    resp = "<Response><Pause length=\"0\"/></Response>"
+    resp = "<Response><Pause length=\"10\"/></Response>"
 
     return str(resp)
 
