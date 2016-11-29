@@ -196,8 +196,8 @@ def outbound2():
 
     # Uncomment this code and replace the number with the number you want
     # your customers to call.
-    with resp.dial() as dial:
-        dial.number(to)
+    # with resp.dial() as dial:
+    #     dial.number(to)
 
     # resp.say("Thank you for contacting our sales department. If this "
     #              "click to call application was in production, we would "
@@ -205,6 +205,9 @@ def outbound2():
     #              voice='alice')
     # resp = "<Response><Say loop=\"0\">_</Say></Response>"
     # resp.say("_", loop="0")
+
+    resp = "<Response><Pause length=\"0\"/></Response>"
+
     return str(resp)
 
 @app.route('/outgoing', methods=['GET', 'POST'])
