@@ -8,7 +8,8 @@ from flask import url_for
 from flask import jsonify
 from twilio.util import TwilioCapability
 from twilio.jwt.access_token import AccessToken, VoiceGrant
-from twilio.rest import Client
+# from twilio.rest import Client
+from twilio.rest import TwilioRestClient
 import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
@@ -293,7 +294,6 @@ def pushConfHistory():
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
-    client = TwilioRestClient(os.environ.get("ACCOUNT_SID"), os.environ.get("AUTH_TOKEN"))
     conference = client.conferences.get(conferenceSid)
     timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
     timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
@@ -318,10 +318,14 @@ def pushConfHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
-    #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+    if callStatus == 'answered':
+        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    else:
+        #Ozgur - firebase push -- working
+        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
 
-    {u'name': u'-Io26123nDHkfybDIGl7'}
+        {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return str(conferenceCallSid)
 
