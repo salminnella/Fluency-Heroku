@@ -294,6 +294,7 @@ def pushConfHistory():
     #conference info
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
+    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     conference = client.conferences.get(conferenceSid)
     timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
     timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
