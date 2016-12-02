@@ -234,7 +234,7 @@ def pushCallHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
-    if callStatus == 'completed':
+    if callStatus == 'in-progress':
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
