@@ -4,13 +4,13 @@ from stripe import (  # noqa
                           StripeError, APIError, APIConnectionError, AuthenticationError, CardError,
                           InvalidRequestError)
 from flask import Flask, request
-from flask import url_for
-from flask import jsonify
 from twilio.util import TwilioCapability
-from twilio.jwt.access_token import AccessToken, VoiceGrant
-# from twilio.rest import Client
 from twilio.rest import TwilioRestClient
+# from twilio.jwt.access_token import AccessToken, VoiceGrant
+# from twilio.rest import Client
 import twilio.twiml
+# from flask import url_for
+# from flask import jsonify
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
 import json
@@ -143,42 +143,42 @@ def call():
 
   return str(resp)
 
-@app.route('/outgoing', methods=['GET', 'POST'])
-def outgoing():
-  try:
-       twilio_client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-  except Exception as e:
-      msg = 'Missing configuration variable: {0}'.format(e)
-      return jsonify({'error': msg})
-  to = "+15204403178"
-  userId = "fXtYkA9NBdSN3JH9uXfI8vpYlcs1"
-  # resp.say("Congratulations! You have made your first oubound call! Good bye.")
-  try:
-      twilio_client.calls.create(to=to,
-                                 from_=CALLER_ID,
-                                 url=url_for('.callInProgress', callType="inPerson", record="true", To=to, userID=userId, _external=True))
+# @app.route('/outgoing', methods=['GET', 'POST'])
+# def outgoing():
+#   try:
+#        twilio_client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+#   except Exception as e:
+#       msg = 'Missing configuration variable: {0}'.format(e)
+#       return jsonify({'error': msg})
+#   to = "+15204403178"
+#   userId = "fXtYkA9NBdSN3JH9uXfI8vpYlcs1"
+#   # resp.say("Congratulations! You have made your first oubound call! Good bye.")
+#   try:
+#       twilio_client.calls.create(to=to,
+#                                  from_=CALLER_ID,
+#                                  url=url_for('.callInProgress', callType="inPerson", record="true", To=to, userID=userId, _external=True))
+#
+#   except Exception as e:
+#       app.logger.error(e)
+#       return str("Error creating client")
+#
+#
+#   return jsonify({'message': 'Call incoming!'})
 
-  except Exception as e:
-      app.logger.error(e)
-      return str("Error creating client")
-
-
-  return jsonify({'message': 'Call incoming!'})
-
-@app.route('/callInProgress', methods=['GET', 'POST'])
-def callInProgress():
-    resp = twilio.twiml.Response()
-    to = request.values.get('To')
-    userID = request.values.get('userID')
-    caller_id = CALLER_ID
-
-    result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
-
-    {u'name': u'-Io26123nDHkfybDIGl7'}
-    resp = "<Response><Say loop=\"0\">_</Say></Response>"
-    # resp.say("_", loop="0")
-
-    return str(resp)
+# @app.route('/callInProgress', methods=['GET', 'POST'])
+# def callInProgress():
+#     resp = twilio.twiml.Response()
+#     to = request.values.get('To')
+#     userID = request.values.get('userID')
+#     caller_id = CALLER_ID
+#
+#     result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+#
+#     {u'name': u'-Io26123nDHkfybDIGl7'}
+#     resp = "<Response><Say loop=\"0\">_</Say></Response>"
+#     # resp.say("_", loop="0")
+#
+#     return str(resp)
 
 
 @app.route('/conference', methods=['GET', 'POST'])
