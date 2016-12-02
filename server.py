@@ -139,7 +139,7 @@ def call():
         resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\"><Number statusCallbackEvent=\"answered\">" + to + "</Number></Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\"><Number statusCallbackEvent=\"in-progress\">" + to + "</Number></Dial></Response>"
 
   return str(resp)
 
@@ -233,9 +233,11 @@ def pushCallHistory():
     countryCodeEncoded = d['countryCode']
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
-    
-    print callStatus
 
+    print callStatus
+    app.logger.callStatus
+    logging.info('call status is: %s', callStatus)
+    
     if callStatus == 'in-progress':
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
