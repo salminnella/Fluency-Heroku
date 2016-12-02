@@ -96,7 +96,7 @@ def call():
 
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
-  conf_name = request.values.get('ConfName')
+  # conf_name = request.values.get('ConfName')
   to = request.values.get('To')
   recordConference = request.values.get('RecordConf')
   recordCall = request.values.get('RecordCall')
@@ -104,16 +104,13 @@ def call():
   caller_id = CALLER_ID
   digits = request.values.get('SendDigits')
 
-
-
-
   if digits:
       output = "<Response><Dial callerId=\"" + caller_id + "\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
       return str(output)
 
-  if conf_name:
-      resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-      return resp
+  # if conf_name:
+  #     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+  #     return resp
 
   if not (from_value and to):
     resp.say("Invalid request")
@@ -134,81 +131,16 @@ def call():
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join, end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
-        try:
-            twilio_client = Client(ACCOUNT_SID, AUTH_TOKEN)
-        except Exception as e:
-            app.logger.error(e)
-            return str("Missing Config Variable")
-        try:
-            twilio_client.calls.create(to=to,
-                                       from_=CALLER_ID,
-                                       url=url_for('.outbound2', callType="inPerson", record="true", To=to, userID=userId, _external=True))
-        except Exception as e:
-            app.logger.error(e)
-            return str("Error creating client")
-
-        return str("<Response></Response>")
-
+        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" method=\"POST\"><Number>" + to + "</Number></Dial></Response>"
 
   return str(resp)
-  # return jsonify({'message': 'Call incoming!'})
-  # return ('', 204)
-  # return '<Response></Response>'
-
-@app.route('/outbound', methods=['GET', 'POST'])
-def outbound():
-    # resp = twiml.Response()
-    resp = twilio.twiml.Response()
-    # caller_id = os.environ.get("CALLER_ID")
-    caller_id = CALLER_ID
-    callType = request.values.get('callType')
-    record = request.values.get('record')
-    to = request.values.get('To')
-
-    if callType == 'inPerson' and record:
-        # resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
-
-        # Uncomment this code and replace the number with the number you want
-        # your customers to call.
-        # with resp.dial() as dial:
-        #     dial.number(to)
-
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\">" + to + "</Dial></Response>"
-
-    return str(resp)
-
-@app.route('/outbound2', methods=['GET', 'POST'])
-def outbound2():
-    resp = twilio.twiml.Response()
-    to = request.values.get('To')
-    userID = request.values.get('userID')
-    caller_id = CALLER_ID
-
-    result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
-    {u'name': u'-Io26123nDHkfybDIGl7'}
-
-    # Uncomment this code and replace the number with the number you want
-    # your customers to call.
-    # with resp.dial() as dial:
-    #     dial.number(to)
-
-    # resp.say("Thank you for contacting our sales department. If this "
-    #              "click to call application was in production, we would "
-    #              "dial out to your sales team with the Dial verb.",
-    #              voice='alice')
-    # resp = "<Response><Say loop=\"0\">_</Say></Response>"
-    # resp.say("_", loop="0")
-
-    resp = "<Response><Pause length=\"10\"/></Response>"
-
-    return str(resp)
 
 @app.route('/outgoing', methods=['GET', 'POST'])
 def outgoing():
@@ -280,6 +212,7 @@ def pushCallHistory():
     #one call to interpreter - Face to face
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
+    callStatus = request.values.get('DialCallStatus')
 
     userID = d['userID']
     callTypeEncoded = d['callType']
@@ -300,10 +233,14 @@ def pushCallHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
-    #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+    if callStatus == 'completed':
+        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    else:
+        #Ozgur - firebase push -- working
+        result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
 
-    {u'name': u'-Io26123nDHkfybDIGl7'}
+        {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return '<Response></Response>'
 
