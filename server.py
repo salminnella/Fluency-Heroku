@@ -234,8 +234,13 @@ def pushCallHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
-    if callStatus == 'completed':
+    if callStatus == 'answered':
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    elif callStatus == 'completed':
+        #Ozgur - firebase push -- working
+        result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+
         {u'name': u'-Io26123nDHkfybDIGl7'}
     else:
         #Ozgur - firebase push -- working
