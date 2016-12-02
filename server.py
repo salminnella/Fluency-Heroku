@@ -199,7 +199,7 @@ def join():
     urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + str(conf_name)
     call = twilioClient.calls.create(url=urlString,
                            to = request.values.get('To'),
-                           from_="+15204403178"
+                           from_=CALLER_ID
                            )
 
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
@@ -320,10 +320,10 @@ def pushConfHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
-    if callStatus == 'answered':
+    if callStatus == 'participant-join':
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
-    else:
+    elif callStatus = 'conference-end':
         #Ozgur - firebase push -- working
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
 
