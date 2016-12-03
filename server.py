@@ -115,9 +115,9 @@ def call():
 def conference():
     print '/conference was called'
     conf_name = request.values.get('ConfName')
-    userID = reqeust.values.get('userID')
+    userID = request.values.get('userID')
     if conf_name:
-        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
