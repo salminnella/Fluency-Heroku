@@ -209,7 +209,8 @@ def join():
 def pushCallHistory():
     params = request.query_string
     print 'Params = ', str(params)
-    d = dict(item.split("=") for item in params.split("&"))
+    params.replace("%3D", "=")
+    d = dict(item.split("=") for item in params.split("%26"))
 
     #one call to interpreter - Face to face
     callSid = request.values.get('DialCallSid')
