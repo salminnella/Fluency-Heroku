@@ -121,6 +121,9 @@ def conference():
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
+    else:
+        return '<Response></Response>'
+
 
 @app.route('/join', methods=['GET', 'POST'])
 def join():
@@ -129,7 +132,7 @@ def join():
     userID = request.values.get('userID')
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     # urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + str(conf_name) + '&userID=' + userID
-    call = twilioClient.calls.create(url=url_for('.conference', confName=conf_name, userID=userID, _external=True),
+    call = twilioClient.calls.create(url=url_for('.conference', ConfName=conf_name, userID=userID, _external=True),
                            to = to,
                            from_=CALLER_ID
                         #    status_callback="https://fluency-1.herokuapp.com/pushConfHistory",
