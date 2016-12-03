@@ -6,11 +6,7 @@ from stripe import (  # noqa
 from flask import Flask, request
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
-# from twilio.jwt.access_token import AccessToken, VoiceGrant
-# from twilio.rest import Client
 import twilio.twiml
-# from flask import url_for
-# from flask import jsonify
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
 import json
@@ -23,9 +19,6 @@ APP_SID = os.environ.get("APP_SID")
 API_KEY = os.environ.get("API_KEY")
 API_KEY_SECRET = os.environ.get("API_SECRET")
 PUSH_CREDENTIAL_SID = os.environ.get("PUSH_CREDENTIAL_SID")
-IDENTITY = 'voice_test'
-# Stripe API key
-# stripe.api_key = "sk_test_ztkUGrXPoHOOarxOH9QviyJk"
 stripe.api_key = os.environ.get("STRIPE_API_KEY")
 # Firebase url
 global firebase
@@ -37,41 +30,16 @@ app = Flask(__name__)
 
 @app.route('/token')
 def token():
-  # account_sid = os.environ.get("ACCOUNT_SID")
-  # auth_token = os.environ.get("AUTH_TOKEN")
-  # app_sid = os.environ.get("APP_SID")
-
   capability = TwilioCapability(ACCOUNT_SID, AUTH_TOKEN)
-
   # This allows outgoing connections to TwiML application
   if request.values.get('allowOutgoing') != 'false':
      capability.allow_client_outgoing(APP_SID)
-
   # This allows incoming connections to client (if specified)
   client = request.values.get('client')
   if client != None:
     capability.allow_client_incoming(client)
-
   # This returns a token to use with Twilio based on the account and capabilities defined above
   return capability.generate()
-
-@app.route('/accessToken')
-def accessToken():
-  # account_sid = os.environ.get("ACCOUNT_SID", ACCOUNT_SID)
-  # api_key = os.environ.get("API_KEY", API_KEY)
-  # api_key_secret = os.environ.get("API_KEY_SECRET", API_KEY_SECRET)
-  # push_credential_sid = os.environ.get("PUSH_CREDENTIAL_SID", PUSH_CREDENTIAL_SID)
-  # app_sid = os.environ.get("APP_SID", APP_SID)
-
-  grant = VoiceGrant(
-    push_credential_sid=PUSH_CREDENTIAL_SID,
-    outgoing_application_sid=APP_SID
-  )
-
-  token = AccessToken(ACCOUNT_SID, API_KEY, API_KEY_SECRET, IDENTITY)
-  token.add_grant(grant)
-
-  return str(token)
 
 @app.route('/call', methods=['GET', 'POST'])
 def call():
@@ -109,9 +77,9 @@ def call():
       output = "<Response><Dial callerId=\"" + caller_id + "\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
       return str(output)
 
-  # if conf_name:
-  #     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-  #     return resp
+  if conf_name:
+      resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+      return resp
 
   if not (from_value and to):
     resp.say("Invalid request")
@@ -143,53 +111,12 @@ def call():
 
   return str(resp)
 
-# @app.route('/outgoing', methods=['GET', 'POST'])
-# def outgoing():
-#   try:
-#        twilio_client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-#   except Exception as e:
-#       msg = 'Missing configuration variable: {0}'.format(e)
-#       return jsonify({'error': msg})
-#   to = "+15204403178"
-#   userId = "fXtYkA9NBdSN3JH9uXfI8vpYlcs1"
-#   # resp.say("Congratulations! You have made your first oubound call! Good bye.")
-#   try:
-#       twilio_client.calls.create(to=to,
-#                                  from_=CALLER_ID,
-#                                  url=url_for('.callInProgress', callType="inPerson", record="true", To=to, userID=userId, _external=True))
-#
-#   except Exception as e:
-#       app.logger.error(e)
-#       return str("Error creating client")
-#
-#
-#   return jsonify({'message': 'Call incoming!'})
-
-# @app.route('/callInProgress', methods=['GET', 'POST'])
-# def callInProgress():
-#     resp = twilio.twiml.Response()
-#     to = request.values.get('To')
-#     userID = request.values.get('userID')
-#     caller_id = CALLER_ID
-#
-#     result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
-#
-#     {u'name': u'-Io26123nDHkfybDIGl7'}
-#     resp = "<Response><Say loop=\"0\">_</Say></Response>"
-#     # resp.say("_", loop="0")
-#
-#     return str(resp)
-
-
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
-
     conf_name = request.values.get('ConfName')
-
     if conf_name:
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
-
 
 @app.route('/join', methods=['GET', 'POST'])
 def join():
@@ -221,9 +148,7 @@ def pushCallHistory():
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     callStatus = request.values.get('CallStatus')
-
     userID = d['userID']
-    # userID = request.values.get('userID')
     callTypeEncoded = d['callType']
     callType = callTypeEncoded.replace("%20", " ")
     name = d['name']
@@ -250,56 +175,51 @@ def pushCallHistory():
     elif callStatus == 'completed':
         #Ozgur - firebase push -- working
         result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
-
-        {u'name': u'-Io26123nDHkfybDIGl7'}
-    else:
-        #Ozgur - firebase push -- working
-        result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
-
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return '<Response></Response>'
 
 @app.route('/pushRecordedCallHistory', methods=['GET', 'POST'])
 def pushRecordedCallHistory():
-    params = request.query_string
-    d = dict(item.split("=") for item in params.split("&"))
+    encodedParams = request.query_string
+    params = encodedParams.replace("%3D", "=")
+    print 'Params = ', str(params)
+    d = dict(item.split("=") for item in params.split("%26"))
+
     #one call to interpreter - recorded - Face to face
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     recordingUrl = request.values.get('RecordingUrl')
-    if recordingUrl:
-        recordingID = recordingUrl[89:]
-        userID = d['userID']
-        callTypeEncoded = d['callType']
-        callType = callTypeEncoded.replace("%20", " ")
-        name = d['name']
-        number = d['number']
-        callDateTimeEncoded = d['CallDateTime']
-        callDateTime = callDateTimeEncoded.replace("%2F", "/")
-        srcLanguageEncoded = d['sourceLanguage']
-        srcLanguageIsoEncoded = d['sourceLanguageIso']
-        srcLanguage = srcLanguageEncoded.replace("%20", " ")
-        srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
-        interLanguageEncoded = d['interpreterLanguage']
-        interLanguageIsoEncoded = d['interpreterLanguageIso']
-        interLanguage = interLanguageEncoded.replace("%20", " ")
-        interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
-        countryCodeEncoded = d['countryCode']
-        countryCode = countryCodeEncoded.replace("%2B", "+")
-        new_callHistoryID = d['nextCallHistoryId']
+    callStatus = request.values.get('CallStatus')
+    recordingID = recordingUrl[89:]
+    userID = d['userID']
+    callTypeEncoded = d['callType']
+    callType = callTypeEncoded.replace("%20", " ")
+    name = d['name']
+    number = d['number']
+    callDateTimeEncoded = d['CallDateTime']
+    callDateTime = callDateTimeEncoded.replace("%2F", "/")
+    srcLanguageEncoded = d['sourceLanguage']
+    srcLanguageIsoEncoded = d['sourceLanguageIso']
+    srcLanguage = srcLanguageEncoded.replace("%20", " ")
+    srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
+    interLanguageEncoded = d['interpreterLanguage']
+    interLanguageIsoEncoded = d['interpreterLanguageIso']
+    interLanguage = interLanguageEncoded.replace("%20", " ")
+    interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
+    countryCodeEncoded = d['countryCode']
+    countryCode = countryCodeEncoded.replace("%2B", "+")
+    new_callHistoryID = d['nextCallHistoryId']
 
+    if callStatus == 'in-progress':
+        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    elif:
         #Ozgur - firebase push -- working
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
-
-        {u'name': u'-Io26123nDHkfybDIGl7'}
-    else:
-        userID = d['userID']
-        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
-
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    return str("successfull call")
+    return '<Response></Response>'
 
 @app.route('/pushConfHistory', methods=['GET', 'POST'])
 def pushConfHistory():
