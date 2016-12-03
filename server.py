@@ -122,7 +122,7 @@ def conference():
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
-    elif thirdParty == 'callee'
+    elif thirdParty == 'callee':
         result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'callee'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
