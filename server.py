@@ -208,36 +208,36 @@ def join():
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
-    # params = request.query_string
-    # d = dict(item.split("=") for item in params.split("%26"))
+    params = request.query_string
+    print str(params)
+    d = dict(item.split("=") for item in params.split("&"))
 
     #one call to interpreter - Face to face
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
     callStatus = request.values.get('CallStatus')
 
-    # userID = d['userID']
-    userID = request.values.get('userID')
-    # callTypeEncoded = d['callType']
-    # callType = callTypeEncoded.replace("%20", " ")
-    # name = d['name']
-    # number = d['number']
-    # callDateTimeEncoded = d['CallDateTime']
-    # callDateTime = callDateTimeEncoded.replace("%2F", "/")
-    # srcLanguageEncoded = d['sourceLanguage']
-    # srcLanguageIsoEncoded = d['sourceLanguageIso']
-    # srcLanguage = srcLanguageEncoded.replace("%20", " ")
-    # srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
-    # interLanguageEncoded = d['interpreterLanguage']
-    # interLanguageIsoEncoded = d['interpreterLanguageIso']
-    # interLanguage = interLanguageEncoded.replace("%20", " ")
-    # interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
-    # countryCodeEncoded = d['countryCode']
-    # countryCode = countryCodeEncoded.replace("%2B", "+")
-    # new_callHistoryID = d['nextCallHistoryId']
+    userID = d['userID']
+    # userID = request.values.get('userID')
+    callTypeEncoded = d['callType']
+    callType = callTypeEncoded.replace("%20", " ")
+    name = d['name']
+    number = d['number']
+    callDateTimeEncoded = d['CallDateTime']
+    callDateTime = callDateTimeEncoded.replace("%2F", "/")
+    srcLanguageEncoded = d['sourceLanguage']
+    srcLanguageIsoEncoded = d['sourceLanguageIso']
+    srcLanguage = srcLanguageEncoded.replace("%20", " ")
+    srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
+    interLanguageEncoded = d['interpreterLanguage']
+    interLanguageIsoEncoded = d['interpreterLanguageIso']
+    interLanguage = interLanguageEncoded.replace("%20", " ")
+    interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
+    countryCodeEncoded = d['countryCode']
+    countryCode = countryCodeEncoded.replace("%2B", "+")
+    new_callHistoryID = d['nextCallHistoryId']
 
     print 'Call Status = ', callStatus
-    # logging.info('call status is: %s', callStatus)
 
     if callStatus == 'in-progress':
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
