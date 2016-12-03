@@ -100,7 +100,7 @@ def call():
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join, end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
@@ -113,8 +113,12 @@ def call():
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
+    print '/conference was called'
     conf_name = request.values.get('ConfName')
+    userID = reqeust.values.get('userID')
     if conf_name:
+        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
 
@@ -122,11 +126,15 @@ def conference():
 def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
-    twilioClient = TwilioRestClient(os.environ.get("ACCOUNT_SID"), os.environ.get("AUTH_TOKEN"))
-    urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + str(conf_name)
-    call = twilioClient.calls.create(url=urlString,
-                           to = request.values.get('To'),
+    userID = request.values.get('userID')
+    twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    # urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + str(conf_name) + '&userID=' + userID
+    call = twilioClient.calls.create(url=url_for('.conference', confName=conf_name, userID=userID, _external=True),
+                           to = to,
                            from_=CALLER_ID
+                        #    status_callback="https://fluency-1.herokuapp.com/pushConfHistory",
+                        #    status_callback_method="POST",
+                        #    status_events=["answered"]
                            )
 
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
@@ -256,14 +264,19 @@ def pushConfHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
-    if callStatus == 'participant-join':
-        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
-        {u'name': u'-Io26123nDHkfybDIGl7'}
-    elif callStatus == 'conference-end':
-        #Ozgur - firebase push -- working
-        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+    # if callStatus == 'participant-join':
+    #     result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+    #     {u'name': u'-Io26123nDHkfybDIGl7'}
+    # elif callStatus == 'conference-end':
+    #     #Ozgur - firebase push -- working
+    #     result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+    #
+    #     {u'name': u'-Io26123nDHkfybDIGl7'}
 
-        {u'name': u'-Io26123nDHkfybDIGl7'}
+    #Ozgur - firebase push -- working
+    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+
+    {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return str(conferenceCallSid)
 
