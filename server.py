@@ -136,7 +136,7 @@ def call():
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" action=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" method=\"POST\">" + to + "</Dial></Response>"
+        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
         resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
@@ -203,6 +203,11 @@ def join():
                            )
 
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+    return str(resp)
+
+@app.route('/sayRecorded', methods=['GET', 'POST'])
+def sayRecorded():
+    resp = "<Response><Say voice=\"alice\">This call will be recorded</Say></Response>"
     return str(resp)
 
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
