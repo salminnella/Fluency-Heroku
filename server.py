@@ -214,7 +214,7 @@ def pushCallHistory():
     #one call to interpreter - Face to face
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
-    callStatus = request.values.get('DialCallStatus')
+    callStatus = request.values.get('CallStatus')
 
     # userID = d['userID']
     userID = request.values.get('userID')
