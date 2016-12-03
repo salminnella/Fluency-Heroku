@@ -216,24 +216,25 @@ def pushCallHistory():
     callDuration = request.values.get('DialCallDuration')
     callStatus = request.values.get('DialCallStatus')
 
-    userID = d['userID']
-    callTypeEncoded = d['callType']
-    callType = callTypeEncoded.replace("%20", " ")
-    name = d['name']
-    number = d['number']
-    callDateTimeEncoded = d['CallDateTime']
-    callDateTime = callDateTimeEncoded.replace("%2F", "/")
-    srcLanguageEncoded = d['sourceLanguage']
-    srcLanguageIsoEncoded = d['sourceLanguageIso']
-    srcLanguage = srcLanguageEncoded.replace("%20", " ")
-    srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
-    interLanguageEncoded = d['interpreterLanguage']
-    interLanguageIsoEncoded = d['interpreterLanguageIso']
-    interLanguage = interLanguageEncoded.replace("%20", " ")
-    interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
-    countryCodeEncoded = d['countryCode']
-    countryCode = countryCodeEncoded.replace("%2B", "+")
-    new_callHistoryID = d['nextCallHistoryId']
+    # userID = d['userID']
+    userID = request.values.get('userID')
+    # callTypeEncoded = d['callType']
+    # callType = callTypeEncoded.replace("%20", " ")
+    # name = d['name']
+    # number = d['number']
+    # callDateTimeEncoded = d['CallDateTime']
+    # callDateTime = callDateTimeEncoded.replace("%2F", "/")
+    # srcLanguageEncoded = d['sourceLanguage']
+    # srcLanguageIsoEncoded = d['sourceLanguageIso']
+    # srcLanguage = srcLanguageEncoded.replace("%20", " ")
+    # srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
+    # interLanguageEncoded = d['interpreterLanguage']
+    # interLanguageIsoEncoded = d['interpreterLanguageIso']
+    # interLanguage = interLanguageEncoded.replace("%20", " ")
+    # interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
+    # countryCodeEncoded = d['countryCode']
+    # countryCode = countryCodeEncoded.replace("%2B", "+")
+    # new_callHistoryID = d['nextCallHistoryId']
 
     print callStatus
     logging.info('call status is: %s', callStatus)
