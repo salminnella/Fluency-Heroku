@@ -140,7 +140,7 @@ def call():
     else:
         #resp.dial(to, callerId=caller_id)
         # resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?userID=" + userID + "\">" + to + "</Number></Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?userID=" + userId + "\">" + to + "</Number></Dial></Response>"
 
   return str(resp)
 
