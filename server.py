@@ -214,7 +214,7 @@ def pushRecordedCallHistory():
     if callStatus == 'in-progress':
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
-    elif:
+    elif callStatus == 'completed':
         #Ozgur - firebase push -- working
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
         {u'name': u'-Io26123nDHkfybDIGl7'}
