@@ -65,7 +65,7 @@ def call():
 
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
-  # conf_name = request.values.get('ConfName')
+  conf_name = request.values.get('ConfName')
   to = request.values.get('To')
   recordConference = request.values.get('RecordConf')
   recordCall = request.values.get('RecordCall')
