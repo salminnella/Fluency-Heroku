@@ -104,7 +104,7 @@ def call():
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"true\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
+        resp = "<Response><Dial record=\"record-from-answer\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
         resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
@@ -191,7 +191,8 @@ def pushRecordedCallHistory():
     callDuration = request.values.get('DialCallDuration')
     recordingUrl = request.values.get('RecordingUrl')
     callStatus = request.values.get('CallStatus')
-    recordingID = recordingUrl[89:]
+    # recordingID = recordingUrl[89:]
+    recordingID = request.values.get('RecordingSid')
     userID = d['userID']
     callTypeEncoded = d['callType']
     callType = callTypeEncoded.replace("%20", " ")
