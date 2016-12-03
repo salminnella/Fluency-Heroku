@@ -208,10 +208,10 @@ def join():
 @app.route('/pushCallHistory', methods=['GET', 'POST'])
 def pushCallHistory():
     params = request.query_string
-    print 'Params = ', str(params)
     params.replace("%3D", "=")
+    print 'Params = ', str(params)
     d = dict(item.split("=") for item in params.split("%26"))
-
+    
     #one call to interpreter - Face to face
     callSid = request.values.get('DialCallSid')
     callDuration = request.values.get('DialCallDuration')
