@@ -115,9 +115,15 @@ def call():
 def conference():
     print '/conference was called'
     conf_name = request.values.get('ConfName')
-    userID = request.values.get('userID')
-    if conf_name:
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'true'})
+    thirdParty = request.values.get('thirdParty')
+    print '/conference: thirdParty = ', str(thirdParty)
+    if thirdParty == 'interpreter':
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'interpreter'})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+        resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+        return resp
+    elif thirdParty == 'callee'
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'callee'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
@@ -129,16 +135,15 @@ def conference():
 def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
-    userID = request.values.get('userID')
+    thirdParty = request.values.get('thirdParty')
+    print '/join: thirdParty = ', thirdParty
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
-    # urlString = 'https://fluency-1.herokuapp.com/conference?ConfName=' + str(conf_name) + '&userID=' + userID
-    call = twilioClient.calls.create(url=url_for('.conference', ConfName=conf_name, userID=userID, _external=True),
-                           to = to,
-                           from_=CALLER_ID
-                        #    status_callback="https://fluency-1.herokuapp.com/pushConfHistory",
-                        #    status_callback_method="POST",
-                        #    status_events=["answered"]
-                           )
+    call = twilioClient.calls.create(url=url_for('.conference',
+                                                 ConfName=conf_name,
+                                                 thirdParty=thirdParty,
+                                                 _external=True),
+                                     to = to,
+                                     from_=CALLER_ID)
 
     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     return str(resp)
