@@ -164,8 +164,8 @@ def pushCallHistory():
     d = dict(item.split("=") for item in params.split("%26"))
 
     #one call to interpreter - Face to face
-    callSid = request.values.get('DialCallSid')
-    callDuration = request.values.get('DialCallDuration')
+    callSid = request.values.get('CallSid')
+    callDuration = request.values.get('CallDuration')
     callStatus = request.values.get('CallStatus')
     userID = d['userID']
     callTypeEncoded = d['callType']
@@ -206,8 +206,8 @@ def pushRecordedCallHistory():
     d = dict(item.split("=") for item in params.split("%26"))
 
     #one call to interpreter - recorded - Face to face
-    callSid = request.values.get('DialCallSid')
-    callDuration = request.values.get('DialCallDuration')
+    callSid = request.values.get('CallSid')
+    callDuration = request.values.get('CallDuration')
     recordingUrl = request.values.get('RecordingUrl')
     callStatus = request.values.get('CallStatus')
     # recordingID = recordingUrl[89:]
