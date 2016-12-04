@@ -73,9 +73,9 @@ def call():
   caller_id = CALLER_ID
   digits = request.values.get('SendDigits')
 
-  if digits:
-      output = "<Response><Dial callerId=\"" + caller_id + "\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
-      return str(output)
+  # if digits:
+  #     output = "<Response><Dial callerId=\"" + caller_id + "\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
+  #     return str(output)
 
   if conf_name:
       resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
@@ -104,10 +104,10 @@ def call():
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"record-from-answer\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
+        resp = "<Response><Dial record=\"record-from-answer\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
     else:
         #resp.dial(to, callerId=caller_id)
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
 
   return str(resp)
 
@@ -136,6 +136,7 @@ def join():
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
     thirdParty = request.values.get('thirdParty')
+    digits = request.values.get('SendDigits')
     print '/join: thirdParty = ', thirdParty
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     call = twilioClient.calls.create(url=url_for('.conference',
@@ -143,9 +144,11 @@ def join():
                                                  thirdParty=thirdParty,
                                                  _external=True),
                                      to = to,
+                                     send_digits=digits,
                                      from_=CALLER_ID)
 
-    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+    # resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+    resp = "<Response></Response>"
     return str(resp)
 
 @app.route('/sayRecorded', methods=['GET', 'POST'])
