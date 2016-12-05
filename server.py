@@ -72,10 +72,7 @@ def call():
   # caller_id = os.environ.get("CALLER_ID")
   caller_id = CALLER_ID
   digits = request.values.get('SendDigits')
-
-  # if digits:
-  #     output = "<Response><Dial callerId=\"" + caller_id + "\"><Number sendDigits=\"wwwwww4860\">" + to + "</Number></Dial></Response>"
-  #     return str(output)
+  print 'interpreter digits = ', str(digits)
 
   if conf_name:
       resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
@@ -86,7 +83,6 @@ def call():
     return str(resp)
 
   from_client = from_value.startswith('client')
-  # caller_id = os.environ.get("CALLER_ID")
   caller_id = CALLER_ID
 
   if not from_client:
@@ -106,7 +102,6 @@ def call():
     if recordCall:
         resp = "<Response><Dial record=\"record-from-answer\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
     else:
-        #resp.dial(to, callerId=caller_id)
         resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
 
   return str(resp)
