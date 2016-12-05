@@ -100,7 +100,7 @@ def call():
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"record-from-answer\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+        resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
     else:
         resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
 
@@ -155,7 +155,7 @@ def sayRecorded():
 def pushCallHistory():
     encodedParams = request.query_string
     params = encodedParams.replace("%3D", "=")
-    print 'Params = ', str(params)
+    # print 'Params = ', str(params)
     d = dict(item.split("=") for item in params.split("%26"))
 
     #one call to interpreter - Face to face
@@ -205,7 +205,6 @@ def pushRecordedCallHistory():
     callDuration = request.values.get('CallDuration')
     recordingUrl = request.values.get('RecordingUrl')
     callStatus = request.values.get('CallStatus')
-    # recordingID = recordingUrl[89:]
     recordingID = request.values.get('RecordingSid')
     userID = d['userID']
     callTypeEncoded = d['callType']
