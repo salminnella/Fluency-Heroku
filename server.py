@@ -275,6 +275,7 @@ def pushConfHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
+    print 'call status = ', callStatus
     if callStatus == 'participant-leave':
         #Ozgur - firebase push when conference member has left before the session ended
         result = firebase.patch('/User/' + userID + '/callStatus', {'participantLeave': conferenceCallSid})
