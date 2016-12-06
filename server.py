@@ -110,6 +110,8 @@ def call():
 
 @app.route('/conference', methods=['GET', 'POST'])
 def conference():
+    # instructions to twilio when call is answered
+    # firebase push when call is answered to trigger appropriate timer start
     print '/conference was called'
     conf_name = request.values.get('ConfName')
     thirdParty = request.values.get('thirdParty')
@@ -130,6 +132,7 @@ def conference():
 
 @app.route('/join', methods=['GET', 'POST'])
 def join():
+    # called from android to join either the interpreter or callee to the conference
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
     thirdParty = request.values.get('thirdParty')
@@ -272,19 +275,14 @@ def pushConfHistory():
     countryCode = countryCodeEncoded.replace("%2B", "+")
     new_callHistoryID = d['nextCallHistoryId']
 
-    # if callStatus == 'participant-join':
-    #     result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
-    #     {u'name': u'-Io26123nDHkfybDIGl7'}
-    # elif callStatus == 'conference-end':
-    #     #Ozgur - firebase push -- working
-    #     result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
-    #
-    #     {u'name': u'-Io26123nDHkfybDIGl7'}
-
-    #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
-
-    {u'name': u'-Io26123nDHkfybDIGl7'}
+    if callStatus == 'participant-leave':
+        #Ozgur - firebase push when conference member has left before the session ended
+        result = firebase.patch('/User/' + userID + '/callStatus', {'participantLeave': conferenceCallSid})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    elif callStatus == 'conference-end'
+        #Ozgur - firebase push when call is completed -- working
+        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return str(conferenceCallSid)
 
