@@ -94,9 +94,11 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        # resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
+        # resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
@@ -133,6 +135,7 @@ def join():
     thirdParty = request.values.get('thirdParty')
     digits = request.values.get('SendDigits')
     print '/join: thirdParty = ', thirdParty
+    print '/join: digits = ', digits
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     call = twilioClient.calls.create(url=url_for('.conference',
                                                  ConfName=conf_name,
