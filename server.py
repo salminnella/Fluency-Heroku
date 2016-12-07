@@ -94,11 +94,11 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
         # resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
     else:
         # resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
   else:
     # client -> PSTN
     if recordCall:
@@ -278,14 +278,20 @@ def pushConfHistory():
     print 'call status = ', callStatus
     print 'conference sid = ', conferenceSid
     print 'conference call sid = ', conferenceCallSid
+
     if callStatus == 'participant-leave':
         #Ozgur - firebase push when conference member has left before the session ended
         result = firebase.patch('/User/' + userID + '/callStatus', {'eventValue': conferenceCallSid})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    elif callStatus == 'participant-join':
+        #firebase push when a participant joins
+        result = firebase.patch('/User/' + userID + '/callSIDLeft', {'eventValue': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'conference-end':
         #Ozgur - firebase push when call is completed -- working
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
         {u'name': u'-Io26123nDHkfybDIGl7'}
+
 
     return str(conferenceCallSid)
 
