@@ -94,7 +94,7 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
         # resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
     else:
         # resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
@@ -276,6 +276,8 @@ def pushConfHistory():
     new_callHistoryID = d['nextCallHistoryId']
 
     print 'call status = ', callStatus
+    print 'conference sid = ', conferenceSid
+    print 'conference call sid = ', conferenceCallSid
     if callStatus == 'participant-leave':
         #Ozgur - firebase push when conference member has left before the session ended
         result = firebase.patch('/User/' + userID + '/callStatus', {'eventValue': conferenceCallSid})
