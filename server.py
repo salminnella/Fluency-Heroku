@@ -281,11 +281,11 @@ def pushConfHistory():
 
     if callStatus == 'participant-leave':
         #Ozgur - firebase push when conference member has left before the session ended
-        result = firebase.patch('/User/' + userID + '/callStatus', {'eventValue': conferenceCallSid})
+        result = firebase.patch('/User/' + userID + '/callStatus', {'callSIDLeft': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'participant-join':
         #firebase push when a participant joins
-        result = firebase.patch('/User/' + userID + '/callSIDLeft', {'eventValue': conferenceCallSid})
+        result = firebase.patch('/User/' + userID + '/callStatus', {'callSIDJoin': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'conference-end':
         #Ozgur - firebase push when call is completed -- working
