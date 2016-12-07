@@ -117,12 +117,12 @@ def conference():
     thirdParty = request.values.get('thirdParty')
     print '/conference: thirdParty = ', str(thirdParty)
     if thirdParty == 'interpreter':
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'interpreter'})
+        result = firebase.patch('/User/' + conf_name + '/eventValue', {'answered': 'interpreter'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
     elif thirdParty == 'callee':
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'callee'})
+        result = firebase.patch('/User/' + conf_name + '/eventValue', {'answered': 'callee'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
@@ -190,7 +190,7 @@ def pushCallHistory():
     print 'Call Status = ', callStatus
 
     if callStatus == 'in-progress':
-        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+        result = firebase.patch('/User/' + userID + '/eventValue', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
         #Ozgur - firebase push -- working
@@ -232,7 +232,7 @@ def pushRecordedCallHistory():
     new_callHistoryID = d['nextCallHistoryId']
 
     if callStatus == 'in-progress':
-        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
+        result = firebase.patch('/User/' + userID + '/eventValue', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
         #Ozgur - firebase push -- working
@@ -278,7 +278,7 @@ def pushConfHistory():
     print 'call status = ', callStatus
     if callStatus == 'participant-leave':
         #Ozgur - firebase push when conference member has left before the session ended
-        result = firebase.patch('/User/' + userID + '/callStatus', {'participantLeave': conferenceCallSid})
+        result = firebase.patch('/User/' + userID + '/eventValue', {'participantLeave': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'conference-end':
         #Ozgur - firebase push when call is completed -- working
