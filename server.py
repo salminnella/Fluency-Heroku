@@ -117,12 +117,12 @@ def conference():
     thirdParty = request.values.get('thirdParty')
     print '/conference: thirdParty = ', str(thirdParty)
     if thirdParty == 'interpreter':
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'eventValue': 'interpreter'})
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'interpreter'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
     elif thirdParty == 'callee':
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'eventValue': 'callee'})
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'callee'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         return resp
@@ -190,7 +190,7 @@ def pushCallHistory():
     print 'Call Status = ', callStatus
 
     if callStatus == 'in-progress':
-        result = firebase.patch('/User/' + userID + '/callStatus', {'eventValue': 'answered'})
+        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
         #Ozgur - firebase push -- working
@@ -232,7 +232,7 @@ def pushRecordedCallHistory():
     new_callHistoryID = d['nextCallHistoryId']
 
     if callStatus == 'in-progress':
-        result = firebase.patch('/User/' + userID + '/callStatus', {'eventValue': 'answered'})
+        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
         #Ozgur - firebase push -- working
