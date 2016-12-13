@@ -117,17 +117,14 @@ def conference():
     thirdParty = request.values.get('thirdParty')
     print '/conference: thirdParty = ', str(thirdParty)
     if thirdParty == 'interpreter':
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'interpreter'})
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
         {u'name': u'-Io26123nDHkfybDIGl7'}
-        resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-        return resp
     elif thirdParty == 'callee':
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': 'callee'})
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
         {u'name': u'-Io26123nDHkfybDIGl7'}
-        resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-        return resp
-    else:
-        return '<Response></Response>'
+
+    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+    return resp
 
 
 @app.route('/join', methods=['GET', 'POST'])
@@ -281,16 +278,17 @@ def pushConfHistory():
 
     if callStatus == 'participant-leave':
         #Ozgur - firebase push when conference member has left before the session ended
-        result = firebase.patch('/User/' + userID + '/callStatus', {'callSIDLeft': conferenceCallSid})
+        result = firebase.patch('/User/' + userID + '/callLeft', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'participant-join':
         #firebase push when a participant joins
-        result = firebase.patch('/User/' + userID + '/callStatus', {'callSIDJoin': conferenceCallSid})
+        result = firebase.patch('/User/' + userID + '/callJoin', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'conference-end':
         #Ozgur - firebase push when call is completed -- working
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
-        result = firebase.delete('/User/' + userID + '/callStatus', 'callSIDLeft' )
+        result = firebase.delete('/User/' + userID + '/callLeft', 'sid' )
+        result = firebase.delete('/User/' + userID + '/callJoin', 'sid' )
         result = firebase.delete('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
