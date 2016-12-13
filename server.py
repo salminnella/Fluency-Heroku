@@ -287,9 +287,9 @@ def pushConfHistory():
     elif callStatus == 'conference-end':
         #Ozgur - firebase push when call is completed -- working
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
-        result = firebase.delete('/User/' + userID + '/callLeft', {'sid': 'none'} )
-        result = firebase.delete('/User/' + userID + '/callJoin', {'sid': 'none'} )
-        result = firebase.delete('/User/' + userID + '/callStatus', {'answered': 'none'} )
+        result = firebase.put('/User/' + userID + '/callLeft', {'sid': 'none'} )
+        result = firebase.put('/User/' + userID + '/callJoin', {'sid': 'none'} )
+        result = firebase.put('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
 
