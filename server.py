@@ -102,7 +102,16 @@ def call():
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+        resp = "<Response>"
+                "<Dial record=\"record-from-answer\" callerId=\"" + caller_id + "\" method=\"POST\">"
+                    "<Number url=\"https://fluency-1.herokuapp.com/sayRecorded\""
+                            "statusCallbackEvent=\"answered completed\""
+                            "statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\""
+                            "sendDigits=\"" + digits + "\">"
+                             + to +
+                    "</Number>"
+                "</Dial>
+               "</Response>"
     else:
         resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
 
@@ -287,8 +296,8 @@ def pushConfHistory():
     elif callStatus == 'conference-end':
         #Ozgur - firebase push when call is completed -- working
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
-        result = firebase.delete('/User/' + userID + '/callLeft', 'sid' )
-        result = firebase.delete('/User/' + userID + '/callJoin', 'sid' )
+        result = firebase.delete('/User/' + userID + '/callLeft', {'sid': 'none'} )
+        result = firebase.delete('/User/' + userID + '/callJoin', {'sid': 'none'} )
         result = firebase.delete('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
