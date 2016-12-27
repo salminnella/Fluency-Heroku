@@ -342,7 +342,8 @@ def pushRecordedConfHistory():
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
 
-
+    return '<Response></Response>'
+    
     #Ozgur - firebase push -- working
     # result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
     #
