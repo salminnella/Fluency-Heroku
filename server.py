@@ -354,7 +354,7 @@ def pushRecordedConfHistory():
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
         result = firebase.patch('/User/' + userID + '/callLeft', {'sid': 'none'} )
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': 'none'} )
-        result = firebase.put('/User/' + userID + '/callStatus', {'answered': 'none'} )
+        result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
         print result
 
