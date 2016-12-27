@@ -113,7 +113,7 @@ def conference():
     print '/conference was called'
     conf_name = request.values.get('ConfName')
     thirdParty = request.values.get('thirdParty')
-    record = true
+    record = True
     print '/conference: thirdParty = ', str(thirdParty)
     if thirdParty == 'interpreter':
         if record:
