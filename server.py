@@ -106,30 +106,6 @@ def call():
 
   return str(resp)
 
-@app.route('/conference', methods=['GET', 'POST'])
-def conference():
-    # instructions to twilio when call is answered
-    # firebase push when call is answered to trigger appropriate timer start
-    print '/conference was called'
-    conf_name = request.values.get('ConfName')
-    thirdParty = request.values.get('thirdParty')
-    # record = True
-    print '/conference: thirdParty = ', str(thirdParty)
-    # print 'record = ', str(record)
-    if thirdParty == 'interpreter':
-        # if record:
-        #     sayRecorded()
-        #     print 'should have said this is recorded'
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
-        {u'name': u'-Io26123nDHkfybDIGl7'}
-    elif thirdParty == 'callee':
-        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
-        {u'name': u'-Io26123nDHkfybDIGl7'}
-
-    resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-    return resp
-
-
 @app.route('/join', methods=['GET', 'POST'])
 def join():
     # called from android to join either the interpreter or callee to the conference
@@ -150,6 +126,30 @@ def join():
 
     resp = "<Response></Response>"
     return str(resp)
+
+@app.route('/conference', methods=['GET', 'POST'])
+def conference():
+    # instructions to twilio when call is answered
+    # firebase push when call is answered to trigger appropriate timer start
+    print '/conference was called'
+    conf_name = request.values.get('ConfName')
+    thirdParty = request.values.get('thirdParty')
+    record = True
+    print '/conference: thirdParty = ', str(thirdParty)
+    if thirdParty == 'interpreter':
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    elif thirdParty == 'callee':
+        result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+
+    if record:
+        resp = "<Response><Say voice=\"alice\">This call will be recorded</Say><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+        print 'should have said this is recorded'
+    else:
+        resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+
+    return resp
 
 @app.route('/sayRecorded', methods=['GET', 'POST'])
 def sayRecorded():
@@ -363,7 +363,7 @@ def pushRecordedConfHistory():
         print result
         resp = "<Response></Response>"
 
-    print resp
+    print 'response = ', resp
     return resp
 
     #Ozgur - firebase push -- working
