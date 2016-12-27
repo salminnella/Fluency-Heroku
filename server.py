@@ -299,6 +299,10 @@ def pushConfHistory():
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
+    params = request.query_string
+    pm = params.replace("%3D", "=")
+    d = dict(item.split("=") for item in pm.split("%26"))
+
     #conference info - recorded
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
@@ -308,17 +312,24 @@ def pushRecordedConfHistory():
     duration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
 
-    userID = request.values.get('userID')
-    callType = request.values.get('callType')
-    name = request.values.get('name')
-    number = request.values.get('number')
-    callDateTime = request.values.get('CallDateTime')
-    srcLanguage = request.values.get('sourceLanguage')
-    srcLanguageIso = request.values.get('sourceLanguageIso')
-    interLanguage = request.values.get('interpreterLanguage')
-    interLanguageIso = request.values.get('interpreterLanguageIso')
-    countryCode = request.values.get('countryCode')
-    new_callHistoryID = request.values.get('nextCallHistoryId')
+    userID = d['userID']
+    callTypeEncoded = d['callType']
+    callType = callTypeEncoded.replace("%20", " ")
+    name = d['name']
+    number = d['number']
+    callDateTimeEncoded = d['CallDateTime']
+    callDateTime = callDateTimeEncoded.replace("%2F", "/")
+    srcLanguageEncoded = d['sourceLanguage']
+    srcLanguageIsoEncoded = d['sourceLanguageIso']
+    srcLanguage = srcLanguageEncoded.replace("%20", " ")
+    srcLanguageIso = srcLanguageIsoEncoded.replace("%20", " ")
+    interLanguageEncoded = d['interpreterLanguage']
+    interLanguageIsoEncoded = d['interpreterLanguageIso']
+    interLanguage = interLanguageEncoded.replace("%20", " ")
+    interLanguageIso = interLanguageIsoEncoded.replace("%20", " ")
+    countryCodeEncoded = d['countryCode']
+    countryCode = countryCodeEncoded.replace("%2B", "+")
+    new_callHistoryID = d['nextCallHistoryId']
 
     print 'pushRecordedConfHistory'
     print 'call status = ', callStatus
