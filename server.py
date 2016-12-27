@@ -363,6 +363,7 @@ def pushRecordedConfHistory():
         print result
         resp = "<Response></Response>"
 
+    print resp
     return resp
 
     #Ozgur - firebase push -- working
