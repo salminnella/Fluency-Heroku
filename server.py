@@ -327,16 +327,18 @@ def pushRecordedConfHistory():
 
     if callStatus == 'participant-leave':
         #Ozgur - firebase push when conference member has left before the session ended
+        print 'participant-leave was called'
         result = firebase.patch('/User/' + userID + '/callLeft', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'participant-join':
         #firebase push when a participant joins
+        print 'participant-join was called'
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'conference-end':
         #Ozgur - firebase push when call is completed -- working
         print 'conference end was called'
-        result = firebase.patch('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
+        result = firebase.patch('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
         result = firebase.patch('/User/' + userID + '/callLeft', {'sid': 'none'} )
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': 'none'} )
         result = firebase.put('/User/' + userID + '/callStatus', {'answered': 'none'} )
