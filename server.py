@@ -139,10 +139,13 @@ def conference():
     record = request.values.get('Record')
 
     print '/conference: thirdParty = ', str(thirdParty)
+    print 'record = ', record
     if thirdParty == 'interpreter':
+        print 'interpreter push'
         result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif thirdParty == 'callee':
+        print 'calle push'
         result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -151,6 +154,7 @@ def conference():
         print 'should have said this is recorded'
     else:
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+        print 'not recording'
 
     return resp
 
