@@ -304,7 +304,7 @@ def pushRecordedConfHistory():
     conferenceCallSid = request.values.get('CallSid')
     callStatus = request.values.get('StatusCallbackEvent')
     recordingUrl = request.values.get('RecordingUrl')
-    recordingID = recordingUrl[89:]
+    recordingID = request.values.get('RecordingSid')
     duration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
 
