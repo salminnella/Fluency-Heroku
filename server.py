@@ -113,13 +113,13 @@ def conference():
     print '/conference was called'
     conf_name = request.values.get('ConfName')
     thirdParty = request.values.get('thirdParty')
-    record = True
+    # record = True
     print '/conference: thirdParty = ', str(thirdParty)
-    print 'record = ', str(record)
+    # print 'record = ', str(record)
     if thirdParty == 'interpreter':
-        if record:
-            sayRecorded()
-            print 'should have said this is recorded'
+        # if record:
+        #     sayRecorded()
+        #     print 'should have said this is recorded'
         result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif thirdParty == 'callee':
@@ -148,7 +148,6 @@ def join():
                                      send_digits=digits,
                                      from_=CALLER_ID)
 
-    # resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     resp = "<Response></Response>"
     return str(resp)
 
@@ -345,13 +344,14 @@ def pushRecordedConfHistory():
         result = firebase.patch('/User/' + userID + '/callLeft', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         print result
+        resp = "<Response></Response>"
     elif callStatus == 'participant-join':
         #firebase push when a participant joins
         print 'participant-join was called'
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         print result
-    # elif callStatus == 'conference-end':
+        resp = "<Response><Say voice=\"alice\">This call will be recorded</Say></Response>"
     else:
         #Ozgur - firebase push when call is completed -- working
         print 'conference end was called'
@@ -361,8 +361,9 @@ def pushRecordedConfHistory():
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
         print result
+        resp = "<Response></Response>"
 
-    return '<Response></Response>'
+    return resp
 
     #Ozgur - firebase push -- working
     # result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
