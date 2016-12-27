@@ -117,7 +117,7 @@ def conference():
     print '/conference: thirdParty = ', str(thirdParty)
     if thirdParty == 'interpreter':
         if record:
-            def sayRecorded():
+            sayRecorded():
         result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif thirdParty == 'callee':
