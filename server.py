@@ -320,6 +320,7 @@ def pushRecordedConfHistory():
     countryCode = request.values.get('countryCode')
     new_callHistoryID = request.values.get('nextCallHistoryId')
 
+    print 'pushRecordedConfHistory'
     print 'call status = ', callStatus
     print 'conference sid = ', conferenceSid
     print 'conference call sid = ', conferenceCallSid
@@ -340,7 +341,6 @@ def pushRecordedConfHistory():
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': 'none'} )
         result = firebase.put('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
-
 
     return '<Response></Response>'
 
