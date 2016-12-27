@@ -94,7 +94,7 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
         # resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
     else:
         # resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
@@ -348,7 +348,8 @@ def pushRecordedConfHistory():
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
         print result
-    elif callStatus == 'conference-end':
+    # elif callStatus == 'conference-end':
+    else:
         #Ozgur - firebase push when call is completed -- working
         print 'conference end was called'
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
