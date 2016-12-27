@@ -302,6 +302,7 @@ def pushRecordedConfHistory():
     #conference info - recorded
     conferenceSid = request.values.get('ConferenceSid')
     conferenceCallSid = request.values.get('CallSid')
+    callStatus = request.values.get('StatusCallbackEvent')
     recordingUrl = request.values.get('RecordingUrl')
     recordingID = recordingUrl[89:]
     duration = request.values.get('Duration')
@@ -319,12 +320,35 @@ def pushRecordedConfHistory():
     countryCode = request.values.get('countryCode')
     new_callHistoryID = request.values.get('nextCallHistoryId')
 
+    print 'call status = ', callStatus
+    print 'conference sid = ', conferenceSid
+    print 'conference call sid = ', conferenceCallSid
+
+    if callStatus == 'participant-leave':
+        #Ozgur - firebase push when conference member has left before the session ended
+        result = firebase.patch('/User/' + userID + '/callLeft', {'sid': conferenceCallSid})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    elif callStatus == 'participant-join':
+        #firebase push when a participant joins
+        result = firebase.patch('/User/' + userID + '/callJoin', {'sid': conferenceCallSid})
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+    elif callStatus == 'conference-end':
+        #Ozgur - firebase push when call is completed -- working
+        print 'conference end was called'
+        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+        result = firebase.patch('/User/' + userID + '/callLeft', {'sid': 'none'} )
+        result = firebase.patch('/User/' + userID + '/callJoin', {'sid': 'none'} )
+        result = firebase.put('/User/' + userID + '/callStatus', {'answered': 'none'} )
+        {u'name': u'-Io26123nDHkfybDIGl7'}
+
+
+
     #Ozgur - firebase push -- working
-    result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
-
-    {u'name': u'-Io26123nDHkfybDIGl7'}
-
-    return str(new_callHistoryID)
+    # result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
+    #
+    # {u'name': u'-Io26123nDHkfybDIGl7'}
+    #
+    # return str(new_callHistoryID)
 
 @app.route('/delete-recording', methods=['GET', 'POST'])
 def recording():
