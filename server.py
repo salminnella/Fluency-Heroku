@@ -94,7 +94,7 @@ def call():
   elif to.startswith("conference:"):
     # client -> conference
     if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
         # resp = "<Response><Dial><Conference record=\"record-from-start\" eventCallbackUrl=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
     else:
         # resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"end\" endConferenceOnExit=\"true\"><Number sendDigits=\"" + digits + "\">" + to[11:] + "</Number></Conference></Dial></Response>"
