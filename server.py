@@ -111,14 +111,16 @@ def join():
     # called from android to join either the interpreter or callee to the conference
     conf_name = request.values.get('ConfName')
     to = request.values.get('To')
-    thirdParty = request.values.get('thirdParty')
+    thirdParty = request.values.get('ThirdParty')
     digits = request.values.get('SendDigits')
+    record = request.values.get('Record')
     print '/join: thirdParty = ', thirdParty
     print '/join: digits = ', digits
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     call = twilioClient.calls.create(url=url_for('.conference',
                                                  ConfName=conf_name,
-                                                 thirdParty=thirdParty,
+                                                 ThirdParty=thirdParty,
+                                                 Record=record,
                                                  _external=True),
                                      to = to,
                                      send_digits=digits,
@@ -133,8 +135,9 @@ def conference():
     # firebase push when call is answered to trigger appropriate timer start
     print '/conference was called'
     conf_name = request.values.get('ConfName')
-    thirdParty = request.values.get('thirdParty')
-    record = True
+    thirdParty = request.values.get('ThirdParty')
+    record = request.values.get('Record')
+
     print '/conference: thirdParty = ', str(thirdParty)
     if thirdParty == 'interpreter':
         result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
@@ -143,7 +146,7 @@ def conference():
         result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
-    if record:
+    if record == 'true':
         resp = "<Response><Say voice=\"alice\">This call will be recorded</Say><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
         print 'should have said this is recorded'
     else:
@@ -295,7 +298,6 @@ def pushConfHistory():
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
-
     return str(conferenceCallSid)
 
 
@@ -343,15 +345,11 @@ def pushRecordedConfHistory():
         print 'participant-leave was called'
         result = firebase.patch('/User/' + userID + '/callLeft', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
-        print result
-        resp = "<Response></Response>"
     elif callStatus == 'participant-join':
         #firebase push when a participant joins
         print 'participant-join was called'
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
-        print result
-        resp = "<Response><Say voice=\"alice\">This call will be recorded</Say></Response>"
     else:
         #Ozgur - firebase push when call is completed -- working
         print 'conference end was called'
@@ -360,11 +358,8 @@ def pushRecordedConfHistory():
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': 'none'} )
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
-        print result
-        resp = "<Response></Response>"
 
-    print 'response = ', resp
-    return resp
+    return "<Response></Response>"
 
     #Ozgur - firebase push -- working
     # result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
