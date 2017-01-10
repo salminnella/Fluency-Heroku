@@ -72,7 +72,13 @@ def call():
     if to.startswith("conference:"):
     # client -> conference
         if recordConference:
-            resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+            resp = "<Response><Dial> \
+                <Conference record=\"record-from-start\" \
+                recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" \
+                statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" \
+                statusCallbackEvent=\"join leave\" \
+                endConferenceOnExit=\"true\">" + to[11:] + \
+                "</Conference></Dial></Response>"
         else:
             resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
@@ -128,7 +134,8 @@ def conference():
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
     if record == 'true':
-        resp = "<Response><Say voice=\"alice\">This call will be recorded</Say><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+        resp = "<Response><Say voice=\"alice\">This call will be recorded</Say> \
+            <Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
 
