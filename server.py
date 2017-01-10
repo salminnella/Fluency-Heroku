@@ -17,89 +17,68 @@ ACCOUNT_SID = os.environ.get("ACCOUNT_SID")
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 APP_SID = os.environ.get("APP_SID")
 API_KEY = os.environ.get("API_KEY")
-# API_KEY_SECRET = os.environ.get("API_SECRET")
-# PUSH_CREDENTIAL_SID = os.environ.get("PUSH_CREDENTIAL_SID")
 stripe.api_key = os.environ.get("STRIPE_API_KEY")
-# Firebase url
-global firebase
+CALLER_ID = os.environ.get("CALLER_ID")
+CLIENT = 'Fluency'
+# global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
 
-CLIENT = 'Fluency'
-CALLER_ID = os.environ.get("CALLER_ID")
 app = Flask(__name__)
 
 @app.route('/token')
 def token():
-  capability = TwilioCapability(ACCOUNT_SID, AUTH_TOKEN)
-  # This allows outgoing connections to TwiML application
-  if request.values.get('allowOutgoing') != 'false':
-     capability.allow_client_outgoing(APP_SID)
-  # This allows incoming connections to client (if specified)
-  client = request.values.get('client')
-  if client != None:
-    capability.allow_client_incoming(client)
-  # This returns a token to use with Twilio based on the account and capabilities defined above
-  return capability.generate()
+    capability = TwilioCapability(ACCOUNT_SID, AUTH_TOKEN)
+    # This allows outgoing connections to TwiML application
+    if request.values.get('allowOutgoing') != 'false':
+        capability.allow_client_outgoing(APP_SID)
+    # This allows incoming connections to client (if specified)
+    client = request.values.get('client')
+    if client != None:
+        capability.allow_client_incoming(client)
+
+    # This returns a token to use with Twilio based on the account and capabilities defined above
+    return capability.generate()
 
 @app.route('/call', methods=['GET', 'POST'])
 def call():
-  callType = request.values.get('callType')
-  name = request.values.get('name')
-  number = request.values.get('number')
-  callDateTime = request.values.get('CallDateTime')
-  srcLanguage = request.values.get('sourceLanguage')
-  srcLanguageIso = request.values.get('sourceLanguageIso')
-  interLanguage = request.values.get('interpreterLanguage')
-  interLanguageIso = request.values.get('interpreterLanguageIso')
-  countryCode = request.values.get('countryCode')
-  new_callHistoryID = request.values.get('nextCallHistoryId')
-  userId = request.values.get('userID')
+    callType = request.values.get('callType')
+    name = request.values.get('name')
+    number = request.values.get('number')
+    callDateTime = request.values.get('CallDateTime')
+    srcLanguage = request.values.get('sourceLanguage')
+    srcLanguageIso = request.values.get('sourceLanguageIso')
+    interLanguage = request.values.get('interpreterLanguage')
+    interLanguageIso = request.values.get('interpreterLanguageIso')
+    countryCode = request.values.get('countryCode')
+    new_callHistoryID = request.values.get('nextCallHistoryId')
+    userId = request.values.get('userID')
 
-  params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
-
-  resp = twilio.twiml.Response()
-  from_value = request.values.get('From')
-  conf_name = request.values.get('ConfName')
-  to = request.values.get('To')
-  recordConference = request.values.get('RecordConf')
-  recordCall = request.values.get('RecordCall')
-  # caller_id = os.environ.get("CALLER_ID")
-  # caller_id = CALLER_ID
-  digits = request.values.get('SendDigits')
-  # print 'interpreter digits = ', str(digits)
-
-  # if conf_name:
-  #     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-  #     return resp
-
-  # if not (from_value and to):
-  #   resp.say("Invalid request")
-  #   return str(resp)
-
-  # from_client = from_value.startswith('client')
+    params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
 
 
-  # if not from_client:
-  #   # PSTN -> client
-  #   resp.dial(callerId=from_value).client(CLIENT)
-  # elif to.startswith("client:"):
-  #   # client -> client
-  #   resp.dial(callerId=from_value).client(to[7:])
+    from_value = request.values.get('From')
+    conf_name = request.values.get('ConfName')
+    to = request.values.get('To')
+    recordConference = request.values.get('RecordConf')
+    recordCall = request.values.get('RecordCall')
+    digits = request.values.get('SendDigits')
 
-  if to.startswith("conference:"):
+    resp = twilio.twiml.Response()
+
+    if to.startswith("conference:"):
     # client -> conference
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
         resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
-  else:
+    else:
     # client -> PSTN
     if recordCall:
         resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
     else:
         resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
 
-  return str(resp)
+    return str(resp)
 
 @app.route('/join', methods=['GET', 'POST'])
 def join():
