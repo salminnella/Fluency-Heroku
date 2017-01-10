@@ -20,7 +20,6 @@ API_KEY = os.environ.get("API_KEY")
 stripe.api_key = os.environ.get("STRIPE_API_KEY")
 CALLER_ID = os.environ.get("CALLER_ID")
 CLIENT = 'Fluency'
-# global firebase
 firebase = firebase.FirebaseApplication('https://project-5176964787746948725.firebaseio.com')
 
 app = Flask(__name__)
@@ -52,6 +51,11 @@ def call():
     countryCode = request.values.get('countryCode')
     new_callHistoryID = request.values.get('nextCallHistoryId')
     userId = request.values.get('userID')
+    to = request.values.get('To')
+    recordConference = request.values.get('RecordConf')
+    recordCall = request.values.get('RecordCall')
+    digits = request.values.get('SendDigits')
+    resp = twilio.twiml.Response()
 
     params = "userID=" + userId + \
         "%26nextCallHistoryId=" + new_callHistoryID + \
@@ -64,16 +68,6 @@ def call():
         "%26number=" + number + \
         "%26name=" + name + \
         "%26callType=" + urllib.quote(callType)
-
-
-    from_value = request.values.get('From')
-    conf_name = request.values.get('ConfName')
-    to = request.values.get('To')
-    recordConference = request.values.get('RecordConf')
-    recordCall = request.values.get('RecordCall')
-    digits = request.values.get('SendDigits')
-
-    resp = twilio.twiml.Response()
 
     if to.startswith("conference:"):
     # client -> conference
@@ -135,10 +129,8 @@ def conference():
 
     if record == 'true':
         resp = "<Response><Say voice=\"alice\">This call will be recorded</Say><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-        print 'should have said this is recorded'
     else:
         resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-        print 'not recording'
 
     return resp
 
@@ -151,7 +143,6 @@ def sayRecorded():
 def pushCallHistory():
     encodedParams = request.query_string
     params = encodedParams.replace("%3D", "=")
-    # print 'Params = ', str(params)
     d = dict(item.split("=") for item in params.split("%26"))
 
     #one call to interpreter - Face to face
@@ -183,7 +174,6 @@ def pushCallHistory():
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
-        #Ozgur - firebase push -- working
         result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -193,7 +183,6 @@ def pushCallHistory():
 def pushRecordedCallHistory():
     encodedParams = request.query_string
     params = encodedParams.replace("%3D", "=")
-    # print 'Params = ', str(params)
     d = dict(item.split("=") for item in params.split("%26"))
 
     #one call to interpreter - recorded - Face to face
@@ -225,7 +214,6 @@ def pushRecordedCallHistory():
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
-        #Ozgur - firebase push -- working
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
@@ -245,7 +233,6 @@ def pushConfHistory():
     timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
     timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
     duration = str(timestamp_updated - timestamp_created)
-
     userID = d['userID']
     callTypeEncoded = d['callType']
     callType = callTypeEncoded.replace("%20", " ")
@@ -270,7 +257,7 @@ def pushConfHistory():
     print 'conference call sid = ', conferenceCallSid
 
     if callStatus == 'participant-leave':
-        #Ozgur - firebase push when conference member has left before the session ended
+        #firebase push when conference member has left before the session ended
         result = firebase.patch('/User/' + userID + '/callLeft', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'participant-join':
@@ -278,12 +265,9 @@ def pushConfHistory():
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'conference-end':
-        #Ozgur - firebase push when call is completed -- working
+        #firebase push when call is completed -- working
         print 'conference end was called'
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
-        # result = firebase.patch('/User/' + userID + '/callLeft', {'sid': 'none'} )
-        # result = firebase.patch('/User/' + userID + '/callJoin', {'sid': 'none'} )
-        # result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return str(conferenceCallSid)
@@ -303,7 +287,6 @@ def pushRecordedConfHistory():
     recordingID = request.values.get('RecordingSid')
     duration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
-
     userID = d['userID']
     callTypeEncoded = d['callType']
     callType = callTypeEncoded.replace("%20", " ")
@@ -329,7 +312,7 @@ def pushRecordedConfHistory():
     print 'conference call sid = ', conferenceCallSid
 
     if callStatus == 'participant-leave':
-        #Ozgur - firebase push when conference member has left before the session ended
+        #irebase push when conference member has left before the session ended
         print 'participant-leave was called'
         result = firebase.patch('/User/' + userID + '/callLeft', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
@@ -339,22 +322,12 @@ def pushRecordedConfHistory():
         result = firebase.patch('/User/' + userID + '/callJoin', {'sid': conferenceCallSid})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     else:
-        #Ozgur - firebase push when call is completed -- working
+        #firebase push when call is completed -- working
         print 'conference end was called'
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
-        # result = firebase.patch('/User/' + userID + '/callLeft', {'sid': 'none'} )
-        # result = firebase.patch('/User/' + userID + '/callJoin', {'sid': 'none'} )
-        # result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'none'} )
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return "<Response></Response>"
-
-    #Ozgur - firebase push -- working
-    # result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid,'callDateTime': callDateTime,  'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
-    #
-    # {u'name': u'-Io26123nDHkfybDIGl7'}
-    #
-    # return str(new_callHistoryID)
 
 @app.route('/delete-recording', methods=['GET', 'POST'])
 def recording():
@@ -366,7 +339,6 @@ def recording():
 
 @app.route('/create_customer', methods=['GET', 'POST'])
 def create_customer():
-
     #token = request.POST['stripeToken']
     stripeToken = request.values.get('stripeToken')
     custDescription = request.values.get('description')
@@ -381,7 +353,6 @@ def create_customer():
 
 @app.route('/retrieve_customer')
 def retrieve_customer():
-
     custID = request.values.get('customerID')
     stripeCustomer = stripe.Customer.retrieve(custID)
 
@@ -393,7 +364,6 @@ def chargeCustomer():
     cost = request.values.get('totalCost')
     emailAddress = request.values.get('emailAddress')
     cents = int(cost)
-
     response = chargeCard(custID, cents, emailAddress)
 
     return response
@@ -420,7 +390,7 @@ def authCreditCard():
         err  = body['error']
         jsonArray = json.dumps(err)
         preAuthResponse = jsonArray
-#        preAuthResponse = err['message']
+        # preAuthResponse = err['message']
     except stripe.error.RateLimitError as e:
         # Too many requests made to the API too quickly
         body = e.json_body
@@ -468,8 +438,6 @@ def authCreditCard():
 
     return str(preAuthResponse)
 
-
-
 @app.route('/cancel_preauth', methods=['GET', 'POST'])
 def cancel_preauth():
     chargeID = request.values.get('chargeID')
@@ -480,16 +448,13 @@ def cancel_preauth():
 
 @app.route('/update_customer', methods=['GET', 'POST'])
 def update_customer():
-
     stripeToken = request.values.get('stripeToken')
     custID = request.values.get('customerID')
-
     cu = stripe.Customer.retrieve(custID)
     cu.source = stripeToken
     cu.save()
 
     return str('updated customer card')
-
 
 def chargeCard( customerID, chargeAmount, emailAddress ):
     try:
@@ -560,19 +525,10 @@ def chargeCard( customerID, chargeAmount, emailAddress ):
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
-  resp = twilio.twiml.Response()
-  resp.say("Welcome to Twilio")
-  return str(resp)
-
-# @app.route('/sayDisconnected', methods=['GET', 'POST'])
-# def sayDisconnected():
-#     resp = twilio.twiml.Response()
-#     # resp.say("Caller Disconnected")
-#
-#     resp = "<Response><Say>Hello World disconnected</Say></Response>"
-#
-#     return str(resp)
+    resp = twilio.twiml.Response()
+    resp.say("Welcome to Twilio")
+    return str(resp)
 
 if __name__ == "__main__":
-  port = int(os.environ.get("PORT", 5000))
-  app.run(host='0.0.0.0', port=port, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
