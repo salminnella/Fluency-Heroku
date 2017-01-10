@@ -8,7 +8,7 @@ from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
 import twilio.twiml
 from firebase import firebase
-from email.utils import parsedate_tz, mktime_tz
+# from email.utils import parsedate_tz, mktime_tz
 import json
 import urllib
 from urllib import urlencode
@@ -68,9 +68,9 @@ def call():
   digits = request.values.get('SendDigits')
   # print 'interpreter digits = ', str(digits)
 
-  if conf_name:
-      resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
-      return resp
+  # if conf_name:
+  #     resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
+  #     return resp
 
   # if not (from_value and to):
   #   resp.say("Invalid request")
