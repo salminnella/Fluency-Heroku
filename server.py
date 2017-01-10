@@ -17,8 +17,8 @@ ACCOUNT_SID = os.environ.get("ACCOUNT_SID")
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 APP_SID = os.environ.get("APP_SID")
 API_KEY = os.environ.get("API_KEY")
-API_KEY_SECRET = os.environ.get("API_SECRET")
-PUSH_CREDENTIAL_SID = os.environ.get("PUSH_CREDENTIAL_SID")
+# API_KEY_SECRET = os.environ.get("API_SECRET")
+# PUSH_CREDENTIAL_SID = os.environ.get("PUSH_CREDENTIAL_SID")
 stripe.api_key = os.environ.get("STRIPE_API_KEY")
 # Firebase url
 global firebase
@@ -43,11 +43,6 @@ def token():
 
 @app.route('/call', methods=['GET', 'POST'])
 def call():
-  """ This method routes calls from/to client                  """
-  """ Rules: 1. From can be either client:name or PSTN number  """
-  """        2. To value specifies target. When call is coming """
-  """           from PSTN, To value is ignored and call is     """
-  """           routed to client named CLIENT                  """
   callType = request.values.get('callType')
   name = request.values.get('name')
   number = request.values.get('number')
@@ -61,7 +56,6 @@ def call():
   userId = request.values.get('userID')
 
   params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
-  # params = "userID=" + userId + "&nextCallHistoryId=" + new_callHistoryID + "&countryCode=" + urllib.quote_plus(countryCode) + "&interpreterLanguage=" + urllib.quote(interLanguage) + "&interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "&sourceLanguage=" + urllib.quote(srcLanguage) + "&sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "&CallDateTime=" + urllib.quote_plus(callDateTime) + "&number=" + number + "&name=" + name + "&callType=" + urllib.quote(callType)
 
   resp = twilio.twiml.Response()
   from_value = request.values.get('From')
@@ -70,28 +64,29 @@ def call():
   recordConference = request.values.get('RecordConf')
   recordCall = request.values.get('RecordCall')
   # caller_id = os.environ.get("CALLER_ID")
-  caller_id = CALLER_ID
+  # caller_id = CALLER_ID
   digits = request.values.get('SendDigits')
-  print 'interpreter digits = ', str(digits)
+  # print 'interpreter digits = ', str(digits)
 
   if conf_name:
       resp = "<Response><Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
       return resp
 
-  if not (from_value and to):
-    resp.say("Invalid request")
-    return str(resp)
+  # if not (from_value and to):
+  #   resp.say("Invalid request")
+  #   return str(resp)
 
-  from_client = from_value.startswith('client')
-  caller_id = CALLER_ID
+  # from_client = from_value.startswith('client')
 
-  if not from_client:
-    # PSTN -> client
-    resp.dial(callerId=from_value).client(CLIENT)
-  elif to.startswith("client:"):
-    # client -> client
-    resp.dial(callerId=from_value).client(to[7:])
-  elif to.startswith("conference:"):
+
+  # if not from_client:
+  #   # PSTN -> client
+  #   resp.dial(callerId=from_value).client(CLIENT)
+  # elif to.startswith("client:"):
+  #   # client -> client
+  #   resp.dial(callerId=from_value).client(to[7:])
+
+  if to.startswith("conference:"):
     # client -> conference
     if recordConference:
         resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
@@ -100,9 +95,9 @@ def call():
   else:
     # client -> PSTN
     if recordCall:
-        resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+        resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
     else:
-        resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+        resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
 
   return str(resp)
 
