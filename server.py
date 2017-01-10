@@ -53,7 +53,17 @@ def call():
     new_callHistoryID = request.values.get('nextCallHistoryId')
     userId = request.values.get('userID')
 
-    params = "userID=" + userId + "%26nextCallHistoryId=" + new_callHistoryID + "%26countryCode=" + urllib.quote_plus(countryCode) + "%26interpreterLanguage=" + urllib.quote(interLanguage) + "%26interpreterLanguageIso=" + urllib.quote(interLanguageIso) + "%26sourceLanguage=" + urllib.quote(srcLanguage) + "%26sourceLanguageIso=" + urllib.quote(srcLanguageIso) + "%26CallDateTime=" + urllib.quote_plus(callDateTime) + "%26number=" + number + "%26name=" + name + "%26callType=" + urllib.quote(callType)
+    params = "userID=" + userId +
+        "%26nextCallHistoryId=" + new_callHistoryID +
+        "%26countryCode=" + urllib.quote_plus(countryCode) +
+        "%26interpreterLanguage=" + urllib.quote(interLanguage) +
+        "%26interpreterLanguageIso=" + urllib.quote(interLanguageIso) +
+        "%26sourceLanguage=" + urllib.quote(srcLanguage) +
+        "%26sourceLanguageIso=" + urllib.quote(srcLanguageIso) +
+        "%26CallDateTime=" + urllib.quote_plus(callDateTime) +
+        "%26number=" + number +
+        "%26name=" + name +
+        "%26callType=" + urllib.quote(callType)
 
 
     from_value = request.values.get('From')
@@ -67,16 +77,16 @@ def call():
 
     if to.startswith("conference:"):
     # client -> conference
-    if recordConference:
-        resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        if recordConference:
+            resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+        else:
+            resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
     else:
-        resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
-    else:
-    # client -> PSTN
-    if recordCall:
-        resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
-    else:
-        resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+        # client -> PSTN
+        if recordCall:
+            resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+        else:
+            resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
 
     return str(resp)
 
