@@ -198,8 +198,7 @@ def pushCallHistory():
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
-        result = firebase.put('/User/' + str(userID) + 
-            '/callHistory', new_callHistoryID,
+        result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID,
             data={'callHistoryId': new_callHistoryID,
                 'callType': callType,
                 'callDuration': callDuration,
@@ -251,7 +250,21 @@ def pushRecordedCallHistory():
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
-        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'recordingURI': recordingUrl, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
+        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID,
+            data={'callHistoryId': new_callHistoryID,
+                'callType': callType,
+                'callDuration': callDuration,
+                'callSID': callSid,
+                'callDateTime': callDateTime,
+                'number': number,
+                'name': name,
+                'recordingURI': recordingUrl,
+                'srcLanguage': srcLanguage,
+                'srcLanguageIso': srcLanguageIso,
+                'interLanguage': interLanguage,
+                'interLanguageIso': interLanguageIso,
+                'countryCode': countryCode,
+                'recordingID': recordingID})
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return '<Response></Response>'
@@ -304,11 +317,23 @@ def pushConfHistory():
     elif callStatus == 'conference-end':
         #firebase push when call is completed -- working
         print 'conference end was called'
-        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID,
+            data={'callHistoryId': new_callHistoryID,
+                'callType': callType,
+                'callDuration': duration,
+                'conferenceSID': conferenceSid,
+                'callSID': conferenceCallSid,
+                'callDateTime': callDateTime,
+                'number': number,
+                'name': name,
+                'srcLanguage': srcLanguage,
+                'srcLanguageIso': srcLanguageIso,
+                'interLanguage': interLanguage,
+                'interLanguageIso': interLanguageIso,
+                'countryCode': countryCode})
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return str(conferenceCallSid)
-
 
 @app.route('/pushRecordedConfHistory', methods=['GET', 'POST'])
 def pushRecordedConfHistory():
@@ -361,7 +386,22 @@ def pushRecordedConfHistory():
     else:
         #firebase push when call is completed -- working
         print 'conference end was called'
-        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': duration, 'conferenceSID': conferenceSid, 'callSID': conferenceCallSid, 'callDateTime': callDateTime, 'recordingURI': recordingUrl, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode, 'recordingID': recordingID})
+        result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID,
+            data={'callHistoryId': new_callHistoryID,
+                'callType': callType,
+                'callDuration': duration,
+                'conferenceSID': conferenceSid,
+                'callSID': conferenceCallSid,
+                'callDateTime': callDateTime,
+                'recordingURI': recordingUrl,
+                'number': number,
+                'name': name,
+                'srcLanguage': srcLanguage,
+                'srcLanguageIso': srcLanguageIso,
+                'interLanguage': interLanguage,
+                'interLanguageIso': interLanguageIso,
+                'countryCode': countryCode,
+                'recordingID': recordingID})
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return "<Response></Response>"
