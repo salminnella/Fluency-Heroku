@@ -80,13 +80,31 @@ def call():
                 endConferenceOnExit=\"true\">" + to[11:] + \
                 "</Conference></Dial></Response>"
         else:
-            resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
+            resp = "<Response><Dial> \
+                <Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" \
+                statusCallbackEvent=\"join leave end\" \
+                endConferenceOnExit=\"true\">" + to[11:] + \
+                "</Conference></Dial></Response>"
     else:
         # client -> PSTN
         if recordCall:
-            resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+            resp = "<Response> \
+                <Dial record=\"record-from-answer\" \
+                callerId=\"" + CALLER_ID + "\" \
+                method=\"POST\"> \
+                <Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" \
+                statusCallbackEvent=\"answered completed\" \
+                statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" \
+                sendDigits=\"" + digits + "\">" + to + \
+                "</Number></Dial></Response>"
         else:
-            resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+            resp = "<Response> \
+                <Dial callerId=\"" + CALLER_ID + "\" \
+                method=\"POST\"> \
+                <Number statusCallbackEvent=\"answered completed\" \
+                statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" \
+                sendDigits=\"" + digits + "\">" + to + \
+                "</Number></Dial></Response>"
 
     return str(resp)
 
@@ -132,7 +150,6 @@ def conference():
         print 'calle push'
         result = firebase.patch('/User/' + conf_name + '/callStatus', {'answered': thirdParty})
         {u'name': u'-Io26123nDHkfybDIGl7'}
-
     if record == 'true':
         resp = "<Response><Say voice=\"alice\">This call will be recorded</Say> \
             <Dial><Conference>" + conf_name + "</Conference></Dial></Response>"
@@ -181,7 +198,20 @@ def pushCallHistory():
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
     elif callStatus == 'completed':
-        result = firebase.put('/User/' + str(userID) + '/callHistory', new_callHistoryID, data={'callHistoryId': new_callHistoryID, 'callType': callType, 'callDuration': callDuration, 'callSID': callSid, 'callDateTime': callDateTime, 'number': number, 'name': name, 'srcLanguage': srcLanguage, 'srcLanguageIso': srcLanguageIso, 'interLanguage': interLanguage, 'interLanguageIso': interLanguageIso, 'countryCode': countryCode})
+        result = firebase.put('/User/' + str(userID) + 
+            '/callHistory', new_callHistoryID,
+            data={'callHistoryId': new_callHistoryID,
+                'callType': callType,
+                'callDuration': callDuration,
+                'callSID': callSid,
+                'callDateTime': callDateTime,
+                'number': number,
+                'name': name,
+                'srcLanguage': srcLanguage,
+                'srcLanguageIso': srcLanguageIso,
+                'interLanguage': interLanguage,
+                'interLanguageIso': interLanguageIso,
+                'countryCode': countryCode})
         {u'name': u'-Io26123nDHkfybDIGl7'}
 
     return '<Response></Response>'
