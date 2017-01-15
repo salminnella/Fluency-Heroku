@@ -229,7 +229,7 @@ def pushRecordedCallHistory():
     recordingID = request.values.get('RecordingSid')
     userID = d['userID']
     callTypeEncoded = d['callType']
-    callType = callTypeEncoded.replace("%20", " ")
+    callType = callTypeEncoded.replace("+", " ")
     name = d['name']
     number = d['number']
     callDateTimeEncoded = d['CallDateTime']
@@ -284,8 +284,8 @@ def pushConfHistory():
     timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
     duration = str(timestamp_updated - timestamp_created)
     userID = d['userID']
-    callTypeEncoded = d['callType']
-    callType = callTypeEncoded.replace("%20", " ")
+    # callTypeEncoded = d['callType']
+    callType = d['callType']
     name = d['name']
     number = d['number']
     callDateTimeEncoded = d['CallDateTime']
@@ -350,8 +350,8 @@ def pushRecordedConfHistory():
     duration = request.values.get('Duration')
     recordingTimestamp = request.values.get('timestamp')
     userID = d['userID']
-    callTypeEncoded = d['callType']
-    callType = callTypeEncoded.replace("%20", " ")
+    # callTypeEncoded = d['callType']
+    callType = d['callType']
     name = d['name']
     number = d['number']
     callDateTimeEncoded = d['CallDateTime']
