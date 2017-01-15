@@ -175,7 +175,7 @@ def pushCallHistory():
     callStatus = request.values.get('CallStatus')
     userID = d['userID']
     callTypeEncoded = d['callType']
-    callType = callTypeEncoded.replace("%20", " ")
+    callType = callTypeEncoded.replace("+", " ")
     name = d['name']
     number = d['number']
     callDateTimeEncoded = d['CallDateTime']
