@@ -193,7 +193,7 @@ def pushCallHistory():
     new_callHistoryID = d['nextCallHistoryId']
 
     print 'Call Status = ', callStatus
-
+    print 'call type - ', callType
     if callStatus == 'in-progress':
         result = firebase.patch('/User/' + userID + '/callStatus', {'answered': 'true'})
         {u'name': u'-Io26123nDHkfybDIGl7'}
