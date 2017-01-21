@@ -421,17 +421,21 @@ def phone_lookup():
     # Your Account Sid and Auth Token from twilio.com/user/account
     client = TwilioLookupsClient(ACCOUNT_SID, AUTH_TOKEN)
     phoneNumber = request.values.get('PhoneNumber')
-    resp = False
+    # resp = False
     try:
         number = client.phone_numbers.get(phoneNumber, include_carrier_info=False)
         print(number.NationalFormat)
-        resp = True
+        # resp = True
+        return True
         # print(number.carrier['name'])
     except TwilioRestException as e:
         if e.code == 20404:
-            resp = False
+            # resp = False
+            return False
+        else:
+            raise e
 
-    return resp
+    # return resp
 
         # try:
         #     response = client.phone_numbers.get(number, include_carrier_info=True)
