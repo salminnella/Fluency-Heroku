@@ -424,11 +424,13 @@ def phone_lookup():
     try:
         number = client.phone_numbers.get(phoneNumber, include_carrier_info=False)
         print(number.NationalFormat)
-        return True
+        resp = True
         # print(number.carrier['name'])
     except TwilioRestException as e:
         if e.code == 20404:
-            return False
+            resp = False
+
+    return str(resp)
 
         # try:
         #     response = client.phone_numbers.get(number, include_carrier_info=True)
