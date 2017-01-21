@@ -5,8 +5,8 @@ from stripe import (  # noqa
                           InvalidRequestError)
 from flask import Flask, request, url_for
 from twilio.util import TwilioCapability
-from twilio.rest import TwilioRestClient
-from twilio.rest.lookups import TwilioLookupsClient
+from twilio.rest import TwilioRestClient, TwilioLookupsClient
+# from twilio.rest.lookups import 
 import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
