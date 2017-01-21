@@ -430,7 +430,7 @@ def phone_lookup():
         if e.code == 20404:
             resp = False
 
-    return str(resp)
+    return resp
 
         # try:
         #     response = client.phone_numbers.get(number, include_carrier_info=True)
