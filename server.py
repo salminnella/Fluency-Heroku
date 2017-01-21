@@ -6,6 +6,7 @@ from stripe import (  # noqa
 from flask import Flask, request, url_for
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient, TwilioLookupsClient
+from twilio.rest.exceptions import TwilioRestException
 # from twilio.rest.lookups import
 import twilio.twiml
 from firebase import firebase
