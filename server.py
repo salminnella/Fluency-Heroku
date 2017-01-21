@@ -6,6 +6,7 @@ from stripe import (  # noqa
 from flask import Flask, request, url_for
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient
+from twilio.rest.lookups import TwilioLookupsClient
 import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
@@ -409,10 +410,25 @@ def pushRecordedConfHistory():
 @app.route('/delete-recording', methods=['GET', 'POST'])
 def recording():
     recordingSID = request.values.get('RecordingSID')
-    client = TwilioRestClient(os.environ.get("ACCOUNT_SID"), os.environ.get("AUTH_TOKEN"))
+    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     client.recordings.delete(recordingSID)
 
     return str(recordingSID)
+
+@app.route('/phone_lookup', methods=['GET'])
+def phone-lookup():
+    # Your Account Sid and Auth Token from twilio.com/user/account
+    client = TwilioLookupsClient(ACCOUNT_SID, AUTH_TOKEN)
+    phoneNumber = request.values.get('PhoneNumber')
+    try:
+        number = client.phone_numbers.get(phoneNumber, include_carrier_info=False)
+        print(number.NationalFormat)
+        # print(number.carrier['name'])
+    except urllib.HTTPError as e:
+        if err.code == 404:
+            resp = "bad phone number"
+        else:
+            resp = ""
 
 @app.route('/create_customer', methods=['GET', 'POST'])
 def create_customer():
