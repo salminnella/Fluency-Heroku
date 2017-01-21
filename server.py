@@ -416,7 +416,7 @@ def recording():
     return str(recordingSID)
 
 @app.route('/phone_lookup', methods=['GET'])
-def phone-lookup():
+def phone_lookup():
     # Your Account Sid and Auth Token from twilio.com/user/account
     client = TwilioLookupsClient(ACCOUNT_SID, AUTH_TOKEN)
     phoneNumber = request.values.get('PhoneNumber')
