@@ -421,9 +421,11 @@ def phone_lookup():
     # Your Account Sid and Auth Token from twilio.com/user/account
     client = TwilioLookupsClient(ACCOUNT_SID, AUTH_TOKEN)
     phoneNumber = request.values.get('PhoneNumber')
+    print 'check number = ', phoneNumber
     # resp = False
     try:
         number = client.phone_numbers.get(phoneNumber, include_carrier_info=False)
+        number.phone_number 
         print(number.NationalFormat)
         # resp = True
         return True
