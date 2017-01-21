@@ -425,8 +425,8 @@ def phone_lookup():
     # resp = False
     try:
         number = client.phone_numbers.get(phoneNumber, include_carrier_info=False)
-        number.phone_number 
-        print(number.NationalFormat)
+        number.phone_number
+        # print(number.NationalFormat)
         # resp = True
         return True
         # print(number.carrier['name'])
