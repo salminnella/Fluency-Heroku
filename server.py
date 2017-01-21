@@ -6,7 +6,7 @@ from stripe import (  # noqa
 from flask import Flask, request, url_for
 from twilio.util import TwilioCapability
 from twilio.rest import TwilioRestClient, TwilioLookupsClient
-# from twilio.rest.lookups import 
+# from twilio.rest.lookups import
 import twilio.twiml
 from firebase import firebase
 from email.utils import parsedate_tz, mktime_tz
@@ -423,12 +423,21 @@ def phone_lookup():
     try:
         number = client.phone_numbers.get(phoneNumber, include_carrier_info=False)
         print(number.NationalFormat)
+        return True
         # print(number.carrier['name'])
-    except urllib.HTTPError as e:
-        if err.code == 404:
-            resp = "bad phone number"
-        else:
-            resp = ""
+    except TwilioRestException as e:
+        if e.code == 20404:
+            return False
+
+        # try:
+        #     response = client.phone_numbers.get(number, include_carrier_info=True)
+        #     response.phone_number  # If invalid, throws an exception.
+        #     return True
+        # except TwilioRestException as e:
+        #     if e.code == 20404:
+        #         return False
+        #     else:
+        #         raise e
 
 @app.route('/create_customer', methods=['GET', 'POST'])
 def create_customer():
