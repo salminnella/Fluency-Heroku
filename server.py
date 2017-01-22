@@ -422,32 +422,19 @@ def phone_lookup():
     client = TwilioLookupsClient(ACCOUNT_SID, AUTH_TOKEN)
     phoneNumber = request.values.get('PhoneNumber')
     print 'check number = ', phoneNumber
-    # resp = False
+
     try:
         number = client.phone_numbers.get(phoneNumber, include_carrier_info=False)
         number.phone_number     # If invalid, throws an exception.
         # print(number.NationalFormat)
         resp = True
-        # return True
-        # print(number.carrier['name'])
     except TwilioRestException as e:
         if e.code == 20404:
             resp = False
-            # return False
         else:
             raise e
 
     return str(resp)
-
-        # try:
-        #     response = client.phone_numbers.get(number, include_carrier_info=True)
-        #     response.phone_number  # If invalid, throws an exception.
-        #     return True
-        # except TwilioRestException as e:
-        #     if e.code == 20404:
-        #         return False
-        #     else:
-        #         raise e
 
 @app.route('/create_customer', methods=['GET', 'POST'])
 def create_customer():
