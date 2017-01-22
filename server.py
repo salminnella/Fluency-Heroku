@@ -425,19 +425,19 @@ def phone_lookup():
     # resp = False
     try:
         number = client.phone_numbers.get(phoneNumber, include_carrier_info=False)
-        number.phone_number
+        number.phone_number     # If invalid, throws an exception.
         # print(number.NationalFormat)
-        # resp = True
-        return True
+        resp = True
+        # return True
         # print(number.carrier['name'])
     except TwilioRestException as e:
         if e.code == 20404:
-            # resp = False
-            return False
+            resp = False
+            # return False
         else:
             raise e
 
-    # return resp
+    return resp
 
         # try:
         #     response = client.phone_numbers.get(number, include_carrier_info=True)
