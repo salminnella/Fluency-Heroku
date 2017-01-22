@@ -437,7 +437,7 @@ def phone_lookup():
         else:
             raise e
 
-    return resp
+    return str(resp)
 
         # try:
         #     response = client.phone_numbers.get(number, include_carrier_info=True)
