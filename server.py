@@ -86,15 +86,13 @@ def call():
                 </Response>
                 """ % {'params': params, 'to': to[11:]}
         else:
-            resp = """
-                <Response>
-                <Dial>
-                <Conference statusCallback="https://fluency-1.herokuapp.com/pushConfHistory?%(params)s"
-                statusCallbackEvent="join leave end"
-                endConferenceOnExit="true">%(to)s</Conference>
-                </Dial>
-                </Response>
-                """ % {'params': params, 'to': to[11:]}
+            resp = ("<Response>"
+                "<Dial>"
+                "<Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?%(params)s\" "
+                "statusCallbackEvent=\"join leave end\" "
+                "endConferenceOnExit=\"true\">%(to)s</Conference>"
+                "</Dial>"
+                "</Response>") % {'params': params, 'to': to[11:]}
     else:
         # client -> PSTN
         if recordCall:
