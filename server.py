@@ -110,10 +110,6 @@ def call():
                 </Number></Dial></Response>
                 """ % {'caller_id': CALLER_ID, 'params': params, 'digits': digits}
 
-                message = """
-          Hello, %(foo)s
-          Sincerely, %(bar)s
-          """ % {'foo': 'John', 'bar': "Doe"}
     return str(resp)
 
 @app.route('/join', methods=['GET', 'POST'])
