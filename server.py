@@ -74,32 +74,40 @@ def call():
     if to.startswith("conference:"):
     # client -> conference
         if recordConference:
-            resp = "<Response><Dial> \
-                <Conference record=\"record-from-start\" \
-                recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" \
-                statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" \
-                statusCallbackEvent=\"join leave\" \
-                endConferenceOnExit=\"true\">" + to[11:] + \
-                "</Conference></Dial></Response>"
+            resp = """
+                <Response>
+                <Dial>
+                <Conference record="record-from-start"
+                recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?%(params)s"
+                statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?%(params)s"
+                statusCallbackEvent="join leave"
+                endConferenceOnExit="true">to</Conference>
+                </Dial>
+                </Response>
+                """ % {'params': params, 'to': to[11:]}
         else:
-            resp = "<Response><Dial> \
-                <Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" \
-                statusCallbackEvent=\"join leave end\" \
-                endConferenceOnExit=\"true\">" + to[11:] + \
-                "</Conference></Dial></Response>"
+            resp = """
+                <Response>
+                <Dial>
+                <Conference statusCallback="https://fluency-1.herokuapp.com/pushConfHistory?%(params)s"
+                statusCallbackEvent="join leave end"
+                endConferenceOnExit="true">%(to)s</Conference>
+                </Dial>
+                </Response>
+                """ % {'params': params, 'to': to[11:]}
     else:
         # client -> PSTN
         if recordCall:
             resp = """
                 <Response>
-                <Dial record="record-from-answer" callerId="%(caller_id)s" method=\"POST\"> \
+                <Dial record="record-from-answer" callerId="%(caller_id)s" method="POST">
                 <Number url="https://fluency-1.herokuapp.com/sayRecorded"
                 statusCallbackEvent="answered completed"
-                statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?%(params)s"
+                statusCallback="https://fluency-1.herokuapp.com/pushRecordedCallHistory?%(params)s"
                 sendDigits="%(digits)s">%(to)s</Number>
                 </Dial>
                 </Response>
-                """ % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to}
+                """ % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to[11:]}
         else:
             resp = """
                 <Response>
@@ -109,7 +117,7 @@ def call():
                 sendDigits="%(digits)s">%(to)s</Number>
                 </Dial>
                 </Response>
-                """ % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to}
+                """ % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to[11:]}
 
     return str(resp)
 
