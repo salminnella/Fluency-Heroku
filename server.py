@@ -90,15 +90,16 @@ def call():
     else:
         # client -> PSTN
         if recordCall:
-            resp = "<Response> \
-                <Dial record=\"record-from-answer\" \
-                callerId=\"" + CALLER_ID + "\" \
-                method=\"POST\"> \
-                <Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" \
-                statusCallbackEvent=\"answered completed\" \
-                statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" \
-                sendDigits=\"" + digits + "\">" + to + \
-                "</Number></Dial></Response>"
+            resp = """
+                <Response>
+                <Dial record="record-from-answer" callerId="%(caller_id)s" method=\"POST\"> \
+                <Number url="https://fluency-1.herokuapp.com/sayRecorded"
+                statusCallbackEvent="answered completed"
+                statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?%(params)s"
+                sendDigits="%(digits)s">%(to)s</Number>
+                </Dial>
+                </Response>
+                """ % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to}
         else:
             resp = """
                 <Response>
