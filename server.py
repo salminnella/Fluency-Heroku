@@ -108,7 +108,7 @@ def call():
                 statusCallback="https://fluency-1.herokuapp.com/pushCallHistory?%(params)s"
                 sendDigits="%(digits)s">%(to)s
                 </Number></Dial></Response>
-                """ % {'caller_id': CALLER_ID, 'params': params, 'digits': digits}
+                """ % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to}
 
     return str(resp)
 
