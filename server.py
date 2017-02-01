@@ -291,9 +291,10 @@ def pushConfHistory():
     callStatus = request.values.get('StatusCallbackEvent')
     client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
     conference = client.conferences.get(conferenceSid)
-    timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
-    timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
-    duration = str(timestamp_updated - timestamp_created)
+    print
+    # timestamp_created = mktime_tz(parsedate_tz(conference.date_created))
+    # timestamp_updated = mktime_tz(parsedate_tz(conference.date_updated))
+    # duration = str(timestamp_updated - timestamp_created)
     userID = d['userID']
     # callTypeEncoded = d['callType']
     callType = d['callType']
@@ -331,7 +332,7 @@ def pushConfHistory():
         result = firebase.put('/User/' + userID + '/callHistory', new_callHistoryID,
             data={'callHistoryId': new_callHistoryID,
                 'callType': callType,
-                'callDuration': duration,
+                # 'callDuration': duration,
                 'conferenceSID': conferenceSid,
                 'callSID': conferenceCallSid,
                 'callDateTime': callDateTime,
