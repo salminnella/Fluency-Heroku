@@ -94,26 +94,31 @@ def call():
     else:
         # client -> PSTN
         if recordCall:
-            print 'face to face recording call'
-            resp = ("<Response>"
-                "<Dial record=\"record-from-answer\" callerId=\"%(caller_id)s\" method=\"POST\">"
-                "<Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" "
-                "statusCallbackEvent=\"answered completed\" "
-                "statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?%(params)s\" "
-                "sendDigits=\"%(digits)s\">%(to)s</Number>"
-                "</Dial>"
-                "</Response>") % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to[11:]}
-            print resp
+            resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + caller_id + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
         else:
-            print 'face to face non-recording call'
-            resp = ("<Response>"
-                "<Dial callerId=\"%(caller_id)s\" method=\"POST\">"
-                "<Number statusCallbackEvent=\"answered completed\" "
-                "statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?%(params)s\" "
-                "sendDigits=\"%(digits)s\">%(to)s</Number>"
-                "</Dial>"
-                "</Response>") % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to[11:]}
-            print resp
+            resp = "<Response><Dial callerId=\"" + caller_id + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+
+        # if recordCall:
+        #     print 'face to face recording call'
+        #     resp = ("<Response>"
+        #         "<Dial record=\"record-from-answer\" callerId=\"%(caller_id)s\" method=\"POST\">"
+        #         "<Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" "
+        #         "statusCallbackEvent=\"answered completed\" "
+        #         "statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?%(params)s\" "
+        #         "sendDigits=\"%(digits)s\">%(to)s</Number>"
+        #         "</Dial>"
+        #         "</Response>") % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to[11:]}
+        #     print resp
+        # else:
+        #     print 'face to face non-recording call'
+        #     resp = ("<Response>"
+        #         "<Dial callerId=\"%(caller_id)s\" method=\"POST\">"
+        #         "<Number statusCallbackEvent=\"answered completed\" "
+        #         "statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?%(params)s\" "
+        #         "sendDigits=\"%(digits)s\">%(to)s</Number>"
+        #         "</Dial>"
+        #         "</Response>") % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to[11:]}
+        #     print resp
 
     return str(resp)
 
