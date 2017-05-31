@@ -98,7 +98,8 @@ def call():
         if recordCall:
             resp = "<Response><Dial record=\"record-from-answer\" callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
         else:
-            resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+            # resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
+            resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + ">" + to + "</Number></Dial></Response>"
 
         # if recordCall:
         #     print 'face to face recording call'
