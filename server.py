@@ -75,24 +75,8 @@ def call():
     # client -> conference
         if recordConference:
             resp = "<Response><Dial><Conference record=\"record-from-start\" recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?" + params + "\" statusCallbackEvent=\"join leave\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
-            # resp = ("<Response>"
-            #     "<Dial>"
-            #     "<Conference record=\"record-from-start\" "
-            #     "recordingStatusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?%(params)s\" "
-            #     "statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedConfHistory?%(params)s\" "
-            #     "statusCallbackEvent=\"join leave\" "
-            #     "endConferenceOnExit=\"true\">%(to)s</Conference>"
-            #     "</Dial>"
-            #     "</Response>") % {'params': params, 'to': to[11:]}
         else:
             resp = "<Response><Dial><Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?" + params + "\" statusCallbackEvent=\"join leave end\" endConferenceOnExit=\"true\">" + to[11:] + "</Conference></Dial></Response>"
-            # resp = ("<Response>"
-            #     "<Dial>"
-            #     "<Conference statusCallback=\"https://fluency-1.herokuapp.com/pushConfHistory?%(params)s\" "
-            #     "statusCallbackEvent=\"join leave end\" "
-            #     "endConferenceOnExit=\"true\">%(to)s</Conference>"
-            #     "</Dial>"
-            #     "</Response>") % {'params': params, 'to': to[11:]}
     else:
         # client -> PSTN
         if recordCall:
@@ -100,28 +84,6 @@ def call():
         else:
             # resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\" sendDigits=\"" + digits + "\">" + to + "</Number></Dial></Response>"
             resp = "<Response><Dial callerId=\"" + CALLER_ID + "\" method=\"POST\"><Number statusCallbackEvent=\"answered completed\" statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?" + params + "\">" + to + "</Number></Dial></Response>"
-
-        # if recordCall:
-        #     print 'face to face recording call'
-        #     resp = ("<Response>"
-        #         "<Dial record=\"record-from-answer\" callerId=\"%(caller_id)s\" method=\"POST\">"
-        #         "<Number url=\"https://fluency-1.herokuapp.com/sayRecorded\" "
-        #         "statusCallbackEvent=\"answered completed\" "
-        #         "statusCallback=\"https://fluency-1.herokuapp.com/pushRecordedCallHistory?%(params)s\" "
-        #         "sendDigits=\"%(digits)s\">%(to)s</Number>"
-        #         "</Dial>"
-        #         "</Response>") % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to[11:]}
-        #     print resp
-        # else:
-        #     print 'face to face non-recording call'
-        #     resp = ("<Response>"
-        #         "<Dial callerId=\"%(caller_id)s\" method=\"POST\">"
-        #         "<Number statusCallbackEvent=\"answered completed\" "
-        #         "statusCallback=\"https://fluency-1.herokuapp.com/pushCallHistory?%(params)s\" "
-        #         "sendDigits=\"%(digits)s\">%(to)s</Number>"
-        #         "</Dial>"
-        #         "</Response>") % {'caller_id': CALLER_ID, 'params': params, 'digits': digits, 'to': to[11:]}
-        #     print resp
 
     return str(resp)
 
@@ -133,6 +95,7 @@ def join():
     thirdParty = request.values.get('ThirdParty')
     digits = request.values.get('SendDigits')
     record = request.values.get('Record')
+    print '/join: to = ', to
     print '/join: thirdParty = ', thirdParty
     print '/join: digits = ', digits
     twilioClient = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
@@ -142,7 +105,7 @@ def join():
                                                  Record=record,
                                                  _external=True),
                                      to = to,
-                                     send_digits=digits,
+                                     #send_digits=digits,
                                      from_=CALLER_ID)
 
     resp = "<Response></Response>"
@@ -576,6 +539,7 @@ def chargeCard( customerID, chargeAmount, emailAddress ):
         # Use Stripe's library to make requests...
         b_charge = stripe.Charge.create(
                                         amount=chargeAmount,
+                                        capture="true",
                                         currency="usd",
                                         customer=customerID,
                                         receipt_email=emailAddress,
